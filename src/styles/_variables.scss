@@ -1,0 +1,72 @@
+/* Theme */
+$primary: #a7b47f;
+$warning: #dbb380;
+$danger: #e39d7b;
+
+$success: #93c590;
+$secondary: #8c7fb4;
+$info: #7bc1e3;
+
+$light: #ffffff;
+$dark: #5d5d5d;
+
+$lighter: rgba(255, 255, 255, 0.8);
+$light-gray: #f0ede7;
+$light-yellow: #d8d2c5;
+$dark-gray: #84837f;
+$darken: rgba(93, 93, 93, 0.9);
+$dark-green: #7c8e74;
+$gray-green: #afb8a7;
+
+$theme-colors: (
+  'primary': $primary,
+  'secondary': $secondary,
+  'success': $success,
+  'info': $info,
+  'warning': $warning,
+  'danger': $danger,
+  'light': $light,
+  'dark': $dark
+);
+
+$subtopic-color: (
+  'lighter': $lighter,
+  'light-gray': $light-gray,
+  'light-yellow': $light-yellow,
+  'dark-gray': $dark-gray,
+  'darken': $darken,
+  'dark-green': $dark-green,
+  'gray-green': $gray-green
+);
+
+$theme-colors: map-merge($theme-colors, $subtopic-color);
+
+/* Spacing */
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,
+  2: $spacer * 0.5,
+  3: $spacer * 0.75,
+  4: $spacer * 1,
+  5: $spacer * 1.25,
+  6: $spacer * 1.5,
+  7: $spacer * 1.75,
+  8: $spacer * 2,
+  9: $spacer * 2.25,
+  10: $spacer * 2.5,
+  11: $spacer * 2.75,
+  12: $spacer * 3,
+  13: $spacer * 3.5,
+  14: $spacer * 4
+);
+
+// root
+$body-color: $dark;
+
+// font-size
+.fz {
+  &--xs {
+    font-size: 0.75rem;
+  }
+}
