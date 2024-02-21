@@ -4,7 +4,9 @@
   <footer class="bg-light">
     <div class="container p-5 pb-10">
       <div class="d-flex flex-column gap-10 align-items-center flex-md-row justify-content-between">
-        <img src="/icon/logo--sm.svg" alt="logo_sm" class="logo--sm" />
+        <RouterLink to="/"
+          ><img src="/icon/logo--sm.svg" alt="logo_sm" class="logo--sm"
+        /></RouterLink>
         <div class="fz-xs">
           <div class="d-flex flex-column flex-lg-row justify-content-between">
             <a
@@ -44,4 +46,6 @@
   </footer>
 </template>
 
-<script setup></script>
+<script setup>
+import { RouterLink } from 'vue-router'
+</script>

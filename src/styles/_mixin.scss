@@ -1,0 +1,22 @@
+@mixin img-replace-text {
+  text-indent: 101%;
+  overflow: hidden;
+  white-space: nowrap;
+  display: block;
+  background-repeat: no-repeat;
+}
+
+@mixin hover-link {
+  display: inline-block;
+  position: relative;
+}
+@mixin hover-line($color) {
+  content: '';
+  width: 0%;
+  height: 2px;
+  background-color: $color;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transition: all 0.3s linear;
+}
