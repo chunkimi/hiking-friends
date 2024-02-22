@@ -40,15 +40,12 @@
     }
   }
   &__brand {
-    &__logo {
-      min-width: 120px;
-      min-height: 36px;
-      background-image: url('/icon/logo--light--sm.svg');
-      background-size: contain;
-      @include img-replace-text;
-      @include media-breakpoint-up(lg) {
-        background-image: url('/icon/logo--sm.svg');
-      }
+    min-width: 120px;
+    min-height: 36px;
+    background-image: url('/icon/logo--light--sm.svg');
+    @include img-replace-text;
+    @include media-breakpoint-up(lg) {
+      background-image: url('/icon/logo--sm.svg');
     }
   }
 }
@@ -82,9 +79,7 @@
   <header class="header__bgc header__p">
     <div class="container">
       <nav class="navbar navbar-expand-lg d-flex justify-content-between align-items-center">
-        <router-link to="/"
-          ><h2 class="header__brand__logo">郊友趣・Hiking Friends</h2></router-link
-        >
+        <router-link to="/"><h2 class="header__brand">郊友趣・Hiking Friends</h2></router-link>
 
         <button
           class="navbar-toggler"

@@ -3,7 +3,7 @@
 <template>
   <div id="front">
     <FrontHeader />
-    <main class="container">
+    <main>
       <RouterView />
     </main>
     <FrontFooter />
