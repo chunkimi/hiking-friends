@@ -4,3 +4,14 @@
     height: 36px;
   }
 }
+
+.title-icon {
+  &--semicircle {
+    width: 120px;
+    height: 60px;
+  }
+  &--circle {
+    width: 120px;
+    height: 120px;
+  }
+}

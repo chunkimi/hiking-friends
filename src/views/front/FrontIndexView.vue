@@ -6,11 +6,13 @@
 </style>
 
 <template>
-  <div class="front-index">
+  <div class="front-index d-grid gap-5">
     <IndexBanner />
+    <BulletinBoard />
   </div>
 </template>
 
 <script setup>
 import IndexBanner from '@/components/front/Index/IndexBanner.vue'
+import BulletinBoard from '@/components/front/Index/BulletinBoard.vue'
 </script>
