@@ -21,9 +21,3 @@
   left: 0;
   transition: all 0.3s linear;
 }
-
-@mixin text-toBeContinued {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}

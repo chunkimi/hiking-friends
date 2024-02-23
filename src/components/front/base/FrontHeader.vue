@@ -40,8 +40,8 @@
     }
   }
   &__brand {
-    min-width: 120px;
-    min-height: 36px;
+    width: 120px;
+    height: 36px;
     background-image: url('/icon/logo--light--sm.svg');
     @include img-replace-text;
     @include media-breakpoint-up(lg) {

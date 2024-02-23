@@ -3,6 +3,7 @@
 .search {
   &__bar {
     width: 100%;
+    min-width: 40%;
     max-width: 312px;
     @include media-breakpoint-up(sm) {
       max-width: 596px;

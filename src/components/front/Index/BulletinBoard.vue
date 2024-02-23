@@ -38,17 +38,15 @@
     }
   }
   &__text {
-    padding: 4px 0px;
-    text-align: center;
-    @include text-toBeContinued;
-    @include media-breakpoint-up(lg) {
-      text-align: start;
+    width: 85vw;
+    @include media-breakpoint-up(sm) {
+      width: 100%;
     }
   }
   &__btn {
-    width: 94px;
-    @include media-breakpoint-down(lg) {
-      width: 100%;
+    width: 100%;
+    @include media-breakpoint-up(lg) {
+      width: 94px;
     }
   }
 }
@@ -56,11 +54,13 @@
 <template>
   <div class="container">
     <div class="row pt-14 pb-16 pt-lg-16">
-      <div
-        class="col-12 col-lg-3 d-flex flex-column justify-content-center align-items-center mb-20 mb-lg-0"
-      >
-        <img src="/icon/title/sign.svg" alt="title-icon" class="title-icon--semicircle mb-2" />
-        <h3 class="fs-6 fw-bold">路況即時報</h3>
+      <div class="col-12 col-lg-3">
+        <div
+          class="h-100 d-flex flex-column justify-content-center align-items-center mb-20 mb-lg-0"
+        >
+          <img src="/icon/title/sign.svg" alt="title-icon" class="title-icon--semicircle mb-2" />
+          <h3 class="fs-6 fw-bold">路況即時報</h3>
+        </div>
       </div>
       <div class="col-12 col-lg-9">
         <ul class="list-unstyled">
@@ -79,7 +79,7 @@
               </h5>
             </div>
             <div class="col-12 col-lg-7">
-              <p class="fs-6 lh-1 news__text">{{ newsItem.TITLE }}</p>
+              <p class="fs-6 lh-1 py-1 text-truncate news__text">{{ newsItem.TITLE }}</p>
             </div>
           </li>
         </ul>
