@@ -58,7 +58,11 @@
         <div
           class="h-100 d-flex flex-column justify-content-center align-items-center mb-20 mb-lg-0"
         >
-          <img src="/icon/title/sign.svg" alt="title-icon" class="title-icon--semicircle mb-2" />
+          <img
+            :src="getImageUrl('assets/icons/sign.svg')"
+            alt="title-icon"
+            class="title-icon--semicircle mb-2"
+          />
           <h3 class="fs-6 fw-bold">路況即時報</h3>
         </div>
       </div>
@@ -92,6 +96,7 @@
 </template>
 <script setup>
 import { computed } from 'vue'
+import { getImageUrl } from '@/utils/base'
 import dummyAllTrailsNews from '@/data/dummy/allTrailsNews.json'
 
 const newsType = [
@@ -115,7 +120,6 @@ const trailsNews = computed(() => {
   newsType.forEach((item) => {
     let raw = dummyAllTrailsNews.find((element) => element['TR_TYP'] == item.mes)
     raw.text_style = `news__sign--${item.color}`
-    console.log(raw)
     result.push(raw)
   })
 
