@@ -8,11 +8,12 @@
 }
 .feature-list {
   &__wrap {
+    background-image: none;
     @include media-breakpoint-up(lg) {
-      background-image: url('/image/illustration/mori.svg');
-      background-size: contain;
+      background-image: url('/image/illustration/moku.svg');
       background-repeat: no-repeat;
-      background-position: right;
+      background-size: contain;
+      background-position: calc(100% - $bg-spacer) bottom;
     }
   }
   &__content {
@@ -23,39 +24,37 @@
 }
 </style>
 <template>
-  <div class="feature-list__wrap">
-    <div class="container">
-      <div class="d-flex justify-content-center mb-5">
-        <img
-          src="/image/illustration/acorn.png"
-          alt="decorate-icon"
-          class="decorate-icon text-secondary"
-        />
+  <div>
+    <div class="container mb-5">
+      <img src="/image/illustration/acorn.svg" alt="decorate-icon" class="decorate-icon mx-auto" />
+    </div>
+    <div class="feature-list__wrap">
+      <div class="container py-1">
+        <ul class="list-unstyled row feature-list__content">
+          <li
+            class="col-12 col-lg-3 mb-10 mb-lg-0"
+            v-for="featureItem in featureData"
+            :key="featureItem.icon"
+          >
+            <div class="h-100">
+              <div class="d-flex justify-content-center mb-3">
+                <img
+                  :src="getImageUrl(featureItem.icon)"
+                  alt="title-icon"
+                  class="title-icon--circle"
+                />
+              </div>
+              <div class="text-center d-grid gap-3">
+                <h5 class="h3 py-3 mb-3" :class="`text-${featureItem.text_color}`">
+                  {{ featureItem.title }}
+                </h5>
+                <h6 class="fs-5 text-secondary">{{ featureItem.subtitle }}</h6>
+                <p class="text-secondary fs-6" v-html="getKeywordHtml(featureItem.keyword)"></p>
+              </div>
+            </div>
+          </li>
+        </ul>
       </div>
-      <ul class="list-unstyled row py-15 feature-list__content">
-        <li
-          class="col-12 col-lg-3 mb-10 mb-lg-0"
-          v-for="featureItem in featureData"
-          :key="featureItem.icon"
-        >
-          <div class="h-100">
-            <div class="d-flex justify-content-center mb-3">
-              <img
-                :src="getImageUrl(featureItem.icon)"
-                alt="title-icon"
-                class="title-icon--circle"
-              />
-            </div>
-            <div class="text-center d-grid gap-3">
-              <h5 class="h3 py-3 mb-3" :class="`text-${featureItem.text_color}`">
-                {{ featureItem.title }}
-              </h5>
-              <h6 class="fs-5 text-secondary">{{ featureItem.subtitle }}</h6>
-              <p class="text-secondary fs-6" v-html="getKeywordHtml(featureItem.keyword)"></p>
-            </div>
-          </div>
-        </li>
-      </ul>
     </div>
   </div>
 </template>
