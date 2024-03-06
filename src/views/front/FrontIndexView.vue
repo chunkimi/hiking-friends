@@ -10,7 +10,8 @@
     <IndexBanner />
     <BulletinBoard />
     <FeatureList />
-    <TourList />
+    <GradedList />
+    <!-- <TopicBoard /> -->
   </div>
 </template>
 
@@ -18,5 +19,6 @@
 import IndexBanner from '@/components/front/Index/IndexBanner.vue'
 import BulletinBoard from '@/components/front/Index/BulletinBoard.vue'
 import FeatureList from '@/components/front/Index/FeatureList.vue'
-import TourList from '@/components/front/Index/TourList.vue'
+import GradedList from '@/components/front/Index/GradedList.vue'
+// import TopicBoard from '@/components/front/Index/TopicBoard.vue'
 </script>
