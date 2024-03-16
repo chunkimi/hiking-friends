@@ -11,7 +11,7 @@
     <BulletinBoard />
     <FeatureList />
     <GradedList />
-    <!-- <TopicBoard /> -->
+    <EvaluationBoard />
   </div>
 </template>
 
@@ -20,5 +20,5 @@ import IndexBanner from '@/components/front/Index/IndexBanner.vue'
 import BulletinBoard from '@/components/front/Index/BulletinBoard.vue'
 import FeatureList from '@/components/front/Index/FeatureList.vue'
 import GradedList from '@/components/front/Index/GradedList.vue'
-// import TopicBoard from '@/components/front/Index/TopicBoard.vue'
+import EvaluationBoard from '@/components/front/Index/EvaluationBoard.vue'
 </script>

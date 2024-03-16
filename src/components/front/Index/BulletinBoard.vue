@@ -59,11 +59,11 @@
           class="h-100 d-flex flex-column justify-content-center align-items-center mb-20 mb-lg-0"
         >
           <img
-            :src="getImageUrl('assets/icons/sign.svg')"
+            :src="getImageUrl(bulletinBoardInfo.iconImg)"
             alt="title-icon"
             class="title-icon--semicircle mb-2"
           />
-          <h3 class="fs-6 fw-bold">路況即時報</h3>
+          <h3 class="fs-6 fw-bold">{{ bulletinBoardInfo.title }}</h3>
         </div>
       </div>
       <div class="col-12 col-lg-9">
@@ -98,6 +98,11 @@
 import { computed } from 'vue'
 import { getImageUrl } from '@/utils/base'
 import dummyAllTrailsNews from '@/data/dummy/allTrailsNews.json'
+
+const bulletinBoardInfo = {
+  title: '路況即時報',
+  iconImg: 'assets/icons/sign.svg'
+}
 
 const newsType = [
   {
