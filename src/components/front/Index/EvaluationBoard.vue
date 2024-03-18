@@ -2,7 +2,6 @@
 @import '@/styles/main.scss';
 .evaluation-board {
   &__wrap {
-    background-image: url('/image/photo/shaba.jpeg');
     background-size: cover;
     background-position: center top;
     min-height: 804px;
@@ -46,7 +45,10 @@
 }
 </style>
 <template>
-  <div class="evaluation-board__wrap">
+  <div
+    class="evaluation-board__wrap"
+    :style="{ backgroundImage: `url(${evaluationBoardInfo.bgImg})` }"
+  >
     <div class="evaluation-board__container">
       <div class="container">
         <div class="row flex-row-reverse">
@@ -114,12 +116,14 @@
 </template>
 <script setup>
 import { getImageUrl } from '@/utils/base'
+import bgImg from '@/assets/bg-img/shaba.jpeg'
 import { useMediaQuery } from '@vueuse/core'
 const isDesktop = useMediaQuery('(min-width: 992px)')
 
 const evaluationBoardInfo = {
   title: '郊友真情推薦',
   subtitle: '不知如何走出第一步？',
+  bgImg,
   iconImg: 'assets/icons/mountain.svg',
   iconImgDark: 'assets/icons/mountain_dark.svg',
   text: {
@@ -135,8 +139,7 @@ const evaluationData = [
     mes: '沿線植物資源豐富、鳥況極佳，以中低海拔鳥類如五色鳥、藪鳥、山紅頭、冠羽畫眉等為主。',
     trail_data: {
       TR_CNAME: '福山步道',
-      TRAILID: '178',
-      TR_IMG_NUM: '178'
+      TRAILID: '178'
     }
   },
   {
@@ -146,8 +149,7 @@ const evaluationData = [
     mes: '全台獨一無二與鐵道相依的登山步道，可從不同的方向三次俯瞰樟腦寮村莊，親自感受獨立山螺旋狀三迴旋之美。',
     trail_data: {
       TR_CNAME: '獨立山步道',
-      TRAILID: '085',
-      TR_IMG_NUM: '085'
+      TRAILID: '085'
     }
   },
   {
@@ -157,8 +159,7 @@ const evaluationData = [
     mes: '中央山脈主脊南段，為南橫三星中最易攀登者，登頂後為眺望向陽山南面大崩壁最佳觀賞處。',
     trail_data: {
       TR_CNAME: '關山嶺山步道',
-      TRAILID: '148',
-      TR_IMG_NUM: '148'
+      TRAILID: '148'
     }
   },
   {
@@ -168,8 +169,7 @@ const evaluationData = [
     mes: '步道為低海拔天然闊葉林，沿途蜜源植物更吸引許多蝶類、蜜蜂，生物資源豐富。',
     trail_data: {
       TR_CNAME: '鎮南宮步道',
-      TRAILID: '174',
-      TR_IMG_NUM: '174'
+      TRAILID: '174'
     }
   }
 ]

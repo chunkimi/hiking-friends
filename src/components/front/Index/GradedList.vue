@@ -4,18 +4,14 @@
 .tour-list {
   &__wrap {
     &--right {
-      background-image: none;
       @include media-breakpoint-up(lg) {
-        background-image: url('/image/illustration/tree.svg');
         background-repeat: no-repeat;
         background-size: auto;
         background-position: calc(100% - $bg-spacer) bottom;
       }
     }
     &--left {
-      background-image: none;
       @include media-breakpoint-up(lg) {
-        background-image: url('/image/illustration/person.svg');
         background-repeat: no-repeat;
         background-size: auto;
         background-position: $bg-spacer top;
@@ -39,12 +35,18 @@
 }
 </style>
 <template>
-  <div class="tour-list__wrap--left my-15">
-    <div class="tour-list__wrap--right">
+  <div
+    class="tour-list__wrap--left my-15"
+    :style="{ backgroundImage: isDesktop ? `url(${gradedListInfo.bgImg.left})` : 'none' }"
+  >
+    <div
+      class="tour-list__wrap--right"
+      :style="{ backgroundImage: isDesktop ? `url(${gradedListInfo.bgImg.right})` : 'none' }"
+    >
       <div class="container">
         <div class="d-flex flex-column justify-content-center align-items-center mb-10">
           <img
-            :src="getImageUrl(gradedListInfo.iconImg)"
+            :src="getImageUrl(gradedListInfo.titleIcon)"
             alt="title-icon"
             class="title-icon--semicircle mb-2"
           />
@@ -97,9 +99,19 @@
 </template>
 <script setup>
 import { getImageUrl, turnTrailImgPath } from '@/utils/base'
+import treeIcon from '@/assets/illustration/tree.svg'
+import personIcon from '@/assets/illustration/person.svg'
+
+import { useMediaQuery } from '@vueuse/core'
+const isDesktop = useMediaQuery('(min-width: 992px)')
+
 const gradedListInfo = {
   title: '來去步道',
-  iconImg: 'assets/icons/person.svg'
+  titleIcon: 'assets/icons/person.svg',
+  bgImg: {
+    left: personIcon,
+    right: treeIcon
+  }
 }
 const recommendTrails = [
   {

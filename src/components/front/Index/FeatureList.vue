@@ -8,9 +8,7 @@
 }
 .feature-list {
   &__wrap {
-    background-image: none;
     @include media-breakpoint-up(lg) {
-      background-image: url('/image/illustration/moku.svg');
       background-repeat: no-repeat;
       background-size: contain;
       background-position: calc(100% - $bg-spacer) bottom;
@@ -28,7 +26,10 @@
     <div class="container mb-5">
       <img src="/image/illustration/acorn.svg" alt="decorate-icon" class="decorate-icon mx-auto" />
     </div>
-    <div class="feature-list__wrap">
+    <div
+      class="feature-list__wrap"
+      :style="{ backgroundImage: isDesktop ? `url(${featureListInfo.bgImg})` : 'none' }"
+    >
       <div class="container py-1">
         <ul class="list-unstyled row feature-list__content">
           <li
@@ -60,6 +61,15 @@
 </template>
 <script setup>
 import { getImageUrl } from '@/utils/base'
+import { useMediaQuery } from '@vueuse/core'
+const isDesktop = useMediaQuery('(min-width: 992px)')
+
+import mokuIcon from '@/assets/illustration/moku.svg'
+
+const featureListInfo = {
+  bgImg: mokuIcon
+}
+
 const featureData = [
   {
     title: '主題分類檢索',

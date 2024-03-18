@@ -3,5 +3,5 @@ export const getImageUrl = (path) => {
 }
 
 export const turnTrailImgPath = (imgNum) => {
-  return `assets/trailImage/trailImage-${imgNum}.jpeg`
+  return `assets/trails-img/trailImage-${imgNum}.jpeg`
 }
