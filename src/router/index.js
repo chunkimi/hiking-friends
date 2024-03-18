@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import FrontLayoutView from '@/views/FrontLayoutView.vue'
-import FontIndexView from '@/views/front/FontIndexView.vue'
+import FrontIndexView from '@/views/front/FrontIndexView.vue'
 import TrailsIntroView from '@/views/front/TrailsIntroView.vue'
 import TrailsListView from '@/views/front/TrailsListView.vue'
 import LoginView from '@/views/account/LoginView.vue'
@@ -16,8 +16,8 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'FontIndex',
-        component: FontIndexView
+        name: 'FrontIndex',
+        component: FrontIndexView
       },
       {
         //步道類型介紹

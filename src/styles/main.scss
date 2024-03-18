@@ -7,8 +7,8 @@
 @import '_mixin.scss';
 @import '_image.scss';
 
-@import 'material-icons/iconfont/material-icons.css';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+@import 'material-icons/iconfont/material-icons.css';
 
 html,
 body {
@@ -27,9 +27,3 @@ button {
 #app {
   height: 100%;
 }
-// #front {
-//   background-color: $light-gray;
-// }
-// #dashboard {
-//   background-color: $light;
-// }
