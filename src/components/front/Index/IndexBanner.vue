@@ -59,10 +59,8 @@ import logoImg from '@/assets/logo/logo--light.svg'
 const sloganData = {
   main: '與自然郊友',
   vice: '踏上你與山林一期一會的夢幻漫遊',
-
   logoImg,
   bgImg: hikerIcon,
-
   bannerIcon: 'assets/illustration/bn-title-mountain.svg'
 }
 </script>
