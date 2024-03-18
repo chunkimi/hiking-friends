@@ -24,7 +24,11 @@
 <template>
   <div>
     <div class="container mb-5">
-      <img src="/image/illustration/acorn.svg" alt="decorate-icon" class="decorate-icon mx-auto" />
+      <img
+        :src="getImageUrl(featureListInfo.titleIcon)"
+        alt="decorate-icon"
+        class="decorate-icon mx-auto"
+      />
     </div>
     <div
       class="feature-list__wrap"
@@ -67,7 +71,8 @@ const isDesktop = useMediaQuery('(min-width: 992px)')
 import mokuIcon from '@/assets/illustration/moku.svg'
 
 const featureListInfo = {
-  bgImg: mokuIcon
+  bgImg: mokuIcon,
+  titleIcon: 'assets/illustration/acorn.svg'
 }
 
 const featureData = [

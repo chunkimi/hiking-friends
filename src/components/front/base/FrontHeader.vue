@@ -42,11 +42,7 @@
   &__brand {
     width: 120px;
     height: 36px;
-    background-image: url('/icon/logo--light--sm.svg');
     @include img-replace-text;
-    @include media-breakpoint-up(lg) {
-      background-image: url('/icon/logo--sm.svg');
-    }
   }
 }
 
@@ -79,7 +75,16 @@
   <header class="header__bgc header__p">
     <div class="container">
       <nav class="navbar navbar-expand-lg d-flex justify-content-between align-items-center">
-        <router-link to="/"><h2 class="header__brand">郊友趣・Hiking Friends</h2></router-link>
+        <router-link to="/"
+          ><h2
+            class="header__brand"
+            :style="{
+              backgroundImage: isDesktop ? `url(${headerInfo.logoLg})` : `url(${headerInfo.logoSm})`
+            }"
+          >
+            郊友趣・Hiking Friends
+          </h2></router-link
+        >
 
         <button
           class="navbar-toggler"
@@ -117,6 +122,16 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
+import { useMediaQuery } from '@vueuse/core'
+const isDesktop = useMediaQuery('(min-width: 992px)')
+
+import logoSm from '@/assets/logo/logo--sm.svg'
+import logoLg from '@/assets/logo/logo.svg'
+
+const headerInfo = {
+  logoSm,
+  logoLg
+}
 
 const menuData = [
   { title: '首頁', to: { name: 'FrontIndex' } },
