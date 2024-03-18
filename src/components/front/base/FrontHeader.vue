@@ -77,9 +77,11 @@
       <nav class="navbar navbar-expand-lg d-flex justify-content-between align-items-center">
         <router-link to="/"
           ><h2
-            class="header__brand"
+            class="brand__img brand__sm"
             :style="{
-              backgroundImage: isDesktop ? `url(${headerInfo.logoLg})` : `url(${headerInfo.logoSm})`
+              backgroundImage: isDesktop
+                ? `url(${headerInfo.logo})`
+                : `url(${headerInfo.logoLight})`
             }"
           >
             郊友趣・Hiking Friends
@@ -125,12 +127,12 @@ import { RouterLink } from 'vue-router'
 import { useMediaQuery } from '@vueuse/core'
 const isDesktop = useMediaQuery('(min-width: 992px)')
 
-import logoSm from '@/assets/logo/logo--sm.svg'
-import logoLg from '@/assets/logo/logo.svg'
+import logo from '@/assets/logo/logo--sm.svg'
+import logoLight from '@/assets/logo/logo--light--sm.svg'
 
 const headerInfo = {
-  logoSm,
-  logoLg
+  logo,
+  logoLight
 }
 
 const menuData = [

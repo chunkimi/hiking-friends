@@ -5,9 +5,10 @@ import TrailsIntroView from '@/views/front/TrailsIntroView.vue'
 import TrailsListView from '@/views/front/TrailsListView.vue'
 import LoginView from '@/views/account/LoginView.vue'
 import RegisterView from '@/views/account/RegisterView.vue'
+
+import PageNotFoundView from '@/views/front/PageNotFoundView.vue'
 import DashboardLayoutView from '@/views/DashboardLayoutView.vue'
 import PassportIndexView from '@/views/dashboard/PassportIndexView.vue'
-import PageNotFoundView from '@/views/PageNotFoundView.vue'
 
 const routes = [
   {
@@ -65,8 +66,14 @@ const routes = [
   },
   {
     path: '/404',
-    name: '404',
-    component: PageNotFoundView
+    component: FrontLayoutView,
+    children: [
+      {
+        path: '',
+        name: '404',
+        component: PageNotFoundView
+      }
+    ]
   },
   {
     path: '/:pathMatch(.*)',
