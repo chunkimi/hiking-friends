@@ -137,7 +137,7 @@ const headerInfo = {
 
 const menuData = [
   { title: '首頁', to: { name: 'FrontIndex' } },
-  { title: '步道分級介紹', to: { name: 'TrailsIntro' } },
+  { title: '步道分級', to: { name: 'TrailsIntro' } },
   { title: '探索步道', to: { name: 'TrailsList' } },
   { title: '郊友護照', to: { name: 'PassportIndex' } }
 ]
