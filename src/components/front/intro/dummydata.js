@@ -73,6 +73,3 @@ const trailsDegreeInfo = [
     target: '已受訓登山者'
   }
 ]
-
-const trailsType = ['國家步道系統', '區域步道系統', '其他步道']
-const tourTime = ['半日遊', '一日遊', '多日遊']

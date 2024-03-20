@@ -19,11 +19,12 @@
   <div class="container">
     <div class="row">
       <div class="col-12 col-lg-2">
-        <div class="h-100 d-flex flex-column justify-content-center align-items-center">
-          <div class="icon-radiation icon-radiation__sunshine mb-1">
-            <span class="material-icons-outlined text-secondary fs-1">{{ areaListInfo.icon }}</span>
-          </div>
-          <h3 class="fs-6 fw-bold">{{ areaListInfo.title }}</h3>
+        <div class="h-100">
+          <TopicTitle
+            :title="areaListInfo.title"
+            :icon="areaListInfo.icon"
+            :circleType="areaListInfo.circleType"
+          ></TopicTitle>
         </div>
       </div>
       <div class="col-12 col-lg-10 mt-5 mt-lg-0">
@@ -45,9 +46,12 @@
 </template>
 
 <script setup>
+import TopicTitle from '@/components/front/base/TopicTitle.vue'
+
 const areaListInfo = {
   title: '探索地區',
-  icon: 'map'
+  icon: 'map',
+  circleType: 'sunshine'
 }
 const cityArea = [
   {
