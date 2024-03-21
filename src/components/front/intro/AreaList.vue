@@ -16,32 +16,18 @@
 </style>
 
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-12 col-lg-2">
-        <div class="h-100">
-          <TopicTitle
-            :title="areaListInfo.title"
-            :icon="areaListInfo.icon"
-            :circleType="areaListInfo.circleType"
-          ></TopicTitle>
-        </div>
-      </div>
-      <div class="col-12 col-lg-10 mt-5 mt-lg-0">
-        <ul class="list-unstyled row m-0">
-          <li
-            v-for="areaItem in cityArea"
-            :key="areaItem.area"
-            class="col-12 col-lg-6 h-100 areaItem"
-          >
-            <div class="border rounded bg-light p-5 h-100">
-              <h5 class="h5 text-center mb-5">{{ areaItem.area }}</h5>
-              <p class="text-secondary fs-6" v-html="getCityListHtml(areaItem.city)"></p>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
+  <div>
+    <TopicTitle
+      :title="areaListInfo.title"
+      :icon="areaListInfo.icon"
+      :circleType="areaListInfo.circleType"
+    ></TopicTitle>
+    <ul class="list-unstyled row m-0 mt-3">
+      <li v-for="areaItem in cityArea" :key="areaItem.area" class="col-6 col-lg-3 h-100 areaItem">
+        <h5 class="h5 text-center mb-5">{{ areaItem.area }}</h5>
+        <p class="text-secondary fs-6 text-center" v-html="getCityListHtml(areaItem.city)"></p>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -74,9 +60,11 @@ const cityArea = [
 
 function getCityListHtml(data) {
   let result = ''
-  data.forEach((item) => {
+  data.forEach((item, index) => {
     let raw = `<a class="p-2 link-darken text-decoration-none">${item}</a>`
-
+    if (index % 2 !== 0) {
+      raw += '<br />'
+    }
     result += raw
   })
   return result

@@ -1,4 +1,4 @@
-const trailsDegreeInfo = [
+const trailDifClass = [
   {
     degree: '0',
     difficult: '低',

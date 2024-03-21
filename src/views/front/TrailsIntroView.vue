@@ -1,22 +1,30 @@
-<style lang="scss" scoped></style>
-
+<style lang="scss" scoped>
+@import '@/styles/main.scss';
+.areaInfoBorder {
+  border-bottom: 1px solid $secondary;
+  @include media-breakpoint-up(lg) {
+    border-bottom: none;
+    border-right: 1px solid $secondary;
+  }
+}
+</style>
 <template>
-  <div class="d-grid gap-5">
-    <div class="container">
-      <h1 class="fs-3 text-end text-primary py-4">步道分級</h1>
-    </div>
-    <AreaList />
-    <div class="container">
-      <div class="row">
-        <div class="col-12 col-lg-6"><TypeList /></div>
-        <!-- <div class="col-12 col-lg-6"><TourList /></div> -->
-      </div>
+  <div class="container d-grid gap-5">
+    <h1 class="display-5 text-end text-primary py-4">主題分級</h1>
+    <RoleList />
+
+    <img src="/src/assets/illustration/acorn.svg" alt="icon" class="mx-auto" />
+    <div class="row">
+      <div class="col-12 col-lg-8 mb-5 mb-lg-0 areaInfoBorder"><AreaList /></div>
+      <div class="col-6 col-lg-2"><TypeList /></div>
+      <div class="col-6 col-lg-2"><TourList /></div>
     </div>
   </div>
 </template>
 
 <script setup>
+import RoleList from '@/components/front/intro/RoleList.vue'
 import AreaList from '@/components/front/intro/AreaList.vue'
 import TypeList from '@/components/front/intro/TypeList.vue'
-// import TourList from '@/components/front/intro/TourList.vue'
+import TourList from '@/components/front/intro/TourList.vue'
 </script>

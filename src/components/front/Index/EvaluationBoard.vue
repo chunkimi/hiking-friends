@@ -60,7 +60,7 @@
             >
               <img
                 :src="
-                  isDesktop
+                  isMediaLg
                     ? getImageUrl(evaluationBoardInfo.iconImg)
                     : getImageUrl(evaluationBoardInfo.iconImgDark)
                 "
@@ -120,7 +120,7 @@
 import { getImageUrl } from '@/utils/base'
 import bgImg from '@/assets/bg-img/shaba.jpeg'
 import { useMediaQuery } from '@vueuse/core'
-const isDesktop = useMediaQuery('(min-width: 992px)')
+const isMediaLg = useMediaQuery('(min-width: 992px)')
 
 const evaluationBoardInfo = {
   title: '郊友真情推薦',

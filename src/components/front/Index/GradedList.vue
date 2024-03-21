@@ -37,11 +37,11 @@
 <template>
   <div
     class="tour-list__wrap--left my-15"
-    :style="{ backgroundImage: isDesktop ? `url(${gradedListInfo.bgImg.left})` : 'none' }"
+    :style="{ backgroundImage: isMediaLg ? `url(${gradedListInfo.bgImg.left})` : 'none' }"
   >
     <div
       class="tour-list__wrap--right"
-      :style="{ backgroundImage: isDesktop ? `url(${gradedListInfo.bgImg.right})` : 'none' }"
+      :style="{ backgroundImage: isMediaLg ? `url(${gradedListInfo.bgImg.right})` : 'none' }"
     >
       <div class="container">
         <div class="d-flex flex-column justify-content-center align-items-center mb-10">
@@ -99,11 +99,11 @@
 </template>
 <script setup>
 import { getImageUrl, turnTrailImgPath } from '@/utils/base'
-import treeIcon from '@/assets/illustration/tree.svg'
-import personIcon from '@/assets/illustration/person.svg'
+import treeIcon from '@/assets/illustration/tree--light.svg'
+import personIcon from '@/assets/illustration/person-medium--light.svg'
 
 import { useMediaQuery } from '@vueuse/core'
-const isDesktop = useMediaQuery('(min-width: 992px)')
+const isMediaLg = useMediaQuery('(min-width: 992px)')
 
 const gradedListInfo = {
   title: '來去步道',

@@ -9,11 +9,11 @@
       class="ps-4"
     ></TopicTitle>
     <ul class="list-unstyled m-0 mt-3">
-      <li v-for="typeItem in typeData" :key="typeItem" class="p-2 mb-2">
-        <p class="fs-6 d-flex align-items-center m-0">
+      <li v-for="typeItem in typeData" :key="typeItem.icon" class="p-2 mb-2">
+        <a href="/" class="fs-6 d-flex align-items-center m-0 link-darken text-decoration-none">
           <span class="material-icons-outlined text-secondary me-2">{{ typeItem.icon }}</span>
           <span>{{ typeItem.trail }}</span>
-        </p>
+        </a>
       </li>
     </ul>
   </div>

@@ -1,7 +1,7 @@
 <style lang="scss" scoped></style>
 
 <template>
-  <div class="d-grid gap-5">
+  <div class="d-grid gap-5 bg-light-gray">
     <IndexBanner />
     <BulletinBoard />
     <FeatureList />

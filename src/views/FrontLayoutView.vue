@@ -1,12 +1,9 @@
 <style lang="scss" scoped>
 @import '@/styles/main.scss';
-.front-bgc {
-  background-color: $light-gray;
-}
 </style>
 
 <template>
-  <div id="front" class="front-bgc">
+  <div id="front">
     <FrontHeader />
     <main>
       <RouterView />
