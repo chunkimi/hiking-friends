@@ -79,7 +79,7 @@
           ><h2
             class="brand__img brand__sm"
             :style="{
-              backgroundImage: isDesktop
+              backgroundImage: isMediaLg
                 ? `url(${headerInfo.logo})`
                 : `url(${headerInfo.logoLight})`
             }"
@@ -125,7 +125,7 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import { useMediaQuery } from '@vueuse/core'
-const isDesktop = useMediaQuery('(min-width: 992px)')
+const isMediaLg = useMediaQuery('(min-width: 992px)')
 
 import logo from '@/assets/logo/logo--sm.svg'
 import logoLight from '@/assets/logo/logo--light--sm.svg'
@@ -137,7 +137,7 @@ const headerInfo = {
 
 const menuData = [
   { title: '首頁', to: { name: 'FrontIndex' } },
-  { title: '步道分級介紹', to: { name: 'TrailsIntro' } },
+  { title: '主題分級', to: { name: 'TrailsIntro' } },
   { title: '探索步道', to: { name: 'TrailsList' } },
   { title: '郊友護照', to: { name: 'PassportIndex' } }
 ]

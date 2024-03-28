@@ -32,7 +32,7 @@
     </div>
     <div
       class="feature-list__wrap"
-      :style="{ backgroundImage: isDesktop ? `url(${featureListInfo.bgImg})` : 'none' }"
+      :style="{ backgroundImage: isMediaLg ? `url(${featureListInfo.bgImg})` : 'none' }"
     >
       <div class="container py-1">
         <ul class="list-unstyled row feature-list__content">
@@ -66,9 +66,9 @@
 <script setup>
 import { getImageUrl } from '@/utils/base'
 import { useMediaQuery } from '@vueuse/core'
-const isDesktop = useMediaQuery('(min-width: 992px)')
+const isMediaLg = useMediaQuery('(min-width: 992px)')
 
-import mokuIcon from '@/assets/illustration/moku.svg'
+import mokuIcon from '@/assets/illustration/moku--light.svg'
 
 const featureListInfo = {
   bgImg: mokuIcon,

@@ -1,4 +1,6 @@
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import '@/styles/main.scss';
+</style>
 
 <template>
   <div id="front">

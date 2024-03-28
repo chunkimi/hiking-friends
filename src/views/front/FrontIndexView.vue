@@ -1,12 +1,7 @@
-<style lang="scss" scoped>
-@import '@/styles/main.scss';
-.front-index {
-  background-color: $light-gray;
-}
-</style>
+<style lang="scss" scoped></style>
 
 <template>
-  <div class="front-index d-grid gap-5">
+  <div class="d-grid gap-5 bg-light-gray">
     <IndexBanner />
     <BulletinBoard />
     <FeatureList />
