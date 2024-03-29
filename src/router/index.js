@@ -36,7 +36,7 @@ const routes = [
   },
   {
     path: '/account',
-    component: LoginView,
+    component: FrontLayoutView,
     children: [
       {
         // 使用者登入頁
