@@ -31,15 +31,15 @@
     :circleType="roleListInfo.circleType"
     class="mb-5"
   ></TopicTitle>
-  <ul class="list-unstyled" :class="[isMediaMd ? 'd-flex justify-content-around' : 'row']">
+  <ul class="list-unstyled" :class="[isMediaMdDown ? 'd-flex justify-content-around' : 'row']">
     <li
       v-for="roleItem in roleData"
       :key="roleItem.class"
-      :class="[isMediaMd ? '' : 'col-12 col-md-4 mb-5 mb-lg-0']"
+      :class="[isMediaMdDown ? '' : 'col-12 col-md-4 mb-5 mb-lg-0']"
       @click="getRoleGuide(roleItem.role, roleItem.guide)"
     >
       <button
-        v-if="isMediaMd"
+        v-if="isMediaMdDown"
         class="btn btn-primary"
         :class="curRole === roleItem.role ? 'btn-success' : 'btn-primary'"
       >
@@ -96,7 +96,7 @@ import { getImageUrl } from '@/utils/base'
 import TopicTitle from '@/components/front/base/TopicTitle.vue'
 
 import { useMediaQuery } from '@vueuse/core'
-const isMediaMd = useMediaQuery('(max-width: 767px)')
+const isMediaMdDown = useMediaQuery('(max-width: 767px)')
 
 const roleListInfo = {
   title: '郊友角色',

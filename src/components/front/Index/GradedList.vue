@@ -37,11 +37,11 @@
 <template>
   <div
     class="tour-list__wrap--left my-15"
-    :style="{ backgroundImage: isMediaLg ? `url(${gradedListInfo.bgImg.left})` : 'none' }"
+    :style="{ backgroundImage: isMediaLgUp ? `url(${gradedListInfo.bgImg.left})` : 'none' }"
   >
     <div
       class="tour-list__wrap--right"
-      :style="{ backgroundImage: isMediaLg ? `url(${gradedListInfo.bgImg.right})` : 'none' }"
+      :style="{ backgroundImage: isMediaLgUp ? `url(${gradedListInfo.bgImg.right})` : 'none' }"
     >
       <div class="container">
         <div class="d-flex flex-column justify-content-center align-items-center mb-10">
@@ -103,7 +103,7 @@ import treeIcon from '@/assets/illustration/tree--light.svg'
 import personIcon from '@/assets/illustration/person-medium--light.svg'
 
 import { useMediaQuery } from '@vueuse/core'
-const isMediaLg = useMediaQuery('(min-width: 992px)')
+const isMediaLgUp = useMediaQuery('(min-width: 992px)')
 
 const gradedListInfo = {
   title: '來去步道',
