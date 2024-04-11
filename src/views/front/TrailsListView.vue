@@ -139,10 +139,10 @@
       <div class="d-flex justify-content-center">
         <nav aria-label="Page navigation example">
           <div class="d-flex justify-content-center">
-            <nav aria-label="Page navigation example">
+            <nav aria-label="Page navigation example ">
               <ul class="pagination">
                 <li class="page-item" @click="changePage(currentPage - 1)">
-                  <p class="page-link" href="#" aria-label="Previous">
+                  <p class="page-link bg-transparent cursor-pointer" href="#" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                   </p>
                 </li>
@@ -152,10 +152,10 @@
                   :key="page"
                   @click="changePage(page)"
                 >
-                  <p class="page-link" href="#">{{ page }}</p>
+                  <p class="page-link bg-transparent cursor-pointer" href="#">{{ page }}</p>
                 </li>
                 <li class="page-item" @click="changePage(currentPage + 1)">
-                  <p class="page-link" href="#" aria-label="Next">
+                  <p class="page-link bg-transparent cursor-pointer" href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                   </p>
                 </li>

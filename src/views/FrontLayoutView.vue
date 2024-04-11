@@ -5,7 +5,7 @@
 <template>
   <div id="front">
     <FrontHeader />
-    <main>
+    <main class="bg-light-gray">
       <RouterView />
     </main>
     <FrontFooter />
