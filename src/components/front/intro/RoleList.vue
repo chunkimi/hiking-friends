@@ -12,6 +12,10 @@
   &__img {
     max-width: 300px;
   }
+  &__board {
+    background-color: $gray-green;
+    opacity: 0.5;
+  }
 }
 
 .guide-collapse-enter-active,
@@ -31,15 +35,16 @@
     :circleType="roleListInfo.circleType"
     class="mb-5"
   ></TopicTitle>
-  <ul class="list-unstyled" :class="[isMediaMd ? 'd-flex justify-content-around' : 'row']">
+  <p class="text-center text-gray-green">點選角色卡片</p>
+  <ul class="list-unstyled" :class="[isMediaMdDown ? 'd-flex justify-content-around' : 'row']">
     <li
       v-for="roleItem in roleData"
       :key="roleItem.class"
-      :class="[isMediaMd ? '' : 'col-12 col-md-4 mb-5 mb-lg-0']"
+      :class="[isMediaMdDown ? '' : 'col-12 col-md-4 mb-5 mb-lg-0']"
       @click="getRoleGuide(roleItem.role, roleItem.guide)"
     >
       <button
-        v-if="isMediaMd"
+        v-if="isMediaMdDown"
         class="btn btn-primary"
         :class="curRole === roleItem.role ? 'btn-success' : 'btn-primary'"
       >
@@ -57,7 +62,7 @@
     </li>
   </ul>
   <transition name="guide-collapse">
-    <div v-if="isOpenGuide" class="bg-light-gray rounded p-5 d-grid gap-4">
+    <div v-if="isOpenGuide" class="bg-light-yellow rounded p-6 d-grid gap-4">
       <h5 class="fs-4 m-0 text-success text-center">{{ curRole }}</h5>
       <div class="p-4">
         <table class="table">
@@ -82,7 +87,7 @@
         </table>
       </div>
       <div class="py-5 ms-auto">
-        <button class="btn btn-outline-primary">
+        <button class="btn btn-primary">
           瀏覽適合步道<span class="material-icons ms-3"> nature_people </span>
         </button>
       </div>
@@ -96,7 +101,7 @@ import { getImageUrl } from '@/utils/base'
 import TopicTitle from '@/components/front/base/TopicTitle.vue'
 
 import { useMediaQuery } from '@vueuse/core'
-const isMediaMd = useMediaQuery('(max-width: 767px)')
+const isMediaMdDown = useMediaQuery('(max-width: 767px)')
 
 const roleListInfo = {
   title: '郊友角色',

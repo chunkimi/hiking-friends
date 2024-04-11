@@ -11,7 +11,10 @@
     :circleType="difDegreeInfo.circleType"
     class="ps-4"
   ></TopicTitle>
-  <table class="table">
+  <div v-if="isMediaMdDown">
+    <p class="fw-bold text-center text-danger">因資訊量詳細，請使用電腦瀏覽</p>
+  </div>
+  <table class="table table-primary mt-5" v-else>
     <thead>
       <tr>
         <th scope="col" class="th--min-width">等級</th>
@@ -25,7 +28,7 @@
     </thead>
     <tbody>
       <tr v-for="degreeItem in trailDifDegree" :key="degreeItem.class">
-        <th scope="row">{{ degreeItem.class }}</th>
+        <th scope="row">{{ degreeItem.degree }}</th>
         <td>{{ degreeItem.target }}</td>
         <td>{{ degreeItem.difficult }}</td>
         <td>{{ degreeItem.context }}</td>
@@ -40,6 +43,10 @@
 
 <script setup>
 import TopicTitle from '@/components/front/base/TopicTitle.vue'
+
+import { useMediaQuery } from '@vueuse/core'
+const isMediaMdDown = useMediaQuery('(max-width: 767px)')
+
 const difDegreeInfo = {
   title: '步道分級說明',
   icon: 'landscape',
@@ -47,7 +54,7 @@ const difDegreeInfo = {
 }
 const trailDifDegree = [
   {
-    Degree: '0',
+    degree: '0',
     difficult: '低',
     context: '步道平整、設施良好、坡度平緩且可供無障礙輔具或嬰幼兒車通行者。',
     location: '坡度平緩地區',
@@ -56,7 +63,7 @@ const trailDifDegree = [
     target: '一般大眾'
   },
   {
-    Degree: '1',
+    degree: '1',
     difficult: '低',
     context: '為交通容易到達之開放性步道，坡度較平緩，且設施完善，路面平整易行。',
     location: '位於遊憩區域、鄰近聚落或海拔約1,000公尺內',
@@ -65,7 +72,7 @@ const trailDifDegree = [
     target: '一般大眾'
   },
   {
-    Degree: 2,
+    degree: 2,
     difficult: '低-中',
     context: '為交通容易到達之開放性步道，坡度較平緩，且設施完善，路面平整易行。',
     location: '位於遊憩區域、鄰近聚落或海拔約1,000-2,000公尺上下',
@@ -74,7 +81,7 @@ const trailDifDegree = [
     target: '體力稍佳者'
   },
   {
-    Degree: 3,
+    degree: 3,
     difficult: '中',
     context: '偏遠或部分路段需經過應申請之區域。部分路段路況較差，坡度較陡，但具基本設施。',
     location: '較為偏遠區域或海拔約2,000-3,000公尺上下',
@@ -84,7 +91,7 @@ const trailDifDegree = [
     target: '初級登山者、體力佳且有初步地圖判讀能力者'
   },
   {
-    Degree: 4,
+    degree: 4,
     difficult: '中-高',
     context:
       '偏遠或部分路段需經過應申請之區域。位於高海拔（約3,000公尺以上）山區，步道路況較原始，坡度較陡，具部分困難及危險路段，氣候變化大。',
@@ -95,7 +102,7 @@ const trailDifDegree = [
     target: '體力佳並具地圖判讀及野外求生能力者'
   },
   {
-    Degree: 5,
+    degree: 5,
     difficult: '高',
     context:
       '交通不便且多位於應申請之區域。位於高海拔（約3,000公尺以上）山區，步道路況不佳，深入原始地區，有許多困難及危險路段，坡度陡，氣候變化大。',
@@ -106,7 +113,7 @@ const trailDifDegree = [
     target: '已受訓登山者'
   },
   {
-    Degree: 6,
+    degree: 6,
     difficult: '高',
     context:
       '一、積雪（冰）之第三、第四或第五級步道；二、非正式步道，無明確路基或路徑，屬原始山徑、古道遺跡、探勘或技術攀登等特殊路線。',

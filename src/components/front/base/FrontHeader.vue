@@ -79,7 +79,7 @@
           ><h2
             class="brand__img brand__sm"
             :style="{
-              backgroundImage: isMediaLg
+              backgroundImage: isMediaLgUp
                 ? `url(${headerInfo.logo})`
                 : `url(${headerInfo.logoLight})`
             }"
@@ -125,7 +125,7 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import { useMediaQuery } from '@vueuse/core'
-const isMediaLg = useMediaQuery('(min-width: 992px)')
+const isMediaLgUp = useMediaQuery('(min-width: 992px)')
 
 import logo from '@/assets/logo/logo--sm.svg'
 import logoLight from '@/assets/logo/logo--light--sm.svg'
