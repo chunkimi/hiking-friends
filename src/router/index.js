@@ -3,10 +3,13 @@ import FrontLayoutView from '@/views/FrontLayoutView.vue'
 import FrontIndexView from '@/views/front/FrontIndexView.vue'
 import TrailsIntroView from '@/views/front/TrailsIntroView.vue'
 import TrailsListView from '@/views/front/TrailsListView.vue'
+import TrailInfoView from '@/views/front/TrailInfoView.vue'
+
 import LoginView from '@/views/account/LoginView.vue'
 import RegisterView from '@/views/account/RegisterView.vue'
 
 import PageNotFoundView from '@/views/front/PageNotFoundView.vue'
+
 import DashboardLayoutView from '@/views/DashboardLayoutView.vue'
 import PassportIndexView from '@/views/dashboard/PassportIndexView.vue'
 
@@ -21,7 +24,7 @@ const routes = [
         component: FrontIndexView
       },
       {
-        //步道類型介紹
+        //步道主題介紹
         path: 'trails-intro',
         name: 'TrailsIntro',
         component: TrailsIntroView
@@ -31,6 +34,11 @@ const routes = [
         path: 'trails-list',
         name: 'TrailsList',
         component: TrailsListView
+      },
+      {
+        path: 'trail-info/:trail',
+        name: 'TrailInfo',
+        component: TrailInfoView
       }
     ]
   },

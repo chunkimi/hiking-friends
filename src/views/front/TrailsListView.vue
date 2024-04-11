@@ -70,10 +70,23 @@
               </div>
               <div class="row">
                 <div class="col-6">
-                  <a href="#" class="btn btn-outline-secondary w-100">詳細資料</a>
+                  <RouterLink
+                    :to="{
+                      name: trailCardBtn.moreInfo.pathName,
+                      params: { trail: trailItem.TRAILID }
+                    }"
+                    class="btn w-100"
+                    :class="`btn-outline-${trailCardBtn.moreInfo.btnColor}`"
+                    >{{ trailCardBtn.moreInfo.name }}</RouterLink
+                  >
                 </div>
                 <div class="col-6">
-                  <a href="#" class="btn btn-outline-primary w-100">加入待訪</a>
+                  <RouterLink
+                    to="/"
+                    class="btn w-100"
+                    :class="`btn-outline-${trailCardBtn.addList.btnColor}`"
+                    >{{ trailCardBtn.addList.name }}</RouterLink
+                  >
                 </div>
               </div>
             </div>
@@ -88,13 +101,22 @@
         >
           <div class="d-flex justify-content-between">
             <h5 class="h5">{{ trailItem.TR_CNAME }}</h5>
-            <div>
-              <button type="button" class="btn btn-outline-secondary me-3">
-                <i class="bi bi-info-lg"></i>
-              </button>
-              <button type="button" class="btn btn-outline-primary">
-                <i class="bi bi-heart"></i>
-              </button>
+            <div class="d-flex">
+              <RouterLink
+                :to="{
+                  name: trailCardBtn.moreInfo.pathName,
+                  params: { trail: trailItem.TRAILID }
+                }"
+                class="btn w-100 me-3"
+                :class="`btn-outline-${trailCardBtn.moreInfo.btnColor}`"
+                ><i class="bi" :class="trailCardBtn.moreInfo.icon"></i
+              ></RouterLink>
+              <RouterLink
+                to="/"
+                class="btn w-100"
+                :class="`btn-outline-${trailCardBtn.addList.btnColor}`"
+                ><i class="bi" :class="trailCardBtn.addList.icon"></i
+              ></RouterLink>
             </div>
           </div>
           <ul class="list-unstyled row" v-if="isMediaMdUp">
@@ -148,6 +170,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { RouterLink } from 'vue-router'
 import { getImageUrl, turnTrailImgPath } from '@/utils/base'
 import SearchBar from '@/components/front/base/SearchBar.vue'
 
@@ -155,6 +178,20 @@ import { useMediaQuery } from '@vueuse/core'
 const isMediaMdUp = useMediaQuery('(min-width: 767px)')
 
 import trailsData from '@/data/dummy/allTrailsInfo.json'
+
+const trailCardBtn = {
+  moreInfo: {
+    name: '詳細資料',
+    btnColor: 'secondary',
+    icon: 'bi-info-lg',
+    pathName: 'TrailInfo'
+  },
+  addList: {
+    name: '加入待訪',
+    btnColor: 'primary',
+    icon: 'bi-heart'
+  }
+}
 
 const trailInfoTitle = [
   { type: 'TR_POSITION', name: '位置', icon: 'bi-map' },
