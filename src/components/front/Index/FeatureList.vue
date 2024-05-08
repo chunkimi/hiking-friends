@@ -24,11 +24,13 @@
 <template>
   <div>
     <div class="container mb-5">
-      <img
-        :src="getImageUrl(featureListInfo.titleIcon)"
-        alt="decorate-icon"
-        class="decorate-icon mx-auto"
-      />
+      <div class="text-center">
+        <img
+          :src="getImageUrl(featureListInfo.titleIcon)"
+          alt="decorate-icon"
+          class="decorate-icon"
+        />
+      </div>
     </div>
     <div
       class="feature-list__wrap"
