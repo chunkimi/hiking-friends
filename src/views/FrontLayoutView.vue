@@ -14,6 +14,6 @@
 
 <script setup>
 import { RouterView } from 'vue-router'
-import FrontHeader from '@/components/front/base/FrontHeader.vue'
-import FrontFooter from '@/components/front/base/FrontFooter.vue'
+import FrontHeader from '@/components/front/guide/FrontHeader.vue'
+import FrontFooter from '@/components/front/guide/FrontFooter.vue'
 </script>
