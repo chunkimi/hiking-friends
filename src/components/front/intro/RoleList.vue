@@ -29,13 +29,13 @@
 }
 </style>
 <template>
-  <TopicTitle
-    :title="roleListInfo.title"
-    :icon="roleListInfo.icon"
-    :circleType="roleListInfo.circleType"
-    class="mb-5"
-  ></TopicTitle>
-  <p class="text-center text-gray-green">點選角色卡片</p>
+  <IconTitle
+    :is-clock-line="roleListTitle.isClock"
+    :icon="roleListTitle.icon"
+    :title-text="roleListTitle.title"
+    :color="roleListTitle.textColor"
+  ></IconTitle>
+  <p class="text-center text-gray-green">{{ roleListTitle.noteText }}</p>
   <ul class="list-unstyled" :class="[isMediaMdDown ? 'd-flex justify-content-around' : 'row']">
     <li
       v-for="roleItem in roleData"
@@ -67,28 +67,19 @@
       <div class="p-4">
         <table class="table">
           <tbody>
-            <tr class="row">
-              <th class="col-2 fw-bold">適合對象</th>
-              <td class="col-10">{{ guideData.target }}</td>
-            </tr>
-            <tr class="row">
-              <th class="col-2 fw-bold">路況</th>
-              <td class="col-10">{{ guideData.road }}</td>
-            </tr>
-            <tr class="row">
-              <th class="col-2 fw-bold">預估時程</th>
-              <td class="col-10">{{ guideData.time }}</td>
-            </tr>
-            <tr class="row">
-              <th class="col-2 fw-bold">攜帶裝備</th>
-              <td class="col-10">{{ guideData.equipment }}</td>
+            <tr class="row" v-for="tableItem in tableTitleData" :key="tableItem.type">
+              <th class="col-2 fw-bold">{{ tableItem.text }}</th>
+              <td class="col-10">{{ guideData[tableItem.type] }}</td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="py-5 ms-auto">
         <button class="btn btn-primary">
-          瀏覽適合步道<span class="material-icons ms-3"> nature_people </span>
+          <div class="d-flex align-items-center">
+            <span>{{ roleListTitle.btnViewMore.text }}</span>
+            <span class="material-icons ms-3">{{ roleListTitle.btnViewMore.icon }}</span>
+          </div>
         </button>
       </div>
     </div>
@@ -98,16 +89,23 @@
 <script setup>
 import { ref } from 'vue'
 import { getImageUrl } from '@/utils/base'
-import TopicTitle from '@/components/front/base/TopicTitle.vue'
+import IconTitle from '@/components/front/base/IconTitle.vue'
 
 import { useMediaQuery } from '@vueuse/core'
 const isMediaMdDown = useMediaQuery('(max-width: 767px)')
 
-const roleListInfo = {
+const roleListTitle = {
+  isClock: false,
   title: '郊友角色',
   icon: 'hiking',
-  circleType: 'sunshine'
+  textColor: 'dark',
+  noteText: '點選角色卡片',
+  btnViewMore: {
+    text: '瀏覽適合步道',
+    icon: 'nature_people '
+  }
 }
+
 const roleData = [
   {
     role: '輕鬆踏青',
@@ -143,6 +141,25 @@ const roleData = [
       equipment:
         '登山裝備需俱全（包括糧食、飲水、煮食設備、地圖、禦寒衣物、照明設備、睡袋、帳棚等）如有管制需事先申請許可'
     }
+  }
+]
+
+const tableTitleData = [
+  {
+    text: '適合對象',
+    type: 'target'
+  },
+  {
+    text: '路況',
+    type: 'road'
+  },
+  {
+    text: '預估時程',
+    type: 'time'
+  },
+  {
+    text: '攜帶裝備',
+    type: 'equipment'
   }
 ]
 
