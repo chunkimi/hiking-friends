@@ -92,7 +92,6 @@
 </template>
 <script setup>
 import { computed } from 'vue'
-// import { getImageUrl } from '@/utils/base'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 import dummyAllTrailsNews from '@/data/dummy/allTrailsNews.json'
 

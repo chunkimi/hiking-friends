@@ -58,16 +58,12 @@
             <div
               class="h-100 d-flex flex-column justify-content-center align-items-center evaluation-board__title"
             >
-              <img
-                :src="
-                  isMediaLgUp
-                    ? getImageUrl(evaluationBoardInfo.iconImg)
-                    : getImageUrl(evaluationBoardInfo.iconImgDark)
-                "
-                alt="title-icon"
-                class="title-icon--semicircle mb-2"
-              />
-              <h3 class="fs-6 fw-bold mb-3">{{ evaluationBoardInfo.title }}</h3>
+              <IconTitle
+                :is-clock-line="evaluationBoardInfo.title.isClock"
+                :icon="evaluationBoardInfo.title.icon"
+                :title-text="evaluationBoardInfo.title.title"
+                :color="titleTextColor"
+              ></IconTitle>
               <h4 class="fs-5 fw-medium mb-3">{{ evaluationBoardInfo.subtitle }}</h4>
               <p class="fs-6 m-0">
                 {{ evaluationBoardInfo.text.main }}<br />{{ evaluationBoardInfo.text.vice }}
@@ -103,8 +99,11 @@
                   </div>
 
                   <div class="text-center">
-                    <a href="/" class="fs-6 link-secondary text-decoration-none"
-                      >VIEW ALL<span class="material-icons ms-3"> nature_people </span></a
+                    <a href="/" class="fs-6 link-secondary text-decoration-none">
+                      <div class="d-flex justify-content-center align-items-center">
+                        <span>VIEW ALL</span>
+                        <span class="material-icons ms-3"> nature_people </span>
+                      </div></a
                     >
                   </div>
                 </div>
@@ -117,22 +116,39 @@
   </div>
 </template>
 <script setup>
+import { computed } from 'vue'
+import IconTitle from '@/components/front/base/IconTitle.vue'
+
 import { getImageUrl } from '@/utils/base'
 import bgImg from '@/assets/bg-img/shaba.jpeg'
+
 import { useMediaQuery } from '@vueuse/core'
 const isMediaLgUp = useMediaQuery('(min-width: 992px)')
 
 const evaluationBoardInfo = {
-  title: '郊友真情推薦',
+  title: {
+    isClock: false,
+    title: '郊友真情推薦',
+    icon: 'landscape',
+    textColor: {
+      normal: 'dark',
+      mediaLgUp: 'light'
+    }
+  },
   subtitle: '不知如何走出第一步？',
   bgImg,
-  iconImg: 'assets/icons/mountain.svg',
-  iconImgDark: 'assets/icons/mountain_dark.svg',
   text: {
     main: '郊友帶你博覽群山',
     vice: '尋訪與自然的相會'
   }
 }
+
+const titleTextColor = computed(() =>
+  isMediaLgUp.value
+    ? evaluationBoardInfo.title.textColor.mediaLgUp
+    : evaluationBoardInfo.title.textColor.normal
+)
+
 const evaluationData = [
   {
     user: '賞鳥粉絲',

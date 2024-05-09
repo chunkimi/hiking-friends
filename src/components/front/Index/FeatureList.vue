@@ -44,17 +44,13 @@
             :key="featureItem.icon"
           >
             <div class="h-100">
-              <div class="d-flex justify-content-center mb-3">
-                <img
-                  :src="getImageUrl(featureItem.icon)"
-                  alt="title-icon"
-                  class="title-icon--circle"
-                />
-              </div>
-              <div class="text-center d-grid gap-3">
-                <h5 class="h3 py-3 mb-3" :class="`text-${featureItem.text_color}`">
-                  {{ featureItem.title }}
-                </h5>
+              <IconTitle
+                :is-clock-line="featureItem.title.isClock"
+                :icon="featureItem.title.icon"
+                :title-text="featureItem.title.title"
+                :color="featureItem.title.textColor"
+              ></IconTitle>
+              <div class="mt-3 text-center d-grid gap-3">
                 <h6 class="fs-5 text-secondary">{{ featureItem.subtitle }}</h6>
                 <p class="text-secondary fs-6" v-html="getKeywordHtml(featureItem.keyword)"></p>
               </div>
@@ -66,6 +62,8 @@
   </div>
 </template>
 <script setup>
+import IconTitle from '@/components/front/base/IconTitle.vue'
+
 import { getImageUrl } from '@/utils/base'
 import { useMediaQuery } from '@vueuse/core'
 const isMediaLgUp = useMediaQuery('(min-width: 992px)')
@@ -79,32 +77,44 @@ const featureListInfo = {
 
 const featureData = [
   {
-    title: '主題分類檢索',
+    title: {
+      isClock: true,
+      title: '主題分類檢索',
+      icon: 'landscape',
+      textColor: 'primary'
+    },
     subtitle: '掌握目標下腳快、狠、準',
-    keyword: ['地區瀏覽', '步道分級', '預估時程', '步道類型'],
-    text_color: 'primary',
-    icon: 'assets/icons/picture.svg'
+    keyword: ['地區瀏覽', '步道分級', '預估時程', '步道類型']
   },
   {
-    title: '步道履歷報你知',
+    title: {
+      isClock: true,
+      title: '步道履歷報你知',
+      icon: 'mode_of_travel',
+      textColor: 'success'
+    },
     subtitle: '資訊整合，一目瞭然',
-    keyword: ['步道介紹', '路程預估', '景點推薦', '開放情況'],
-    text_color: 'success',
-    icon: 'assets/icons/location.svg'
+    keyword: ['步道介紹', '路程預估', '景點推薦', '開放情況']
   },
   {
-    title: '郊友護照',
+    title: {
+      isClock: true,
+      title: '郊友護照',
+      icon: 'hiking',
+      textColor: 'warning'
+    },
     subtitle: '會員專屬個人步道筆記',
-    keyword: ['待訪清單', '攻略紀錄'],
-    text_color: 'warning',
-    icon: 'assets/icons/hiker.svg'
+    keyword: ['待訪清單', '攻略紀錄']
   },
   {
-    title: '郊友分享',
-    subtitle: '今天去哪兒？',
-    keyword: ['熱門首選', '心得郊流'],
-    text_color: 'danger',
-    icon: 'assets/icons/group.svg'
+    title: {
+      isClock: true,
+      title: '郊友分享',
+      icon: 'diversity_3',
+      textColor: 'danger'
+    },
+    subtitle: '今天去哪兒？熱門首選推薦',
+    keyword: ['開發中']
   }
 ]
 
