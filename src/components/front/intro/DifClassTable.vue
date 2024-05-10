@@ -10,11 +10,12 @@
     :icon="difDegreeTitle.icon"
     :title-text="difDegreeTitle.title"
     :color="difDegreeTitle.textColor"
+    class="mb-10"
   ></IconTitle>
   <div v-if="isMediaMdDown">
     <p class="fw-bold text-center text-danger">{{ difDegreeTitle.isMediaMdDownMsg }}</p>
   </div>
-  <table class="table table-primary mt-5" v-else>
+  <table class="table table-primary" v-else>
     <thead>
       <tr>
         <th

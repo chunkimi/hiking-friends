@@ -34,6 +34,7 @@
     :icon="roleListTitle.icon"
     :title-text="roleListTitle.title"
     :color="roleListTitle.textColor"
+    class="mb-10"
   ></IconTitle>
   <p class="text-center text-gray-green">{{ roleListTitle.noteText }}</p>
   <ul class="list-unstyled" :class="[isMediaMdDown ? 'd-flex justify-content-around' : 'row']">

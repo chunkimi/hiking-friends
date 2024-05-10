@@ -41,20 +41,9 @@
           <li
             class="col-12 col-lg-3 mb-10 mb-lg-0"
             v-for="featureItem in featureData"
-            :key="featureItem.icon"
+            :key="featureItem.title.icon"
           >
-            <div class="h-100">
-              <IconTitle
-                :is-clock-line="featureItem.title.isClock"
-                :icon="featureItem.title.icon"
-                :title-text="featureItem.title.title"
-                :color="featureItem.title.textColor"
-              ></IconTitle>
-              <div class="mt-3 text-center d-grid gap-3">
-                <h6 class="fs-5 text-secondary">{{ featureItem.subtitle }}</h6>
-                <p class="text-secondary fs-6" v-html="getKeywordHtml(featureItem.keyword)"></p>
-              </div>
-            </div>
+            <TypeCard :card-item="featureItem" />
           </li>
         </ul>
       </div>
@@ -62,7 +51,7 @@
   </div>
 </template>
 <script setup>
-import IconTitle from '@/components/front/base/IconTitle.vue'
+import TypeCard from '@/components/front/base/TypeCard.vue'
 
 import { getImageUrl } from '@/utils/base'
 import { useMediaQuery } from '@vueuse/core'
@@ -84,7 +73,7 @@ const featureData = [
       textColor: 'primary'
     },
     subtitle: '掌握目標下腳快、狠、準',
-    keyword: ['地區瀏覽', '步道分級', '預估時程', '步道類型']
+    keywords: ['地區瀏覽', '步道分級', '預估時程', '步道類型']
   },
   {
     title: {
@@ -94,7 +83,7 @@ const featureData = [
       textColor: 'success'
     },
     subtitle: '資訊整合，一目瞭然',
-    keyword: ['步道介紹', '路程預估', '景點推薦', '開放情況']
+    keywords: ['步道介紹', '路程預估', '景點推薦', '開放情況']
   },
   {
     title: {
@@ -104,7 +93,7 @@ const featureData = [
       textColor: 'warning'
     },
     subtitle: '會員專屬個人步道筆記',
-    keyword: ['待訪清單', '攻略紀錄']
+    keywords: ['待訪清單', '攻略紀錄']
   },
   {
     title: {
@@ -114,19 +103,7 @@ const featureData = [
       textColor: 'danger'
     },
     subtitle: '今天去哪兒？熱門首選推薦',
-    keyword: ['開發中']
+    keywords: ['開發中']
   }
 ]
-
-function getKeywordHtml(data) {
-  let result = ''
-  data.forEach((item, index) => {
-    let raw = `<span class="p-2">${item}</span>`
-    if (index % 2 !== 0) {
-      raw += '<br />'
-    }
-    result += raw
-  })
-  return result
-}
 </script>

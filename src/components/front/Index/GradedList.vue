@@ -50,7 +50,7 @@
           :color="gradedListInfo.title.textColor"
           :title-text="gradedListInfo.title.title"
         ></IconTitle>
-        <ul class="list-unstyled row">
+        <ul class="list-unstyled row mt-10">
           <li
             class="col-12 col-lg-4 mb-6 mb-lg-0"
             v-for="recommendItem in recommendTrails"
