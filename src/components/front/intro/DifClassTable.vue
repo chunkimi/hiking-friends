@@ -5,53 +5,88 @@
 }
 </style>
 <template>
-  <TopicTitle
-    :title="difDegreeInfo.title"
-    :icon="difDegreeInfo.icon"
-    :circleType="difDegreeInfo.circleType"
-    class="ps-4"
-  ></TopicTitle>
+  <IconTitle
+    :is-clock-line="difDegreeTitle.isClock"
+    :icon="difDegreeTitle.icon"
+    :title-text="difDegreeTitle.title"
+    :color="difDegreeTitle.textColor"
+    class="mb-10"
+  ></IconTitle>
   <div v-if="isMediaMdDown">
-    <p class="fw-bold text-center text-danger">因資訊量詳細，請使用電腦瀏覽</p>
+    <p class="fw-bold text-center text-danger">{{ difDegreeTitle.isMediaMdDownMsg }}</p>
   </div>
-  <table class="table table-primary mt-5" v-else>
+  <table class="table table-primary" v-else>
     <thead>
       <tr>
-        <th scope="col" class="th--min-width">等級</th>
-        <th scope="col">對象</th>
-        <th scope="col" class="th--min-width">難易</th>
-        <th scope="col">說明</th>
-        <th scope="col">區位</th>
-        <th scope="col">時程</th>
-        <th scope="col">裝備</th>
+        <th
+          scope="col"
+          :class="
+            tableItem.type === 'degree' || tableItem.type === 'difficult' ? 'th--min-width' : ''
+          "
+          v-for="tableItem in tableTitleData"
+          :key="tableItem.type"
+        >
+          {{ tableItem.text }}
+        </th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="degreeItem in trailDifDegree" :key="degreeItem.class">
-        <th scope="row">{{ degreeItem.degree }}</th>
-        <td>{{ degreeItem.target }}</td>
-        <td>{{ degreeItem.difficult }}</td>
-        <td>{{ degreeItem.context }}</td>
-        <td>{{ degreeItem.location }}</td>
-        <td>{{ degreeItem.time }}</td>
-        <td>{{ degreeItem.equipment }}</td>
+      <tr v-for="row in trailDifDegree" :key="row.degree">
+        <td v-for="tableItem in tableTitleData" :key="tableItem.type">
+          {{ row[tableItem.type] }}
+        </td>
       </tr>
     </tbody>
   </table>
-  <p class="text-secondary text-end">來源：林業與自然保育署</p>
+  <p class="text-secondary text-end">{{ difDegreeTitle.source }}</p>
 </template>
 
 <script setup>
-import TopicTitle from '@/components/front/base/TopicTitle.vue'
+import IconTitle from '@/components/front/base/IconTitle.vue'
 
 import { useMediaQuery } from '@vueuse/core'
 const isMediaMdDown = useMediaQuery('(max-width: 767px)')
 
-const difDegreeInfo = {
-  title: '步道分級說明',
+const difDegreeTitle = {
+  isClock: false,
+  title: '步道分級',
   icon: 'landscape',
-  circleType: 'sunshine'
+  textColor: 'dark',
+  isMediaMdDownMsg: '因資訊量詳細，請使用電腦瀏覽',
+  source: '來源：林業與自然保育署'
 }
+
+const tableTitleData = [
+  {
+    text: '等級',
+    type: 'degree'
+  },
+  {
+    text: '對象',
+    type: 'target'
+  },
+  {
+    text: '難易',
+    type: 'difficult'
+  },
+  {
+    text: '說明',
+    type: 'context'
+  },
+  {
+    text: '區位',
+    type: 'location'
+  },
+  {
+    text: '時程',
+    type: 'time'
+  },
+  {
+    text: '裝備',
+    type: 'equipment'
+  }
+]
+
 const trailDifDegree = [
   {
     degree: '0',

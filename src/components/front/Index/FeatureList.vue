@@ -24,11 +24,13 @@
 <template>
   <div>
     <div class="container mb-5">
-      <img
-        :src="getImageUrl(featureListInfo.titleIcon)"
-        alt="decorate-icon"
-        class="decorate-icon mx-auto"
-      />
+      <div class="text-center">
+        <img
+          :src="getImageUrl(featureListInfo.titleIcon)"
+          alt="decorate-icon"
+          class="decorate-icon"
+        />
+      </div>
     </div>
     <div
       class="feature-list__wrap"
@@ -39,24 +41,9 @@
           <li
             class="col-12 col-lg-3 mb-10 mb-lg-0"
             v-for="featureItem in featureData"
-            :key="featureItem.icon"
+            :key="featureItem.title.icon"
           >
-            <div class="h-100">
-              <div class="d-flex justify-content-center mb-3">
-                <img
-                  :src="getImageUrl(featureItem.icon)"
-                  alt="title-icon"
-                  class="title-icon--circle"
-                />
-              </div>
-              <div class="text-center d-grid gap-3">
-                <h5 class="h3 py-3 mb-3" :class="`text-${featureItem.text_color}`">
-                  {{ featureItem.title }}
-                </h5>
-                <h6 class="fs-5 text-secondary">{{ featureItem.subtitle }}</h6>
-                <p class="text-secondary fs-6" v-html="getKeywordHtml(featureItem.keyword)"></p>
-              </div>
-            </div>
+            <TypeCard :card-item="featureItem" />
           </li>
         </ul>
       </div>
@@ -64,6 +51,8 @@
   </div>
 </template>
 <script setup>
+import TypeCard from '@/components/front/base/TypeCard.vue'
+
 import { getImageUrl } from '@/utils/base'
 import { useMediaQuery } from '@vueuse/core'
 const isMediaLgUp = useMediaQuery('(min-width: 992px)')
@@ -77,44 +66,44 @@ const featureListInfo = {
 
 const featureData = [
   {
-    title: '主題分類檢索',
+    title: {
+      isClock: true,
+      title: '主題分類檢索',
+      icon: 'landscape',
+      textColor: 'primary'
+    },
     subtitle: '掌握目標下腳快、狠、準',
-    keyword: ['地區瀏覽', '步道分級', '預估時程', '步道類型'],
-    text_color: 'primary',
-    icon: 'assets/icons/picture.svg'
+    keywords: ['地區瀏覽', '步道分級', '預估時程', '步道類型']
   },
   {
-    title: '步道履歷報你知',
+    title: {
+      isClock: true,
+      title: '步道履歷報你知',
+      icon: 'mode_of_travel',
+      textColor: 'success'
+    },
     subtitle: '資訊整合，一目瞭然',
-    keyword: ['步道介紹', '路程預估', '景點推薦', '開放情況'],
-    text_color: 'success',
-    icon: 'assets/icons/location.svg'
+    keywords: ['步道介紹', '路程預估', '景點推薦', '開放情況']
   },
   {
-    title: '郊友護照',
+    title: {
+      isClock: true,
+      title: '郊友護照',
+      icon: 'hiking',
+      textColor: 'warning'
+    },
     subtitle: '會員專屬個人步道筆記',
-    keyword: ['待訪清單', '攻略紀錄'],
-    text_color: 'warning',
-    icon: 'assets/icons/hiker.svg'
+    keywords: ['待訪清單', '攻略紀錄']
   },
   {
-    title: '郊友分享',
-    subtitle: '今天去哪兒？',
-    keyword: ['熱門首選', '心得郊流'],
-    text_color: 'danger',
-    icon: 'assets/icons/group.svg'
+    title: {
+      isClock: true,
+      title: '郊友分享',
+      icon: 'diversity_3',
+      textColor: 'danger'
+    },
+    subtitle: '今天去哪兒？熱門首選推薦',
+    keywords: ['開發中']
   }
 ]
-
-function getKeywordHtml(data) {
-  let result = ''
-  data.forEach((item, index) => {
-    let raw = `<span class="p-2">${item}</span>`
-    if (index % 2 !== 0) {
-      raw += '<br />'
-    }
-    result += raw
-  })
-  return result
-}
 </script>

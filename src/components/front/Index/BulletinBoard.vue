@@ -55,16 +55,12 @@
   <div class="container">
     <div class="row pt-14 pb-16 pt-lg-16">
       <div class="col-12 col-lg-3">
-        <div
-          class="h-100 d-flex flex-column justify-content-center align-items-center mb-20 mb-lg-0"
-        >
-          <img
-            :src="getImageUrl(bulletinBoardInfo.iconImg)"
-            alt="title-icon"
-            class="title-icon--semicircle mb-2"
-          />
-          <h3 class="fs-6 fw-bold">{{ bulletinBoardInfo.title }}</h3>
-        </div>
+        <IconTitle
+          :is-clock-line="bulletinTitle.isClock"
+          :icon="bulletinTitle.icon"
+          :color="bulletinTitle.textColor"
+          :title-text="bulletinTitle.title"
+        ></IconTitle>
       </div>
       <div class="col-12 col-lg-9">
         <ul class="list-unstyled">
@@ -96,12 +92,14 @@
 </template>
 <script setup>
 import { computed } from 'vue'
-import { getImageUrl } from '@/utils/base'
+import IconTitle from '@/components/front/base/IconTitle.vue'
 import dummyAllTrailsNews from '@/data/dummy/allTrailsNews.json'
 
-const bulletinBoardInfo = {
+const bulletinTitle = {
+  isClock: false,
   title: '路況即時報',
-  iconImg: 'assets/icons/sign.svg'
+  icon: 'campaign',
+  textColor: 'dark'
 }
 
 const newsType = [

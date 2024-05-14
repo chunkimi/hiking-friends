@@ -44,15 +44,13 @@
       :style="{ backgroundImage: isMediaLgUp ? `url(${gradedListInfo.bgImg.right})` : 'none' }"
     >
       <div class="container">
-        <div class="d-flex flex-column justify-content-center align-items-center mb-10">
-          <img
-            :src="getImageUrl(gradedListInfo.titleIcon)"
-            alt="title-icon"
-            class="title-icon--semicircle mb-2"
-          />
-          <h3 class="fs-6 fw-bold">{{ gradedListInfo.title }}</h3>
-        </div>
-        <ul class="list-unstyled row">
+        <IconTitle
+          :is-clock-line="gradedListInfo.title.isClock"
+          :icon="gradedListInfo.title.icon"
+          :color="gradedListInfo.title.textColor"
+          :title-text="gradedListInfo.title.title"
+        ></IconTitle>
+        <ul class="list-unstyled row mt-10">
           <li
             class="col-12 col-lg-4 mb-6 mb-lg-0"
             v-for="recommendItem in recommendTrails"
@@ -99,6 +97,7 @@
 </template>
 <script setup>
 import { getImageUrl, turnTrailImgPath } from '@/utils/base'
+import IconTitle from '@/components/front/base/IconTitle.vue'
 import treeIcon from '@/assets/illustration/tree--light.svg'
 import personIcon from '@/assets/illustration/person-medium--light.svg'
 
@@ -106,8 +105,12 @@ import { useMediaQuery } from '@vueuse/core'
 const isMediaLgUp = useMediaQuery('(min-width: 992px)')
 
 const gradedListInfo = {
-  title: '來去步道',
-  titleIcon: 'assets/icons/person.svg',
+  title: {
+    isClock: false,
+    title: '來去步道',
+    icon: 'directions_walk',
+    textColor: 'dark'
+  },
   bgImg: {
     left: personIcon,
     right: treeIcon
