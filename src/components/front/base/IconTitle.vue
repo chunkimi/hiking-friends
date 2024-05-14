@@ -60,8 +60,8 @@ $pointerScale: 9.43px;
             transform: isClockLine
               ? `rotate(${9 * i}deg)`
               : i < 11 || i > 29
-              ? `rotate(${9 * i}deg)`
-              : null
+                ? `rotate(${9 * i}deg)`
+                : null
           }"
         ></div>
         <span

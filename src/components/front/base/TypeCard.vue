@@ -1,5 +1,4 @@
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
 <template>
   <div class="h-100">
     <IconTitle
