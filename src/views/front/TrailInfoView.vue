@@ -12,18 +12,25 @@
 
 <template>
   <div class="container d-grid gap-5">
-    <div class="py-15">
+    <div class="py-15 mb-15 mb-lg-0">
       <PurposeTitle :trail-info="curTrailData" />
     </div>
-    <div class="row py-15">
-      <div class="col-12 col-lg-3"></div>
+    <div class="row flex-lg-row-reverse py-15">
+      <div class="col-12 col-lg-8 offset-lg-1 mb-15 mb-lg-0"></div>
+      <div class="col-6 mx-auto mx-lg-0 col-lg-3">
+        <RoadCondition
+          :all-trails-news="trailsNewsData"
+          :trail-id="curTrailId"
+          :title="sectionTitle.roadCondition"
+        />
+      </div>
     </div>
     <div class="py-15">
       <BaseInfo :title="sectionTitle.secondaryInfo" :trail-info="curTrailData" />
-      <div class="d-flex justify-content-center py-8">
+      <div class="d-flex justify-content-center pt-8">
         <button
           type="button"
-          class="btn btn-sm border border-secondary rounded-circle"
+          class="btn btn-sm border border-secondary rounded-circle d-flex align-items-center"
           @click="toggleTertiaryCollapse"
         >
           <span class="material-icons"> expand_more </span>
@@ -43,9 +50,10 @@ import { useRoute } from 'vue-router'
 
 import PurposeTitle from '@/components/front/info/PurposeTitle.vue'
 import BaseInfo from '@/components/front/info/BaseInfo.vue'
+import RoadCondition from '@/components/front/info/RoadCondition.vue'
 
 import trailsData from '@/data/dummy/allTrailsInfo.json'
-// import trailsNewsData from '@/data/dummy/allTrailsNews.json'
+import trailsNewsData from '@/data/dummy/allTrailsNews.json'
 
 const route = useRoute()
 const curTrailId = route.params.trail
@@ -57,15 +65,15 @@ const sectionTitle = {
       isClock: false,
       title: '路況即時報',
       icon: 'campaign',
-      textColor: 'dark'
+      textColor: 'light'
     },
     itemTitle: [
-      { type: 'TITLE', name: '標題' },
-      { type: 'CONTENT', name: '全文' },
+      { type: 'TITLE', name: '警報標題' },
       { type: 'TR_SUB', name: '路段' },
       { type: 'ANN_DATE', name: '發布日期' },
       { type: 'opendate', name: '封閉起始日' },
-      { type: 'closedate', name: '預計開放日' }
+      { type: 'closedate', name: '預計開放日' },
+      { type: 'CONTENT', name: '詳細說明' }
     ]
   },
   secondaryInfo: {

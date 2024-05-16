@@ -76,6 +76,7 @@
 </template>
 <script setup>
 import { getTrailImgUrl } from '@/utils/base'
+
 defineProps({
   trailInfo: {
     type: Object,

@@ -22,7 +22,7 @@
 </style>
 
 <template>
-  <div class="bg-primary opacity-50 py-4">
+  <div class="bg-primary bg-opacity-50 py-4">
     <div class="container">
       <div class="d-flex justify-content-center"><SearchBar /></div>
     </div>
