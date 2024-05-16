@@ -56,7 +56,7 @@
         <div
           class="trail-subject__head d-flex flex-column justify-content-center align-items-end align-items-xl-start"
         >
-          <p class="text-secondary p-0 m-0">{{ trailInfo.TR_POSITION }}</p>
+          <p class="text-darken p-0 m-0">{{ trailInfo.TR_POSITION }}</p>
           <h2 class="h2 text-success text-end text-xl-start my-4">
             {{ trailInfo.TR_CNAME }}
           </h2>
