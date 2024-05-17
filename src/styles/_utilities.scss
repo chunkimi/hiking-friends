@@ -73,19 +73,6 @@ $utilities: map-merge(
 $utilities: map-merge(
   $utilities,
   (
-    'bg-opacity': (
-      property: opacity,
-      class: bg-opacity,
-      values: (
-        90: 0.9
-      )
-    )
-  )
-);
-
-$utilities: map-merge(
-  $utilities,
-  (
     'cursor': (
       property: cursor,
       class: cursor,

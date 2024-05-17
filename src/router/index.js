@@ -24,13 +24,11 @@ const routes = [
         component: FrontIndexView
       },
       {
-        //步道主題介紹
         path: 'trails-intro',
         name: 'TrailsIntro',
         component: TrailsIntroView
       },
       {
-        //步道總覽與搜尋
         path: 'trails-list',
         name: 'TrailsList',
         component: TrailsListView
