@@ -10,20 +10,7 @@
     <div class="d-grid gap-5">
       <!-- menu -->
       <div class="d-flex justify-content-end">
-        <span
-          class="material-icons fs-4 fw-bold me-3 cursor-pointer"
-          @click="switchMode('card')"
-          :class="isCurCardMode ? 'text-success' : 'text-secondary'"
-        >
-          dashboard
-        </span>
-        <span
-          class="material-icons fs-4 fw-bold cursor-pointer"
-          @click="switchMode('columnar')"
-          :class="isCurCardMode ? 'text-secondary' : 'text-success'"
-        >
-          format_list_bulleted
-        </span>
+        <BrowseMode v-model:selected-mode="curMode" />
       </div>
       <div class="row" v-if="isCurCardMode">
         <InfoCard
@@ -75,10 +62,16 @@
 import { ref, computed } from 'vue'
 
 import SearchBar from '@/components/front/base/SearchBar.vue'
+import BrowseMode from '@/components/front/base/BrowseMode.vue'
 import InfoCard from '@/components/front/list/InfoCard.vue'
 import InfoColumnar from '@/components/front/list/InfoColumnar.vue'
 
 import trailsData from '@/data/dummy/allTrailsInfo.json'
+
+const curMode = ref('card')
+const isCurCardMode = computed(() => {
+  return curMode.value === 'card' ? true : false
+})
 
 const trailInfoBtn = {
   moreInfo: {
@@ -119,15 +112,6 @@ function changePage(page) {
     currentPage.value = page
     curPageTrails.value = getTrailsByPage(page)
     console.log('changePage', page)
-  }
-}
-
-let isCurCardMode = ref(true)
-function switchMode(mode) {
-  const isCard = mode === 'card' ? true : false
-  if (isCurCardMode.value === isCard) return
-  if (isCurCardMode.value !== isCard) {
-    isCurCardMode.value = !isCurCardMode.value
   }
 }
 </script>
