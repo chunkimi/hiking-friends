@@ -33,7 +33,8 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { onBeforeRouteLeave } from 'vue-router'
 
 import SearchBar from '@/components/front/base/SearchBar.vue'
 import BrowseMode from '@/components/front/base/BrowseMode.vue'
@@ -75,6 +76,26 @@ const numberOfPages = computed(() => Math.ceil(trailNum.value / perPageTrails))
 const currentPage = ref(1)
 const filterTrails = ref([])
 const curPageTrails = ref(getTrailsByPage(currentPage.value))
+
+onBeforeRouteLeave((to, from, next) => {
+  const savedPage = sessionStorage.getItem('currentPage')
+  if (savedPage) {
+    sessionStorage.removeItem('currentPage')
+  }
+  if (from.name === 'TrailsList' && to.name === 'TrailInfo') {
+    sessionStorage.setItem('currentPage', currentPage.value)
+  }
+  next()
+})
+
+onMounted(() => {
+  const savedPage = sessionStorage.getItem('currentPage')
+  if (savedPage) {
+    currentPage.value = parseInt(savedPage)
+    curPageTrails.value = getTrailsByPage(currentPage.value)
+    sessionStorage.removeItem('currentPage')
+  }
+})
 
 function getTrailsByPage(pageNum) {
   const data = filterTrails.value.length !== 0 ? filterTrails : trailsData

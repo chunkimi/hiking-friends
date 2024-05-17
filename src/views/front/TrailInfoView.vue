@@ -59,7 +59,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, onBeforeRouteLeave } from 'vue-router'
 
 import GoBackIcon from '@/components/front/base/GoBackIcon.vue'
 import PurposeTitle from '@/components/front/info/PurposeTitle.vue'
@@ -72,6 +72,10 @@ import trailsNewsData from '@/data/dummy/allTrailsNews.json'
 const route = useRoute()
 const curTrailId = route.params.trail
 const curTrailData = ref(trailsData.find((item) => item.TRAILID === curTrailId) || {})
+
+onBeforeRouteLeave((to, from, next) => {
+  next()
+})
 
 const sectionTitle = {
   roadCondition: {
