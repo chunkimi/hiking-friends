@@ -1,5 +1,3 @@
-<style lang="scss" scoped></style>
-
 <template>
   <div class="bg-primary bg-opacity-50 py-4">
     <div class="container">
@@ -8,7 +6,6 @@
   </div>
   <div class="container py-15">
     <div class="d-grid gap-5">
-      <!-- menu -->
       <div class="d-flex justify-content-end">
         <BrowseMode v-model:selected-mode="curMode" />
       </div>
@@ -26,34 +23,11 @@
           :trail-info-title="trailInfoTitle"
         ></InfoColumnar>
       </ol>
-      <div class="d-flex justify-content-center">
-        <nav aria-label="Page navigation example">
-          <div class="d-flex justify-content-center">
-            <nav aria-label="Page navigation example ">
-              <ul class="pagination">
-                <li class="page-item" @click="changePage(currentPage - 1)">
-                  <p class="page-link bg-transparent cursor-pointer" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </p>
-                </li>
-                <li
-                  class="page-item"
-                  v-for="page in numberOfPages"
-                  :key="page"
-                  @click="changePage(page)"
-                >
-                  <p class="page-link bg-transparent cursor-pointer" href="#">{{ page }}</p>
-                </li>
-                <li class="page-item" @click="changePage(currentPage + 1)">
-                  <p class="page-link bg-transparent cursor-pointer" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </p>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </nav>
-      </div>
+      <PaginationNav
+        :current-page="currentPage"
+        :number-of-pages="numberOfPages"
+        @changePage="changePage"
+      />
     </div>
   </div>
 </template>
@@ -65,6 +39,7 @@ import SearchBar from '@/components/front/base/SearchBar.vue'
 import BrowseMode from '@/components/front/base/BrowseMode.vue'
 import InfoCard from '@/components/front/list/InfoCard.vue'
 import InfoColumnar from '@/components/front/list/InfoColumnar.vue'
+import PaginationNav from '@/components/front/base/PaginationNav.vue'
 
 import trailsData from '@/data/dummy/allTrailsInfo.json'
 
@@ -111,7 +86,14 @@ function changePage(page) {
   if (page >= 1 && page <= numberOfPages.value) {
     currentPage.value = page
     curPageTrails.value = getTrailsByPage(page)
-    console.log('changePage', page)
+    scrollToTop()
   }
+}
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
 }
 </script>

@@ -43,11 +43,9 @@ const modeData = [
 ]
 const modeModal = computed({
   get() {
-    console.log('get')
     return props.selectedMode
   },
   set(value) {
-    console.log('set')
     emit('update:selectedMode', value)
   }
 })
