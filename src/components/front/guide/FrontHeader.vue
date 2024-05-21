@@ -106,7 +106,16 @@
               :key="item.title"
               class="nav-item pt-10 pt-lg-2 me-lg-6 text-center menu__item"
             >
-              <router-link :to="item.to" class="nav-link fs-5" aria-current="page">
+              <router-link
+                :to="item.to"
+                class="nav-link fs-5"
+                aria-current="page"
+                v-if="item.to.name === 'TrailsList'"
+                @click="reloadList"
+              >
+                {{ item.title }}
+              </router-link>
+              <router-link :to="item.to" class="nav-link fs-5" aria-current="page" v-else>
                 {{ item.title }}
               </router-link>
             </li>
@@ -123,7 +132,7 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import { useMediaQuery } from '@vueuse/core'
 const isMediaLgUp = useMediaQuery('(min-width: 992px)')
 
@@ -133,6 +142,20 @@ import logoLight from '@/assets/logo/logo--light--sm.svg'
 const headerInfo = {
   logo,
   logoLight
+}
+
+const route = useRoute()
+
+function reloadList() {
+  const currentRoute = route.fullPath
+  const targetRoute = '/trails-list'
+  const isListReloading = sessionStorage.getItem('listReloading')
+  if (currentRoute === targetRoute && isListReloading) {
+    window.location.reload()
+    return
+  }
+  sessionStorage.setItem('infoToList', true)
+  sessionStorage.setItem('listAlready', true)
 }
 
 const menuData = [

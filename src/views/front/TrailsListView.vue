@@ -73,29 +73,45 @@ const trailInfoTitle = [
 const perPageTrails = 12
 const trailNum = ref(trailsData.length)
 const numberOfPages = computed(() => Math.ceil(trailNum.value / perPageTrails))
+
 const currentPage = ref(1)
 const filterTrails = ref([])
-const curPageTrails = ref(getTrailsByPage(currentPage.value))
+const curPageTrails = ref([])
 
-onBeforeRouteLeave((to, from, next) => {
-  const savedPage = sessionStorage.getItem('currentPage')
-  if (savedPage) {
-    sessionStorage.removeItem('currentPage')
-  }
-  if (from.name === 'TrailsList' && to.name === 'TrailInfo') {
-    sessionStorage.setItem('currentPage', currentPage.value)
-  }
-  next()
-})
-
+// trailsList 和 trailInfo之前路徑觸發
 onMounted(() => {
+  const isTriggerInfoToList = sessionStorage.getItem('infoToList')
   const savedPage = sessionStorage.getItem('currentPage')
+  if (isTriggerInfoToList && savedPage) {
+    sessionStorage.removeItem('currentPage')
+    sessionStorage.removeItem('infoToList')
+    sessionStorage.removeItem('listAlready')
+    trailsDataInit()
+    return
+  }
   if (savedPage) {
     currentPage.value = parseInt(savedPage)
     curPageTrails.value = getTrailsByPage(currentPage.value)
     sessionStorage.removeItem('currentPage')
+    sessionStorage.removeItem('infoToList')
+    sessionStorage.removeItem('listAlready')
+  } else {
+    trailsDataInit()
   }
 })
+
+onBeforeRouteLeave((to, from, next) => {
+  if (from.name === 'TrailsList' && to.name === 'TrailInfo') {
+    sessionStorage.setItem('currentPage', currentPage.value)
+    sessionStorage.removeItem('listAlready')
+  }
+  next()
+})
+
+function trailsDataInit() {
+  currentPage.value = 1
+  curPageTrails.value = getTrailsByPage(currentPage.value)
+}
 
 function getTrailsByPage(pageNum) {
   const data = filterTrails.value.length !== 0 ? filterTrails : trailsData

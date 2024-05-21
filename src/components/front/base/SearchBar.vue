@@ -46,5 +46,4 @@
     </button>
   </form>
 </template>
-
 <script setup></script>
