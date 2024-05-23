@@ -147,7 +147,6 @@ const headerInfo = {
 const route = useRoute()
 
 function reloadList() {
-  console.log('reloadList')
   const currentRoute = route.fullPath
   const targetTrailsList = '/trails-list'
   const isListAlready = sessionStorage.getItem('listAlready')

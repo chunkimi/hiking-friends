@@ -1,7 +1,9 @@
 <template>
   <div class="bg-primary bg-opacity-50 py-4">
     <div class="container">
-      <div class="d-flex justify-content-center"><SearchBar /></div>
+      <div class="d-flex justify-content-center">
+        <SearchBar @search-data="handleSearch" @search-reset="handleReset" />
+      </div>
     </div>
   </div>
   <div class="container py-15">
@@ -70,21 +72,46 @@ const trailInfoTitle = [
   { type: 'TR_DIF_CLASS', name: '難度', icon: 'bi-reception-4' }
 ]
 
+const allTrails = ref(trailsData)
+const searchKeyword = ref('')
+const filterTrails = ref([])
 const perPageTrails = 12
-const trailNum = ref(trailsData.length)
+const isAllTrails = computed(() => (filterTrails.value.length === 0 ? true : false))
+
+const trailNum = computed(() => {
+  return isAllTrails.value ? allTrails.value.length : filterTrails.value.length
+})
 const numberOfPages = computed(() => Math.ceil(trailNum.value / perPageTrails))
 
 const currentPage = ref(1)
-const filterTrails = ref([])
 const curPageTrails = ref([])
 
 onMounted(() => {
   const isFromInfoToList = sessionStorage.getItem('infoToList')
+  const saveKeyword = sessionStorage.getItem('searchKeyword')
   const savedPage = sessionStorage.getItem('currentPage')
-  if (isFromInfoToList && savedPage) {
-    trailsDataInit()
+  const isFromInfoToListReload = isFromInfoToList && savedPage ? true : false
+
+  if (isFromInfoToListReload & saveKeyword || isFromInfoToListReload) {
     sessionStorage.removeItem('currentPage')
     sessionStorage.removeItem('infoToList')
+    if (saveKeyword) {
+      sessionStorage.removeItem('searchKeyword')
+    }
+    trailsDataInit()
+    console.log('4+5')
+    return
+  }
+  if (savedPage && saveKeyword) {
+    searchKeyword.value = saveKeyword
+    filterTrails.value = allTrails.value.filter((item) =>
+      item.TR_CNAME.includes(searchKeyword.value)
+    )
+    currentPage.value = parseInt(savedPage)
+    curPageTrails.value = getTrailsByPage(currentPage.value)
+    sessionStorage.removeItem('currentPage')
+    sessionStorage.removeItem('searchKeyword')
+    console.log('3')
     return
   }
   if (savedPage) {
@@ -92,18 +119,42 @@ onMounted(() => {
     curPageTrails.value = getTrailsByPage(currentPage.value)
     sessionStorage.removeItem('currentPage')
     sessionStorage.removeItem('infoToList')
+    console.log('2')
+    return
   } else {
     sessionStorage.setItem('listAlready', true)
     trailsDataInit()
+    console.log('1+6')
   }
 })
 
 onBeforeRouteLeave((to, from, next) => {
+  if (!isAllTrails.value) {
+    sessionStorage.setItem('searchKeyword', searchKeyword.value)
+  }
   if (from.name === 'TrailsList' && to.name === 'TrailInfo') {
     sessionStorage.setItem('currentPage', currentPage.value)
   }
   next()
 })
+
+function handleSearch(queryValue) {
+  if (queryValue.length !== 0) {
+    searchKeyword.value = queryValue
+    filterTrails.value = allTrails.value.filter((item) =>
+      item.TR_CNAME.includes(searchKeyword.value)
+    )
+    trailsDataInit()
+  }
+}
+
+function handleReset(isReset) {
+  if (isReset) {
+    searchKeyword.value = ''
+    filterTrails.value = []
+    trailsDataInit()
+  }
+}
 
 function trailsDataInit() {
   currentPage.value = 1
@@ -111,7 +162,7 @@ function trailsDataInit() {
 }
 
 function getTrailsByPage(pageNum) {
-  const data = filterTrails.value.length !== 0 ? filterTrails : trailsData
+  const data = isAllTrails.value ? allTrails.value : filterTrails.value
   const startIndex = (pageNum - 1) * perPageTrails
   return data.slice(startIndex, startIndex + perPageTrails)
 }
