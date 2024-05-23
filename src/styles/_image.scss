@@ -7,17 +7,6 @@ $bg-spacer: 3rem;
   }
 }
 
-.title-icon {
-  &--semicircle {
-    width: 120px;
-    height: 60px;
-  }
-  &--circle {
-    width: 120px;
-    height: 120px;
-  }
-}
-
 .brand {
   &__img {
     @include img-replace-text;

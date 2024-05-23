@@ -17,6 +17,8 @@
     border-radius: 1000px;
   }
   &__btn {
+    display: flex;
+    justify-content: center;
     width: 40px;
     height: 40px;
     color: $dark;
@@ -42,8 +44,12 @@
       aria-label="Search"
     />
     <button class="btn rounded-circle search__btn" type="submit">
-      <i class="bi bi-search"></i>
+      <span class="material-icons"> search </span>
+    </button>
+    <button class="btn rounded-circle search__btn ms-3" type="submit">
+      <span class="material-icons"> restart_alt </span>
     </button>
   </form>
 </template>
+
 <script setup></script>

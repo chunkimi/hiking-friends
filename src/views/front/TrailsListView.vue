@@ -80,13 +80,12 @@ const curPageTrails = ref([])
 
 // trailsList 和 trailInfo之前路徑觸發
 onMounted(() => {
-  const isTriggerInfoToList = sessionStorage.getItem('infoToList')
+  const isFromInfoToList = sessionStorage.getItem('infoToList')
   const savedPage = sessionStorage.getItem('currentPage')
-  if (isTriggerInfoToList && savedPage) {
+  if (isFromInfoToList && savedPage) {
+    trailsDataInit()
     sessionStorage.removeItem('currentPage')
     sessionStorage.removeItem('infoToList')
-    sessionStorage.removeItem('listAlready')
-    trailsDataInit()
     return
   }
   if (savedPage) {
@@ -94,8 +93,8 @@ onMounted(() => {
     curPageTrails.value = getTrailsByPage(currentPage.value)
     sessionStorage.removeItem('currentPage')
     sessionStorage.removeItem('infoToList')
-    sessionStorage.removeItem('listAlready')
   } else {
+    sessionStorage.setItem('listAlready', true)
     trailsDataInit()
   }
 })
@@ -103,7 +102,6 @@ onMounted(() => {
 onBeforeRouteLeave((to, from, next) => {
   if (from.name === 'TrailsList' && to.name === 'TrailInfo') {
     sessionStorage.setItem('currentPage', currentPage.value)
-    sessionStorage.removeItem('listAlready')
   }
   next()
 })

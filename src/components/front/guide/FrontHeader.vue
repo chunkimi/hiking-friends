@@ -147,15 +147,17 @@ const headerInfo = {
 const route = useRoute()
 
 function reloadList() {
+  console.log('reloadList')
   const currentRoute = route.fullPath
-  const targetRoute = '/trails-list'
-  const isListReloading = sessionStorage.getItem('listReloading')
-  if (currentRoute === targetRoute && isListReloading) {
+  const targetTrailsList = '/trails-list'
+  const isListAlready = sessionStorage.getItem('listAlready')
+  if (currentRoute === targetTrailsList && isListAlready) {
     window.location.reload()
-    return
   }
-  sessionStorage.setItem('infoToList', true)
-  sessionStorage.setItem('listAlready', true)
+
+  if (currentRoute.includes('trail-info')) {
+    sessionStorage.setItem('infoToList', true)
+  }
 }
 
 const menuData = [
