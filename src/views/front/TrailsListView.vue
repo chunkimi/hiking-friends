@@ -78,7 +78,6 @@ const currentPage = ref(1)
 const filterTrails = ref([])
 const curPageTrails = ref([])
 
-// trailsList 和 trailInfo之前路徑觸發
 onMounted(() => {
   const isFromInfoToList = sessionStorage.getItem('infoToList')
   const savedPage = sessionStorage.getItem('currentPage')

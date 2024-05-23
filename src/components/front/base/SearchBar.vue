@@ -40,16 +40,33 @@
     <input
       class="form-control me-3 search__input"
       type="search"
-      placeholder="探索步道"
       aria-label="Search"
+      :placeholder="searchSetting.placeholder"
     />
-    <button class="btn rounded-circle search__btn" type="submit">
-      <span class="material-icons"> search </span>
+
+    <button class="btn rounded-circle search__btn" type="submit" @click="searchData">
+      <span class="material-icons"> {{ searchSetting.optionBtn.search }} </span>
     </button>
-    <button class="btn rounded-circle search__btn ms-3" type="submit">
-      <span class="material-icons"> restart_alt </span>
+    <button class="btn rounded-circle search__btn ms-3" type="button" @click="resetSearch">
+      <span class="material-icons"> {{ searchSetting.optionBtn.reset }} </span>
     </button>
   </form>
 </template>
 
-<script setup></script>
+<script setup>
+const searchSetting = {
+  placeholder: '探索步道',
+  optionBtn: {
+    search: 'search',
+    reset: 'restart_alt'
+  }
+}
+
+function searchData() {
+  console.log('內層searchData')
+}
+
+function resetSearch() {
+  console.log('內層resetSearch')
+}
+</script>
