@@ -44,11 +44,15 @@
       :placeholder="searchSetting.placeholder"
       v-model="queryWord"
     />
-
     <button class="btn rounded-circle search__btn" type="submit">
       <span class="material-icons"> {{ searchSetting.optionBtn.search }} </span>
     </button>
-    <button class="btn rounded-circle search__btn ms-3" type="button" @click.prevent="resetSearch">
+    <button
+      class="btn rounded-circle search__btn ms-3"
+      type="button"
+      @click.prevent="resetSearch"
+      v-if="hasResetBtn"
+    >
       <span class="material-icons"> {{ searchSetting.optionBtn.reset }} </span>
     </button>
   </form>
@@ -56,6 +60,7 @@
 
 <script setup>
 import { ref } from 'vue'
+
 const searchSetting = {
   placeholder: '探索步道',
   optionBtn: {
@@ -64,9 +69,15 @@ const searchSetting = {
   }
 }
 
-const queryWord = ref('')
+defineProps({
+  hasResetBtn: {
+    type: Boolean,
+    required: true
+  }
+})
 
 const emit = defineEmits(['search-data', 'search-reset'])
+const queryWord = ref('')
 
 function onSearch() {
   const trimmedQuery = queryWord.value.trim()
@@ -75,7 +86,6 @@ function onSearch() {
   } else {
     queryWord.value = ''
     console.log('Query is empty after trimming, no search performed.')
-    // 增加示警樣式+觸發頁面reset
     alert('輸入空白呢，讓我們回到登山口吧')
     resetSearch()
   }

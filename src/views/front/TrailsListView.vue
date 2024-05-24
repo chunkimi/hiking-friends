@@ -2,7 +2,11 @@
   <div class="bg-primary bg-opacity-50 py-4">
     <div class="container">
       <div class="d-flex justify-content-center">
-        <SearchBar @search-data="handleSearch" @search-reset="handleReset" />
+        <SearchBar
+          @search-data="renderScenario.handleSearch"
+          @search-reset="renderScenario.handleReset"
+          :has-reset-btn="hasResetBtn"
+        />
       </div>
     </div>
   </div>
@@ -28,7 +32,7 @@
       <PaginationNav
         :current-page="currentPage"
         :number-of-pages="numberOfPages"
-        @changePage="changePage"
+        @changePage="renderByPageNum.changePage"
       />
     </div>
   </div>
@@ -36,7 +40,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { onBeforeRouteLeave } from 'vue-router'
+import { onBeforeRouteLeave, useRoute } from 'vue-router'
 
 import SearchBar from '@/components/front/base/SearchBar.vue'
 import BrowseMode from '@/components/front/base/BrowseMode.vue'
@@ -45,11 +49,6 @@ import InfoColumnar from '@/components/front/list/InfoColumnar.vue'
 import PaginationNav from '@/components/front/base/PaginationNav.vue'
 
 import trailsData from '@/data/dummy/allTrailsInfo.json'
-
-const curMode = ref('card')
-const isCurCardMode = computed(() => {
-  return curMode.value === 'card' ? true : false
-})
 
 const trailInfoBtn = {
   moreInfo: {
@@ -72,12 +71,89 @@ const trailInfoTitle = [
   { type: 'TR_DIF_CLASS', name: '難度', icon: 'bi-reception-4' }
 ]
 
+const renderByPageNum = {
+  pageNumInit() {
+    currentPage.value = 1
+    curPageTrails.value = renderByPageNum.getTrailsByPage(currentPage.value)
+  },
+  getTrailsByPage(pageNum) {
+    const data = isAllTrails.value ? allTrails.value : filterTrails.value
+    const startIndex = (pageNum - 1) * perPageTrails
+    return data.slice(startIndex, startIndex + perPageTrails)
+  },
+  changePage(page) {
+    if (page >= 1 && page <= numberOfPages.value) {
+      currentPage.value = page
+      curPageTrails.value = renderByPageNum.getTrailsByPage(page)
+      scrollToTop()
+    }
+  }
+}
+
+const renderScenario = {
+  savePage(savedPage) {
+    currentPage.value = parseInt(savedPage)
+    curPageTrails.value = renderByPageNum.getTrailsByPage(currentPage.value)
+    sessionStorage.removeItem('currentPage')
+    sessionStorage.removeItem('infoToList')
+  },
+  fromInfoToList(saveKeyword) {
+    sessionStorage.removeItem('currentPage')
+    sessionStorage.removeItem('infoToList')
+    if (saveKeyword) {
+      sessionStorage.removeItem('searchKeyword')
+    }
+    renderByPageNum.pageNumInit()
+  },
+  saveSearchResult(savedPage, saveKeyword) {
+    searchKeyword.value = saveKeyword
+    filterTrails.value = searchByKeyword.trailName(searchKeyword.value)
+    currentPage.value = parseInt(savedPage)
+    curPageTrails.value = renderByPageNum.getTrailsByPage(currentPage.value)
+    sessionStorage.removeItem('currentPage')
+    sessionStorage.removeItem('searchKeyword')
+  },
+  indexToSearch() {
+    const route = useRoute()
+    searchKeyword.value = route.query.queryValue
+    filterTrails.value = searchByKeyword.trailName(searchKeyword.value)
+
+    sessionStorage.removeItem('indexToSearch')
+    sessionStorage.setItem('listAlready', true)
+    renderByPageNum.pageNumInit()
+  },
+  handleSearch(queryValue) {
+    if (queryValue.length !== 0) {
+      searchKeyword.value = queryValue
+      filterTrails.value = searchByKeyword.trailName(searchKeyword.value)
+      renderByPageNum.pageNumInit()
+    }
+  },
+  handleReset(isReset) {
+    if (isReset) {
+      searchKeyword.value = ''
+      filterTrails.value = []
+      renderByPageNum.pageNumInit()
+    }
+  }
+}
+
+const searchByKeyword = {
+  trailName(keyword) {
+    return allTrails.value.filter((item) => item.TR_CNAME.includes(keyword))
+  }
+}
+
+const hasResetBtn = true
+const curMode = ref('card')
+const isCurCardMode = computed(() => {
+  return curMode.value === 'card' ? true : false
+})
 const allTrails = ref(trailsData)
 const searchKeyword = ref('')
 const filterTrails = ref([])
-const perPageTrails = 12
 const isAllTrails = computed(() => (filterTrails.value.length === 0 ? true : false))
-
+const perPageTrails = 12
 const trailNum = computed(() => {
   return isAllTrails.value ? allTrails.value.length : filterTrails.value.length
 })
@@ -87,43 +163,38 @@ const currentPage = ref(1)
 const curPageTrails = ref([])
 
 onMounted(() => {
+  const isIndexToSearch = sessionStorage.getItem('indexToSearch')
   const isFromInfoToList = sessionStorage.getItem('infoToList')
   const saveKeyword = sessionStorage.getItem('searchKeyword')
   const savedPage = sessionStorage.getItem('currentPage')
-  const isFromInfoToListReload = isFromInfoToList && savedPage ? true : false
 
+  const isFromInfoToListReload = isFromInfoToList && savedPage ? true : false
+  // console.log('isAllTrails.value', isAllTrails.value)
+  // const isListAlready = sessionStorage.getItem('listAlready')
+  // console.log('isListAlready', isListAlready)
+
+  if (isIndexToSearch) {
+    renderScenario.indexToSearch()
+    console.log('從首頁進入搜尋')
+    return
+  }
   if (isFromInfoToListReload & saveKeyword || isFromInfoToListReload) {
-    sessionStorage.removeItem('currentPage')
-    sessionStorage.removeItem('infoToList')
-    if (saveKeyword) {
-      sessionStorage.removeItem('searchKeyword')
-    }
-    trailsDataInit()
+    renderScenario.fromInfoToList(saveKeyword)
     console.log('4+5')
     return
   }
   if (savedPage && saveKeyword) {
-    searchKeyword.value = saveKeyword
-    filterTrails.value = allTrails.value.filter((item) =>
-      item.TR_CNAME.includes(searchKeyword.value)
-    )
-    currentPage.value = parseInt(savedPage)
-    curPageTrails.value = getTrailsByPage(currentPage.value)
-    sessionStorage.removeItem('currentPage')
-    sessionStorage.removeItem('searchKeyword')
+    renderScenario.saveSearchResult(savedPage, saveKeyword)
     console.log('3')
     return
   }
   if (savedPage) {
-    currentPage.value = parseInt(savedPage)
-    curPageTrails.value = getTrailsByPage(currentPage.value)
-    sessionStorage.removeItem('currentPage')
-    sessionStorage.removeItem('infoToList')
+    renderScenario.savePage(savedPage)
     console.log('2')
     return
   } else {
     sessionStorage.setItem('listAlready', true)
-    trailsDataInit()
+    renderByPageNum.pageNumInit()
     console.log('1+6')
   }
 })
@@ -135,45 +206,11 @@ onBeforeRouteLeave((to, from, next) => {
   if (from.name === 'TrailsList' && to.name === 'TrailInfo') {
     sessionStorage.setItem('currentPage', currentPage.value)
   }
+  if (to.name !== 'TrailInfo' && to.name !== 'TrailsList') {
+    sessionStorage.removeItem('listAlready')
+  }
   next()
 })
-
-function handleSearch(queryValue) {
-  if (queryValue.length !== 0) {
-    searchKeyword.value = queryValue
-    filterTrails.value = allTrails.value.filter((item) =>
-      item.TR_CNAME.includes(searchKeyword.value)
-    )
-    trailsDataInit()
-  }
-}
-
-function handleReset(isReset) {
-  if (isReset) {
-    searchKeyword.value = ''
-    filterTrails.value = []
-    trailsDataInit()
-  }
-}
-
-function trailsDataInit() {
-  currentPage.value = 1
-  curPageTrails.value = getTrailsByPage(currentPage.value)
-}
-
-function getTrailsByPage(pageNum) {
-  const data = isAllTrails.value ? allTrails.value : filterTrails.value
-  const startIndex = (pageNum - 1) * perPageTrails
-  return data.slice(startIndex, startIndex + perPageTrails)
-}
-
-function changePage(page) {
-  if (page >= 1 && page <= numberOfPages.value) {
-    currentPage.value = page
-    curPageTrails.value = getTrailsByPage(page)
-    scrollToTop()
-  }
-}
 
 function scrollToTop() {
   window.scrollTo({

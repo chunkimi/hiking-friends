@@ -148,12 +148,13 @@ const route = useRoute()
 
 function reloadList() {
   const currentRoute = route.fullPath
-  const targetTrailsList = '/trails-list'
   const isListAlready = sessionStorage.getItem('listAlready')
-  if (currentRoute === targetTrailsList && isListAlready) {
+  console.log('currentRoute', currentRoute)
+  console.log('reloadList-isListAlready', isListAlready)
+  if (currentRoute.includes('trails-list') && isListAlready) {
+    sessionStorage.removeItem('listAlready')
     window.location.reload()
   }
-
   if (currentRoute.includes('trail-info')) {
     sessionStorage.setItem('infoToList', true)
   }
