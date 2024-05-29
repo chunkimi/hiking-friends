@@ -69,7 +69,7 @@ const bannerSetting = {
 const router = useRouter()
 function searchToList(queryValue) {
   if (queryValue.length !== 0) {
-    sessionStorage.setItem('indexToSearch', true)
+    sessionStorage.setItem('outerToSearch', true)
     router.push({ name: 'TrailsList', query: { queryValue } })
   }
 }

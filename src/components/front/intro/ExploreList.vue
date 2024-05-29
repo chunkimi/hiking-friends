@@ -29,8 +29,6 @@ const exploreListTitle = {
   textColor: 'dark'
 }
 
-const isKeywordLink = true
-
 const exploreGuideData = [
   {
     title: {
@@ -50,7 +48,7 @@ const exploreGuideData = [
       textColor: 'info'
     },
     subtitle: '探索不同類型與定位',
-    keywords: ['國家級步道', '區域步道']
+    keywords: ['國家步道', '區域步道']
   },
   {
     title: {
@@ -63,4 +61,5 @@ const exploreGuideData = [
     keywords: ['半日遊程', '一日鍛鍊', '多日挑戰']
   }
 ]
+const isKeywordLink = true
 </script>

@@ -207,11 +207,11 @@ const renderScenario = {
     }
     renderByPageNum.pageNumInit()
   },
-  fromIndexToSearch() {
+  fromOuterToSearch() {
     const route = useRoute()
     searchKeyword.value = route.query.queryValue
     filterTrails.value = searchByKeyword.trailAll(searchKeyword.value)
-    sessionStorage.removeItem('indexToSearch')
+    sessionStorage.removeItem('outerToSearch')
     sessionStorage.setItem('listAlready', true)
     renderByPageNum.pageNumInit()
   }
@@ -236,15 +236,15 @@ const currentPage = ref(1)
 const curPageTrails = ref([])
 
 onMounted(() => {
-  const isIndexToSearch = sessionStorage.getItem('indexToSearch')
+  const isOuterToSearch = sessionStorage.getItem('outerToSearch')
   const isFromInfoToList = sessionStorage.getItem('infoToList')
   const saveKeyword = sessionStorage.getItem('searchKeyword')
   const savedPage = sessionStorage.getItem('currentPage')
   const isFromInfoToListReload = isFromInfoToList && savedPage ? true : false
 
-  if (isIndexToSearch) {
-    renderScenario.fromIndexToSearch()
-    console.log('從首頁進入搜尋')
+  if (isOuterToSearch) {
+    renderScenario.fromOuterToSearch()
+    console.log('從外層進入搜尋')
     return
   }
   if (isFromInfoToListReload & saveKeyword || isFromInfoToListReload) {
