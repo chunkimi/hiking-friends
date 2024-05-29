@@ -58,7 +58,7 @@ const exploreGuideData = [
       textColor: 'warning'
     },
     subtitle: '根據時間計畫選擇理想步道',
-    keywords: ['半日遊程', '一日鍛鍊', '兩天一夜', '多日挑戰']
+    keywords: ['半日遊程', '一日鍛鍊', '多日挑戰']
   }
 ]
 </script>

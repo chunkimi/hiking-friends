@@ -71,6 +71,86 @@ const trailInfoTitle = [
   { type: 'TR_DIF_CLASS', name: '難度', icon: 'bi-reception-4' }
 ]
 
+const searchByKeyword = {
+  trailName(keyword) {
+    return allTrails.value.filter((item) =>
+      item.TR_CNAME ? item.TR_CNAME.includes(keyword) : false
+    )
+  },
+  trailPosition(keyword) {
+    const keywordTrans = keyword.includes('台') ? keyword.replace(/台/g, '臺') : keyword
+    return allTrails.value.filter((item) =>
+      item.TR_POSITION ? item.TR_POSITION.includes(keywordTrans) : false
+    )
+  },
+  trailArea(keyword) {
+    return allTrails.value.filter((item) => {
+      if (keyword === '北部') {
+        return (
+          item.TR_POSITION.includes('臺北') ||
+          item.TR_POSITION.includes('新北') ||
+          item.TR_POSITION.includes('基隆') ||
+          item.TR_POSITION.includes('宜蘭') ||
+          item.TR_POSITION.includes('桃園') ||
+          item.TR_POSITION.includes('新竹')
+        )
+      } else if (keyword === '中部') {
+        return (
+          item.TR_POSITION.includes('苗栗') ||
+          item.TR_POSITION.includes('臺中') ||
+          item.TR_POSITION.includes('彰化') ||
+          item.TR_POSITION.includes('南投') ||
+          item.TR_POSITION.includes('雲林')
+        )
+      } else if (keyword === '南部') {
+        return (
+          item.TR_POSITION.includes('嘉義') ||
+          item.TR_POSITION.includes('臺南') ||
+          item.TR_POSITION.includes('高雄') ||
+          item.TR_POSITION.includes('屏東')
+        )
+      } else if (keyword === '東部') {
+        return item.TR_POSITION.includes('臺東') || item.TR_POSITION.includes('花蓮')
+      } else {
+        return false
+      }
+    })
+  },
+  trailSys(keyword) {
+    return allTrails.value.filter((item) =>
+      item.TR_MAIN_SYS ? item.TR_MAIN_SYS.includes(keyword) : false
+    )
+  },
+  trailDifClass(keyword) {
+    return allTrails.value.filter((item) =>
+      item.TR_DIF_CLASS ? item.TR_DIF_CLASS.includes(keyword) : false
+    )
+  },
+  trailTour(keyword) {
+    return allTrails.value.filter((item) => {
+      if (!item.TR_TOUR) {
+        return false
+      } else if (keyword === '半天') {
+        return item.TR_TOUR === '半天' || item.TR_TOUR.includes('小時')
+      } else if (keyword === '多日') {
+        return item.TR_TOUR === '一天以上'
+      } else if (keyword === '一天') {
+        return item.TR_TOUR === '一天'
+      }
+    })
+  },
+  trailAll(keyword) {
+    const results = []
+    results.push(...this.trailName(keyword))
+    results.push(...this.trailPosition(keyword))
+    results.push(...this.trailArea(keyword))
+    results.push(...this.trailSys(keyword))
+    results.push(...this.trailDifClass(keyword))
+    results.push(...this.trailTour(keyword))
+    return [...new Set(results)]
+  }
+}
+
 const renderByPageNum = {
   pageNumInit() {
     currentPage.value = 1
@@ -97,35 +177,18 @@ const renderScenario = {
     sessionStorage.removeItem('currentPage')
     sessionStorage.removeItem('infoToList')
   },
-  fromInfoToList(saveKeyword) {
-    sessionStorage.removeItem('currentPage')
-    sessionStorage.removeItem('infoToList')
-    if (saveKeyword) {
-      sessionStorage.removeItem('searchKeyword')
-    }
-    renderByPageNum.pageNumInit()
-  },
   saveSearchResult(savedPage, saveKeyword) {
     searchKeyword.value = saveKeyword
-    filterTrails.value = searchByKeyword.trailName(searchKeyword.value)
+    filterTrails.value = searchByKeyword.trailAll(searchKeyword.value)
     currentPage.value = parseInt(savedPage)
     curPageTrails.value = renderByPageNum.getTrailsByPage(currentPage.value)
     sessionStorage.removeItem('currentPage')
     sessionStorage.removeItem('searchKeyword')
   },
-  indexToSearch() {
-    const route = useRoute()
-    searchKeyword.value = route.query.queryValue
-    filterTrails.value = searchByKeyword.trailName(searchKeyword.value)
-
-    sessionStorage.removeItem('indexToSearch')
-    sessionStorage.setItem('listAlready', true)
-    renderByPageNum.pageNumInit()
-  },
   handleSearch(queryValue) {
     if (queryValue.length !== 0) {
       searchKeyword.value = queryValue
-      filterTrails.value = searchByKeyword.trailName(searchKeyword.value)
+      filterTrails.value = searchByKeyword.trailAll(searchKeyword.value)
       renderByPageNum.pageNumInit()
     }
   },
@@ -135,12 +198,22 @@ const renderScenario = {
       filterTrails.value = []
       renderByPageNum.pageNumInit()
     }
-  }
-}
-
-const searchByKeyword = {
-  trailName(keyword) {
-    return allTrails.value.filter((item) => item.TR_CNAME.includes(keyword))
+  },
+  fromInfoToList(saveKeyword) {
+    sessionStorage.removeItem('currentPage')
+    sessionStorage.removeItem('infoToList')
+    if (saveKeyword) {
+      sessionStorage.removeItem('searchKeyword')
+    }
+    renderByPageNum.pageNumInit()
+  },
+  fromIndexToSearch() {
+    const route = useRoute()
+    searchKeyword.value = route.query.queryValue
+    filterTrails.value = searchByKeyword.trailAll(searchKeyword.value)
+    sessionStorage.removeItem('indexToSearch')
+    sessionStorage.setItem('listAlready', true)
+    renderByPageNum.pageNumInit()
   }
 }
 
@@ -167,14 +240,10 @@ onMounted(() => {
   const isFromInfoToList = sessionStorage.getItem('infoToList')
   const saveKeyword = sessionStorage.getItem('searchKeyword')
   const savedPage = sessionStorage.getItem('currentPage')
-
   const isFromInfoToListReload = isFromInfoToList && savedPage ? true : false
-  // console.log('isAllTrails.value', isAllTrails.value)
-  // const isListAlready = sessionStorage.getItem('listAlready')
-  // console.log('isListAlready', isListAlready)
 
   if (isIndexToSearch) {
-    renderScenario.indexToSearch()
+    renderScenario.fromIndexToSearch()
     console.log('從首頁進入搜尋')
     return
   }
