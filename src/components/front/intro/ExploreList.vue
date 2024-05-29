@@ -15,7 +15,7 @@
       v-for="exploreGuideItem in exploreGuideData"
       :key="exploreGuideItem.title.icon"
     >
-      <TypeCard :card-item="exploreGuideItem" />
+      <TypeCard :card-item="exploreGuideItem" :is-keyword-link="isKeywordLink" />
     </li>
   </ul>
 </template>
@@ -28,6 +28,8 @@ const exploreListTitle = {
   icon: 'explore',
   textColor: 'dark'
 }
+
+const isKeywordLink = true
 
 const exploreGuideData = [
   {

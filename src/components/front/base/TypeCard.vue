@@ -9,7 +9,15 @@
     ></IconTitle>
     <div class="mt-3 d-grid gap-3">
       <h6 class="fs-5 text-center text-secondary">{{ cardSubtitle }}</h6>
-      <p class="fs-6 text-center text-secondary" v-html="getKeywordHtml(cardKeywordsArr)"></p>
+      <div class="fs-6 text-center text-secondary">
+        <template v-for="(keyword, index) in cardKeywordsArr" :key="index">
+          <span v-if="isKeywordLink" class="p-2 fw-bold">{{ keyword }}</span>
+          <span class="p-2" v-else>{{ keyword }}</span>
+          <template v-if="(index + 1) % 2 === 0">
+            <br />
+          </template>
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -22,21 +30,21 @@ const props = defineProps({
   cardItem: {
     type: Object,
     required: true
+  },
+  isKeywordLink: {
+    type: Boolean,
+    required: true
   }
 })
-const cardTitle = computed(() => props.cardItem.title || {})
-const cardSubtitle = computed(() => props.cardItem.subtitle || '')
-const cardKeywordsArr = computed(() => props.cardItem.keywords || '')
 
-function getKeywordHtml(data) {
-  let result = ''
-  data.forEach((item, index) => {
-    let raw = `<span class="p-2">${item}</span>`
-    if (index % 2 !== 0) {
-      raw += '<br />'
-    }
-    result += raw
-  })
-  return result
+const defaultTitle = {
+  isClock: false,
+  title: '',
+  icon: '',
+  textColor: ''
 }
+
+const cardTitle = computed(() => props.cardItem.title || defaultTitle)
+const cardSubtitle = computed(() => props.cardItem.subtitle || '')
+const cardKeywordsArr = computed(() => props.cardItem.keywords || [])
 </script>
