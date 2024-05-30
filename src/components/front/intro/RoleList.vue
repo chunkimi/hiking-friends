@@ -42,7 +42,7 @@
       v-for="roleItem in roleData"
       :key="roleItem.class"
       :class="[isMediaMdDown ? '' : 'col-12 col-md-4 mb-5 mb-lg-0']"
-      @click="getRoleGuide(roleItem.role, roleItem.guide)"
+      @click="getRoleGuide(roleItem.role, roleItem.guide, roleItem.class)"
     >
       <button
         v-if="isMediaMdDown"
@@ -76,12 +76,12 @@
         </table>
       </div>
       <div class="py-5 ms-auto">
-        <button class="btn btn-primary">
+        <RouterLink class="btn btn-primary" :to="searchRole(curDifClass)">
           <div class="d-flex align-items-center">
             <span>{{ roleListTitle.btnViewMore.text }}</span>
             <span class="material-icons ms-3">{{ roleListTitle.btnViewMore.icon }}</span>
           </div>
-        </button>
+        </RouterLink>
       </div>
     </div>
   </transition>
@@ -89,6 +89,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { RouterLink } from 'vue-router'
 import { getImageUrl } from '@/utils/base'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 
@@ -165,18 +166,39 @@ const tableTitleData = [
 ]
 
 const curRole = ref('')
-const guideData = ref('')
+const curDifClass = ref('')
+const guideData = ref({})
 const isOpenGuide = ref(false)
 
-function getRoleGuide(role, guideInfo) {
+function getRoleGuide(role, guideInfo, difClass) {
   if (curRole.value && curRole.value === role) {
     guideData.value = {}
     curRole.value = ''
+    curDifClass.value = ''
     isOpenGuide.value = false
   } else {
     curRole.value = role
+    curDifClass.value = difClass
     guideData.value = guideInfo
     isOpenGuide.value = true
+  }
+}
+
+function searchRole(role) {
+  let queryValue = []
+  if (role === 'junior') {
+    queryValue = [0, 1]
+  } else if (role === 'middle') {
+    queryValue = [2]
+  } else if (role === 'senior') {
+    queryValue = [3, 4, 5, 6]
+  }
+  if (queryValue.length !== 0) {
+    sessionStorage.setItem('difClass', true)
+    return {
+      name: 'TrailsList',
+      query: { queryValue }
+    }
   }
 }
 </script>

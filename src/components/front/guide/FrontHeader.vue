@@ -149,8 +149,6 @@ const route = useRoute()
 function reloadList() {
   const currentRoute = route.fullPath
   const isListAlready = sessionStorage.getItem('listAlready')
-  console.log('currentRoute', currentRoute)
-  console.log('reloadList-isListAlready', isListAlready)
   if (currentRoute.includes('trails-list') && isListAlready) {
     sessionStorage.removeItem('listAlready')
     window.location.reload()

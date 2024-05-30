@@ -13,7 +13,7 @@
         <template v-for="(keyword, index) in cardKeywordsArr" :key="index">
           <RouterLink
             v-if="isKeywordLink"
-            :to="searchTypePath(keyword)"
+            :to="searchType(keyword)"
             class="p-2 link-secondary text-decoration-none"
           >
             {{ keyword }}
@@ -55,13 +55,9 @@ const cardTitle = computed(() => props.cardItem.title || defaultTitle)
 const cardSubtitle = computed(() => props.cardItem.subtitle || '')
 const cardKeywordsArr = computed(() => props.cardItem.keywords || [])
 
-function searchTypePath(keyword) {
-  console.log('searchTypePath')
-  console.log('keyword', keyword)
-
+function searchType(keyword) {
   const queryValue =
     keyword.includes('區域') || keyword.includes('天') ? keyword.slice(0, 2) : keyword
-  console.log('queryValue', queryValue)
   sessionStorage.setItem('outerToSearch', true)
   return {
     name: 'TrailsList',

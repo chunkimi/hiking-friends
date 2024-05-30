@@ -145,7 +145,6 @@ const searchByKeyword = {
     results.push(...this.trailPosition(keyword))
     results.push(...this.trailArea(keyword))
     results.push(...this.trailSys(keyword))
-    results.push(...this.trailDifClass(keyword))
     results.push(...this.trailTour(keyword))
     return [...new Set(results)]
   }
@@ -193,6 +192,9 @@ const renderScenario = {
     }
   },
   handleReset(isReset) {
+    if (sessionStorage.getItem('difClass')) {
+      sessionStorage.removeItem('difClass')
+    }
     if (isReset) {
       searchKeyword.value = ''
       filterTrails.value = []
@@ -212,6 +214,14 @@ const renderScenario = {
     searchKeyword.value = route.query.queryValue
     filterTrails.value = searchByKeyword.trailAll(searchKeyword.value)
     sessionStorage.removeItem('outerToSearch')
+    sessionStorage.setItem('listAlready', true)
+    renderByPageNum.pageNumInit()
+  },
+  fromDifClassSearch() {
+    const route = useRoute()
+    searchKeyword.value = route.query.queryValue
+    let rawFilter = searchKeyword.value.map((item) => searchByKeyword.trailDifClass(item)).flat()
+    filterTrails.value = [...new Set(rawFilter)]
     sessionStorage.setItem('listAlready', true)
     renderByPageNum.pageNumInit()
   }
@@ -238,33 +248,34 @@ const curPageTrails = ref([])
 onMounted(() => {
   const isOuterToSearch = sessionStorage.getItem('outerToSearch')
   const isFromInfoToList = sessionStorage.getItem('infoToList')
+  const isFromDifClassSearch = sessionStorage.getItem('difClass')
   const saveKeyword = sessionStorage.getItem('searchKeyword')
   const savedPage = sessionStorage.getItem('currentPage')
   const isFromInfoToListReload = isFromInfoToList && savedPage ? true : false
-
-  if (isOuterToSearch) {
+  if (isFromDifClassSearch) {
+    renderScenario.fromDifClassSearch()
+    console.log('isFromDifClassSearch')
+    return
+  } else if (isOuterToSearch) {
     renderScenario.fromOuterToSearch()
-    console.log('從外層進入搜尋')
+    console.log('isOuterToSearch')
     return
-  }
-  if (isFromInfoToListReload & saveKeyword || isFromInfoToListReload) {
+  } else if ((isFromInfoToListReload && saveKeyword) || isFromInfoToListReload) {
     renderScenario.fromInfoToList(saveKeyword)
-    console.log('4+5')
-    return
-  }
-  if (savedPage && saveKeyword) {
-    renderScenario.saveSearchResult(savedPage, saveKeyword)
     console.log('3')
     return
-  }
-  if (savedPage) {
+  } else if (savedPage && saveKeyword) {
+    renderScenario.saveSearchResult(savedPage, saveKeyword)
+    console.log('savedPage && saveKeyword')
+    return
+  } else if (savedPage) {
     renderScenario.savePage(savedPage)
-    console.log('2')
+    console.log('savedPage')
     return
   } else {
     sessionStorage.setItem('listAlready', true)
     renderByPageNum.pageNumInit()
-    console.log('1+6')
+    console.log('else')
   }
 })
 
