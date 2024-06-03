@@ -17,6 +17,8 @@
     border-radius: 1000px;
   }
   &__btn {
+    display: flex;
+    justify-content: center;
     width: 40px;
     height: 40px;
     color: $dark;
@@ -34,17 +36,63 @@
 </style>
 
 <template>
-  <form class="d-flex search__bar" role="search">
+  <form class="d-flex search__bar" role="search" @submit.prevent="onSearch">
     <input
       class="form-control me-3 search__input"
       type="search"
-      placeholder="探索步道"
       aria-label="Search"
+      :placeholder="searchSetting.placeholder"
+      v-model="queryWord"
     />
     <button class="btn rounded-circle search__btn" type="submit">
-      <i class="bi bi-search"></i>
+      <span class="material-icons"> {{ searchSetting.optionBtn.search }} </span>
+    </button>
+    <button
+      class="btn rounded-circle search__btn ms-3"
+      type="button"
+      @click.prevent="resetSearch"
+      v-if="hasResetBtn"
+    >
+      <span class="material-icons"> {{ searchSetting.optionBtn.reset }} </span>
     </button>
   </form>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+
+const searchSetting = {
+  placeholder: '探索步道',
+  optionBtn: {
+    search: 'search',
+    reset: 'restart_alt'
+  }
+}
+
+defineProps({
+  hasResetBtn: {
+    type: Boolean,
+    required: true
+  }
+})
+
+const emit = defineEmits(['search-data', 'search-reset'])
+const queryWord = ref('')
+
+function onSearch() {
+  const trimmedQuery = queryWord.value.trim()
+  if (trimmedQuery) {
+    emit('search-data', queryWord.value)
+  } else {
+    queryWord.value = ''
+    alert('輸入空白呢，讓我們回到登山口吧')
+    resetSearch()
+  }
+}
+
+function resetSearch() {
+  queryWord.value = ''
+  emit('search-data', '')
+  emit('search-reset', true)
+}
+</script>

@@ -3,6 +3,10 @@
 .th--min-width {
   min-width: 3rem;
 }
+.table {
+  --bs-table-bg: $light-gray;
+  border-color: $secondary;
+}
 </style>
 <template>
   <IconTitle
@@ -15,9 +19,9 @@
   <div v-if="isMediaMdDown">
     <p class="fw-bold text-center text-danger">{{ difDegreeTitle.isMediaMdDownMsg }}</p>
   </div>
-  <table class="table table-primary" v-else>
+  <table class="table table-hover" v-else>
     <thead>
-      <tr>
+      <tr class="align-middle">
         <th
           scope="col"
           :class="
@@ -31,9 +35,17 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="row in trailDifDegree" :key="row.degree">
-        <td v-for="tableItem in tableTitleData" :key="tableItem.type">
+      <tr v-for="row in trailDifDegree" :key="row.degree" class="align-middle">
+        <td v-for="tableItem in tableTitleData" :key="tableItem.type" class="py-6">
           {{ row[tableItem.type] }}
+        </td>
+        <td>
+          <RouterLink
+            :to="searchDifClass(row.degree)"
+            class="p-2 link-secondary text-decoration-none"
+          >
+            <span class="material-icons"> exit_to_app </span></RouterLink
+          >
         </td>
       </tr>
     </tbody>
@@ -42,6 +54,10 @@
 </template>
 
 <script setup>
+import { RouterLink } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
+
 import IconTitle from '@/components/front/base/IconTitle.vue'
 
 import { useMediaQuery } from '@vueuse/core'
@@ -159,4 +175,17 @@ const trailDifDegree = [
     target: '已受訓登山者'
   }
 ]
+
+const trailsListStore = useTrailsListStore()
+const { isTypeToSearch } = storeToRefs(trailsListStore)
+
+function searchDifClass(difClassValue) {
+  const queryType = 'trailDifClass'
+  const queryValue = [difClassValue]
+  isTypeToSearch.value = true
+  return {
+    name: 'TrailsList',
+    query: { queryValue, queryType }
+  }
+}
 </script>

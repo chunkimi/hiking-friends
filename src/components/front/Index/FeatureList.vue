@@ -43,7 +43,7 @@
             v-for="featureItem in featureData"
             :key="featureItem.title.icon"
           >
-            <TypeCard :card-item="featureItem" />
+            <TypeCard :card-item="featureItem" :is-keyword-link="isKeywordLink" />
           </li>
         </ul>
       </div>
@@ -63,6 +63,8 @@ const featureListInfo = {
   bgImg: mokuIcon,
   titleIcon: 'assets/illustration/acorn.svg'
 }
+
+const isKeywordLink = false
 
 const featureData = [
   {
