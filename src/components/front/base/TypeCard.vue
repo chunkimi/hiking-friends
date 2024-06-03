@@ -16,7 +16,7 @@
             :to="searchType(keyword)"
             class="p-2 link-secondary text-decoration-none"
           >
-            {{ keyword }}
+            {{ keyword.title }}
           </RouterLink>
           <span class="p-2 text-secondary" v-else>{{ keyword }}</span>
           <template v-if="(index + 1) % 2 === 0">
@@ -32,6 +32,8 @@
 import IconTitle from '@/components/front/base/IconTitle.vue'
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 
 const props = defineProps({
   cardItem: {
@@ -55,13 +57,16 @@ const cardTitle = computed(() => props.cardItem.title || defaultTitle)
 const cardSubtitle = computed(() => props.cardItem.subtitle || '')
 const cardKeywordsArr = computed(() => props.cardItem.keywords || [])
 
+const trailsListStore = useTrailsListStore()
+const { isTypeToSearch } = storeToRefs(trailsListStore)
+
 function searchType(keyword) {
-  const queryValue =
-    keyword.includes('區域') || keyword.includes('天') ? keyword.slice(0, 2) : keyword
-  sessionStorage.setItem('outerToSearch', true)
+  const queryValue = keyword.queryValue
+  const queryType = keyword.queryType
+  isTypeToSearch.value = true
   return {
     name: 'TrailsList',
-    query: { queryValue }
+    query: { queryValue, queryType }
   }
 }
 </script>

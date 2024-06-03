@@ -53,6 +53,8 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 import { getImageUrl } from '@/utils/base'
 import SearchBar from '@/components/front/base/SearchBar.vue'
 import hikerIcon from '@/assets/bg-img/hiker.jpeg'
@@ -67,9 +69,12 @@ const bannerSetting = {
 }
 
 const router = useRouter()
+const trailsListStore = useTrailsListStore()
+const { isIndexToSearch } = storeToRefs(trailsListStore)
+
 function searchToList(queryValue) {
   if (queryValue.length !== 0) {
-    sessionStorage.setItem('outerToSearch', true)
+    isIndexToSearch.value = true
     router.push({ name: 'TrailsList', query: { queryValue } })
   }
 }

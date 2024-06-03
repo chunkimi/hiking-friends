@@ -133,6 +133,9 @@
 
 <script setup>
 import { RouterLink, useRoute } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
+
 import { useMediaQuery } from '@vueuse/core'
 const isMediaLgUp = useMediaQuery('(min-width: 992px)')
 
@@ -145,16 +148,20 @@ const headerInfo = {
 }
 
 const route = useRoute()
+const trailsListStore = useTrailsListStore()
+const { isListAlready, isSavePage, isTypeToSearch } = storeToRefs(trailsListStore)
 
 function reloadList() {
   const currentRoute = route.fullPath
-  const isListAlready = sessionStorage.getItem('listAlready')
   if (currentRoute.includes('trails-list') && isListAlready) {
-    sessionStorage.removeItem('listAlready')
+    isListAlready.value = false
     window.location.reload()
   }
-  if (currentRoute.includes('trail-info')) {
-    sessionStorage.setItem('infoToList', true)
+  if (!currentRoute.includes('trails-list')) {
+    isSavePage.value = false
+  }
+  if (currentRoute.includes('trails-intro')) {
+    isTypeToSearch.value = false
   }
 }
 

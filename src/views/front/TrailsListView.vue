@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="container py-15">
-    <div class="d-grid gap-5">
+    <div class="d-grid gap-5" v-if="isHaveTrail">
       <div class="d-flex justify-content-end">
         <BrowseMode v-model:selected-mode="curMode" />
       </div>
@@ -35,12 +35,20 @@
         @changePage="renderByPageNum.changePage"
       />
     </div>
+    <div class="d-grid gap-5 text-secondary text-center" v-else>
+      <span class="material-icons fs-1 p-8"> {{ noResultTrailsMsg.icon }} </span>
+      <p class="p-8 fs-5 text-secondary text-center">
+        {{ noResultTrailsMsg.text }}
+      </p>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { onBeforeRouteLeave, useRoute } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 
 import SearchBar from '@/components/front/base/SearchBar.vue'
 import BrowseMode from '@/components/front/base/BrowseMode.vue'
@@ -50,6 +58,16 @@ import PaginationNav from '@/components/front/base/PaginationNav.vue'
 
 import trailsData from '@/data/dummy/allTrailsInfo.json'
 
+const isHaveTrail = ref(true)
+const hasResetBtn = true
+const curMode = ref('card')
+const isCurCardMode = computed(() => {
+  return curMode.value === 'card' ? true : false
+})
+const noResultTrailsMsg = {
+  icon: 'explore',
+  text: '噢噢～此路不通，再重新找步道吧！'
+}
 const trailInfoBtn = {
   moreInfo: {
     name: '詳細資料',
@@ -70,6 +88,30 @@ const trailInfoTitle = [
   { type: 'TR_TOUR', name: '時間', icon: 'bi-clock' },
   { type: 'TR_DIF_CLASS', name: '難度', icon: 'bi-reception-4' }
 ]
+
+const trailsListStore = useTrailsListStore()
+const {
+  currentPage,
+  searchType,
+  searchKeyword,
+  isListAlready,
+  isFromInfoToList,
+  isSavePage,
+  isSaveKeyword,
+  isIndexToSearch,
+  isTypeToSearch
+} = storeToRefs(trailsListStore)
+
+const allTrails = ref(trailsData)
+const filterTrails = ref([])
+const isAllTrails = ref(true)
+const perPageTrails = 12
+const trailNum = computed(() => {
+  return isAllTrails.value ? allTrails.value.length : filterTrails.value.length
+})
+const numberOfPages = computed(() => Math.ceil(trailNum.value / perPageTrails))
+
+const curPageTrails = ref([])
 
 const searchByKeyword = {
   trailName(keyword) {
@@ -147,6 +189,16 @@ const searchByKeyword = {
     results.push(...this.trailSys(keyword))
     results.push(...this.trailTour(keyword))
     return [...new Set(results)]
+  },
+  scenario() {
+    let rawFilter = ''
+    if (searchType.value === 'trailDifClass') {
+      let rawResult = searchKeyword.value.map((item) => searchByKeyword.trailDifClass(item)).flat()
+      rawFilter = [...new Set(rawResult)]
+    } else {
+      rawFilter = searchByKeyword[`${searchType.value}`](searchKeyword.value)
+    }
+    return rawFilter
   }
 }
 
@@ -170,124 +222,104 @@ const renderByPageNum = {
 }
 
 const renderScenario = {
-  savePage(savedPage) {
-    currentPage.value = parseInt(savedPage)
-    curPageTrails.value = renderByPageNum.getTrailsByPage(currentPage.value)
-    sessionStorage.removeItem('currentPage')
-    sessionStorage.removeItem('infoToList')
-  },
-  saveSearchResult(savedPage, saveKeyword) {
-    searchKeyword.value = saveKeyword
-    filterTrails.value = searchByKeyword.trailAll(searchKeyword.value)
-    currentPage.value = parseInt(savedPage)
-    curPageTrails.value = renderByPageNum.getTrailsByPage(currentPage.value)
-    sessionStorage.removeItem('currentPage')
-    sessionStorage.removeItem('searchKeyword')
-  },
   handleSearch(queryValue) {
-    if (queryValue.length !== 0) {
-      searchKeyword.value = queryValue
-      filterTrails.value = searchByKeyword.trailAll(searchKeyword.value)
+    searchKeyword.value = queryValue
+    filterTrails.value = searchByKeyword.scenario()
+    if (filterTrails.value.length !== 0) {
+      isAllTrails.value = false
       renderByPageNum.pageNumInit()
+    } else {
+      isHaveTrail.value = false
+      searchKeyword.value = ''
+      isAllTrails.value = true
     }
   },
   handleReset(isReset) {
-    if (sessionStorage.getItem('difClass')) {
-      sessionStorage.removeItem('difClass')
-    }
     if (isReset) {
+      isAllTrails.value = true
+      isHaveTrail.value = true
+      searchType.value = 'trailAll'
       searchKeyword.value = ''
       filterTrails.value = []
+      isSavePage.value = false
+      isSaveKeyword.value = false
+      isTypeToSearch.value = false
       renderByPageNum.pageNumInit()
     }
   },
-  fromInfoToList(saveKeyword) {
-    sessionStorage.removeItem('currentPage')
-    sessionStorage.removeItem('infoToList')
-    if (saveKeyword) {
-      sessionStorage.removeItem('searchKeyword')
-    }
-    renderByPageNum.pageNumInit()
+  savePage() {
+    curPageTrails.value = renderByPageNum.getTrailsByPage(currentPage.value)
+    isSavePage.value = false
+    isFromInfoToList.value = false
   },
-  fromOuterToSearch() {
-    const route = useRoute()
-    searchKeyword.value = route.query.queryValue
-    filterTrails.value = searchByKeyword.trailAll(searchKeyword.value)
-    sessionStorage.removeItem('outerToSearch')
-    sessionStorage.setItem('listAlready', true)
-    renderByPageNum.pageNumInit()
+  saveSearchResult() {
+    filterTrails.value = searchByKeyword.scenario()
+    isAllTrails.value = false
+    curPageTrails.value = renderByPageNum.getTrailsByPage(currentPage.value)
+    isFromInfoToList.value = false
+    isSaveKeyword.value = false
+    isSavePage.value = false
   },
-  fromDifClassSearch() {
+  fromIndexToSearch() {
     const route = useRoute()
-    searchKeyword.value = route.query.queryValue
-    let rawFilter = searchKeyword.value.map((item) => searchByKeyword.trailDifClass(item)).flat()
-    filterTrails.value = [...new Set(rawFilter)]
-    sessionStorage.setItem('listAlready', true)
-    renderByPageNum.pageNumInit()
+    const rawQueryValue = route.query.queryValue
+    searchType.value = 'trailAll'
+    renderScenario.handleSearch(rawQueryValue)
+    isIndexToSearch.value = false
+  },
+  fromTypeToSearch() {
+    const route = useRoute()
+    const { queryType, queryValue } = route.query
+    searchType.value = queryType
+    renderScenario.handleSearch(queryValue)
+    isTypeToSearch.value = false
   }
 }
 
-const hasResetBtn = true
-const curMode = ref('card')
-const isCurCardMode = computed(() => {
-  return curMode.value === 'card' ? true : false
-})
-const allTrails = ref(trailsData)
-const searchKeyword = ref('')
-const filterTrails = ref([])
-const isAllTrails = computed(() => (filterTrails.value.length === 0 ? true : false))
-const perPageTrails = 12
-const trailNum = computed(() => {
-  return isAllTrails.value ? allTrails.value.length : filterTrails.value.length
-})
-const numberOfPages = computed(() => Math.ceil(trailNum.value / perPageTrails))
-
-const currentPage = ref(1)
-const curPageTrails = ref([])
-
 onMounted(() => {
-  const isOuterToSearch = sessionStorage.getItem('outerToSearch')
-  const isFromInfoToList = sessionStorage.getItem('infoToList')
-  const isFromDifClassSearch = sessionStorage.getItem('difClass')
-  const saveKeyword = sessionStorage.getItem('searchKeyword')
-  const savedPage = sessionStorage.getItem('currentPage')
-  const isFromInfoToListReload = isFromInfoToList && savedPage ? true : false
-  if (isFromDifClassSearch) {
-    renderScenario.fromDifClassSearch()
-    console.log('isFromDifClassSearch')
+  if (isTypeToSearch.value) {
+    console.log('isTypeToSearch.value')
+    renderScenario.fromTypeToSearch()
     return
-  } else if (isOuterToSearch) {
-    renderScenario.fromOuterToSearch()
-    console.log('isOuterToSearch')
+  }
+  if (isIndexToSearch.value) {
+    console.log('isIndexToSearch.value')
+    renderScenario.fromIndexToSearch()
     return
-  } else if ((isFromInfoToListReload && saveKeyword) || isFromInfoToListReload) {
-    renderScenario.fromInfoToList(saveKeyword)
-    console.log('3')
+  }
+  if (isSavePage.value && isSaveKeyword.value) {
+    console.log('isSavePage.value && isSaveKeyword.value')
+    renderScenario.saveSearchResult()
     return
-  } else if (savedPage && saveKeyword) {
-    renderScenario.saveSearchResult(savedPage, saveKeyword)
-    console.log('savedPage && saveKeyword')
-    return
-  } else if (savedPage) {
-    renderScenario.savePage(savedPage)
-    console.log('savedPage')
+  }
+  if (isSavePage.value) {
+    console.log('isSavePage.value')
+    renderScenario.savePage()
     return
   } else {
-    sessionStorage.setItem('listAlready', true)
-    renderByPageNum.pageNumInit()
     console.log('else')
+    searchType.value = 'trailAll'
+    isAllTrails.value = true
+    isListAlready.value = false
+    isFromInfoToList.value = false
+    isSavePage.value = false
+    isSaveKeyword.value = false
+    isIndexToSearch.value = false
+    renderByPageNum.pageNumInit()
   }
 })
 
 onBeforeRouteLeave((to, from, next) => {
   if (!isAllTrails.value) {
-    sessionStorage.setItem('searchKeyword', searchKeyword.value)
+    isSaveKeyword.value = true
   }
   if (from.name === 'TrailsList' && to.name === 'TrailInfo') {
-    sessionStorage.setItem('currentPage', currentPage.value)
+    isListAlready.value = true
+    isFromInfoToList.value = true
+    isSavePage.value = true
   }
   if (to.name !== 'TrailInfo' && to.name !== 'TrailsList') {
-    sessionStorage.removeItem('listAlready')
+    isListAlready.value = false
   }
   next()
 })

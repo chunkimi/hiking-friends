@@ -85,14 +85,12 @@ function onSearch() {
     emit('search-data', queryWord.value)
   } else {
     queryWord.value = ''
-    console.log('Query is empty after trimming, no search performed.')
     alert('輸入空白呢，讓我們回到登山口吧')
     resetSearch()
   }
 }
 
 function resetSearch() {
-  console.log('內層resetSearch')
   queryWord.value = ''
   emit('search-data', '')
   emit('search-reset', true)
