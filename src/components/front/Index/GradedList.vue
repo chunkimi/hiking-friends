@@ -61,7 +61,7 @@
             </h3>
             <div class="border rounded bg-light p-5">
               <img
-                :src="getImageUrl(turnTrailImgPath(recommendItem.trail_data.TRAILID))"
+                :src="getTrailImgUrl(recommendItem.trail_data.TRAILID)"
                 class="card-img-top recommend__img"
                 alt="trail-img"
               />
@@ -86,7 +86,14 @@
                     </p>
                   </li>
                 </ul>
-                <a href="#" class="btn btn-outline-dark w-100">View</a>
+                <RouterLink
+                  :to="{
+                    name: 'TrailInfo',
+                    params: { trail: recommendItem.trail_data.TRAILID }
+                  }"
+                  class="btn btn-outline-dark w-100"
+                  >View</RouterLink
+                >
               </div>
             </div>
           </li>
@@ -96,7 +103,8 @@
   </div>
 </template>
 <script setup>
-import { getImageUrl, turnTrailImgPath } from '@/utils/base'
+import { RouterLink } from 'vue-router'
+import { getTrailImgUrl } from '@/utils/base'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 import treeIcon from '@/assets/illustration/tree--light.svg'
 import personIcon from '@/assets/illustration/person-medium--light.svg'
@@ -121,10 +129,10 @@ const recommendTrails = [
     card_title: '新手入門',
     title_color: 'success',
     trail_data: {
-      TRAILID: '003',
-      TR_CNAME: '新店獅頭山步道',
-      TR_POSITION: '新北市新店區',
-      TR_LENGTH: '0.8公里'
+      TRAILID: '004',
+      TR_CNAME: '金瓜寮魚蕨步道',
+      TR_POSITION: '新北市坪林區',
+      TR_LENGTH: '1公里'
     }
   },
   {

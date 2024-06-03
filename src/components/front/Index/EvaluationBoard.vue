@@ -99,12 +99,16 @@
                   </div>
 
                   <div class="text-center">
-                    <a href="/" class="fs-6 link-secondary text-decoration-none">
-                      <div class="d-flex justify-content-center align-items-center">
-                        <span>VIEW ALL</span>
-                        <span class="material-icons ms-3"> nature_people </span>
-                      </div></a
+                    <RouterLink
+                      :to="{
+                        name: 'TrailInfo',
+                        params: { trail: evaluationItem.trail_data.TRAILID }
+                      }"
+                      class="fs-6 link-secondary text-decoration-none d-flex justify-content-center align-items-center"
                     >
+                      <span>VIEW TRAIL</span>
+                      <span class="material-icons ms-3"> nature_people </span>
+                    </RouterLink>
                   </div>
                 </div>
               </li>
@@ -117,6 +121,7 @@
 </template>
 <script setup>
 import { computed } from 'vue'
+import { RouterLink } from 'vue-router'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 
 import { getImageUrl } from '@/utils/base'
