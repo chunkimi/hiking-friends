@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="col-6 mx-auto mx-lg-0 col-lg-3">
-        <TrailOpenStatus :all-trails-news="trailsNewsData" :trail-id="curTrailId" />
+        <TrailOpenStatus :all-trails-news="allTailsNews" :trail-id="curTrailId" />
       </div>
     </div>
     <div class="py-15">
@@ -54,20 +54,27 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute, onBeforeRouteLeave } from 'vue-router'
+import { fetchTrailsInfoData, fetchTrailsNewsData } from '@/data/api/trailsApi'
 
 import GoBackIcon from '@/components/front/base/GoBackIcon.vue'
 import PurposeTitle from '@/components/front/info/PurposeTitle.vue'
 import BaseInfo from '@/components/front/info/BaseInfo.vue'
 import TrailOpenStatus from '@/components/front/info/TrailOpenStatus.vue'
 import { baseTrailInfo, extendedTrailInfo } from '@/data/sectionTitle/trailInfoSectionTitle.js'
-import trailsData from '@/data/dummy/allTrailsInfo.json'
-import trailsNewsData from '@/data/dummy/allTrailsNews.json'
 
+const allTrailsData = ref([])
+const allTailsNews = ref([])
 const route = useRoute()
 const curTrailId = route.params.trail
-const curTrailData = ref(trailsData.find((item) => item.TRAILID === curTrailId) || {})
+const curTrailData = ref({})
+
+onMounted(async () => {
+  allTrailsData.value = await fetchTrailsInfoData()
+  allTailsNews.value = await fetchTrailsNewsData()
+  curTrailData.value = allTrailsData.value.find((item) => item.TRAILID === curTrailId) || {}
+})
 
 onBeforeRouteLeave((to, from, next) => {
   next()
