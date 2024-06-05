@@ -84,7 +84,9 @@
           </li>
         </ul>
         <div class="text-lg-end">
-          <button type="button" class="btn btn-dark me-auto news__btn">More ＋</button>
+          <RouterLink :to="linkToReadMore.to" class="btn btn-dark me-auto news__btn">{{
+            linkToReadMore.title
+          }}</RouterLink>
         </div>
       </div>
     </div>
@@ -92,8 +94,10 @@
 </template>
 <script setup>
 import { computed } from 'vue'
+import { RouterLink } from 'vue-router'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 import dummyAllTrailsNews from '@/data/dummy/allTrailsNews.json'
+import { newsType } from '@/data/newsType.js'
 
 const bulletinTitle = {
   isClock: false,
@@ -102,28 +106,20 @@ const bulletinTitle = {
   textColor: 'dark'
 }
 
-const newsType = [
-  {
-    mes: '注意',
-    color: 'warning'
-  },
-  {
-    mes: '部分封閉',
-    color: 'secondary'
-  },
-  {
-    mes: '暫停開放',
-    color: 'danger'
-  }
-]
+const linkToReadMore = {
+  title: 'More+',
+  to: { name: 'TrailConditionReport' }
+}
 
 const trailsNews = computed(() => {
   let result = []
 
   newsType.forEach((item) => {
-    let raw = dummyAllTrailsNews.find((element) => element['TR_TYP'] == item.mes)
-    raw.text_style = `news__sign--${item.color}`
-    result.push(raw)
+    let raw = dummyAllTrailsNews.find((element) => element['TR_TYP'] == item.msg)
+    if (raw) {
+      raw.text_style = `news__sign--${item.color}`
+      result.push(raw)
+    }
   })
 
   return result
