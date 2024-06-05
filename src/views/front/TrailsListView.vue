@@ -49,14 +49,13 @@ import { ref, computed, onMounted } from 'vue'
 import { onBeforeRouteLeave, useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
+import { fetchTrailsInfoData } from '@/data/api/trailsApi'
 
 import SearchBar from '@/components/front/base/SearchBar.vue'
 import BrowseMode from '@/components/front/base/BrowseMode.vue'
 import InfoCard from '@/components/front/list/InfoCard.vue'
 import InfoColumnar from '@/components/front/list/InfoColumnar.vue'
 import PaginationNav from '@/components/front/base/PaginationNav.vue'
-
-import trailsData from '@/data/dummy/allTrailsInfo.json'
 
 const isHaveTrail = ref(true)
 const hasResetBtn = true
@@ -102,7 +101,7 @@ const {
   isTypeToSearch
 } = storeToRefs(trailsListStore)
 
-const allTrails = ref(trailsData)
+const allTrails = ref([])
 const filterTrails = ref([])
 const isAllTrails = ref(true)
 const perPageTrails = 12
@@ -276,7 +275,8 @@ const renderScenario = {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
+  allTrails.value = await fetchTrailsInfoData()
   if (isTypeToSearch.value) {
     console.log('isTypeToSearch.value')
     renderScenario.fromTypeToSearch()
