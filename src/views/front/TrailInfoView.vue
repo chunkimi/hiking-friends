@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="py-15">
-      <BaseInfo :title="baseTrailInfo" :trail-info="curTrailData" />
+      <BasicInfo :title="baseTrailInfo" :trail-info="curTrailData" />
       <div class="d-flex justify-content-center pt-15">
         <button
           type="button"
@@ -45,7 +45,7 @@
     </div>
     <transition name="extendedTrailInfo-collapse">
       <div class="py-15" v-if="isOpenExtendedTrailInfo">
-        <BaseInfo :title="extendedTrailInfo" :trail-info="curTrailData" />
+        <BasicInfo :title="extendedTrailInfo" :trail-info="curTrailData" />
       </div>
     </transition>
     <div class="py-15">
@@ -60,7 +60,7 @@ import { fetchTrailsInfoData, fetchTrailsNewsData } from '@/data/api/trailsApi'
 
 import GoBackIcon from '@/components/front/base/GoBackIcon.vue'
 import PurposeTitle from '@/components/front/info/PurposeTitle.vue'
-import BaseInfo from '@/components/front/info/BaseInfo.vue'
+import BasicInfo from '@/components/front/info/BasicInfo.vue'
 import TrailOpenStatus from '@/components/front/info/TrailOpenStatus.vue'
 import { baseTrailInfo, extendedTrailInfo } from '@/data/sectionTitle/trailInfoSectionTitle.js'
 
