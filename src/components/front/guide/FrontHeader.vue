@@ -84,7 +84,7 @@
                 : `url(${headerInfo.logoLight})`
             }"
           >
-            郊友趣・Hiking Friends
+            {{ menuTitle.indexTitle }}
           </h2></router-link
         >
 
@@ -121,9 +121,9 @@
             </li>
           </ul>
           <button class="btn btn-dark menu__btn mt-10 mt-lg-0">
-            <router-link to="/account" class="fs-6 link-light text-decoration-none"
-              >註冊 / 登入</router-link
-            >
+            <router-link to="/account" class="fs-6 link-light text-decoration-none">{{
+              menuTitle.account
+            }}</router-link>
           </button>
         </div>
       </nav>
@@ -163,6 +163,11 @@ function reloadList() {
   if (currentRoute.includes('trails-intro')) {
     isTypeToSearch.value = false
   }
+}
+
+const menuTitle = {
+  indexTitle: '郊友趣・Hiking Friends',
+  account: '註冊 / 登入'
 }
 
 const menuData = [

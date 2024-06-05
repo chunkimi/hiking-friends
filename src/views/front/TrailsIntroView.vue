@@ -1,6 +1,6 @@
 <template>
   <div class="container d-grid gap-5">
-    <h1 class="display-5 text-end text-primary py-4">主題分級</h1>
+    <h1 class="display-5 text-end text-primary py-15">主題分級</h1>
     <div class="py-15">
       <RoleList />
     </div>
