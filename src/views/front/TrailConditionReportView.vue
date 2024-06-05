@@ -57,11 +57,11 @@
   <RoadConditionModal :road-condition="roadCondition"></RoadConditionModal>
 </template>
 <script setup>
-import { computed, ref } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 import RoadConditionModal from '@/components/front/base/RoadConditionModal.vue'
+import { fetchTrailsNewsData } from '@/data/api/trailsApi'
 import { newsType } from '@/data/newsType.js'
-import dummyAllTrailsNews from '@/data/dummy/allTrailsNews.json'
 
 import { useMediaQuery } from '@vueuse/core'
 const isMediaLgDown = useMediaQuery('(max-width: 992px)')
@@ -72,18 +72,28 @@ const sectionTitle = {
   icon: 'campaign',
   textColor: 'dark'
 }
-
+const allTailsNews = ref([])
 const roadsData = computed(() => {
-  let rawResult = dummyAllTrailsNews.map((roadItem) => {
+  const filterAllTailsNews = allTailsNews.value.filter((roadItem) => {
     let raw = newsType.find((typeItem) => typeItem.msg === roadItem['TR_TYP'])
+    return raw !== undefined
+  })
+  return filterAllTailsNews.map((roadItem) => {
+    let raw = newsType.find((typeItem) => typeItem.msg === roadItem['TR_TYP'])
+
     roadItem.textColor = raw.color
     return roadItem
   })
-  return rawResult
 })
+
 const roadCondition = ref({})
+
+onMounted(async () => {
+  allTailsNews.value = await fetchTrailsNewsData()
+})
+
 function getSpecifiedTrail(specifiedId) {
-  const matchingTrail = dummyAllTrailsNews.find((trail) => trail.TRAILID === specifiedId)
+  const matchingTrail = allTailsNews.value.find((trail) => trail.TRAILID === specifiedId)
   const msgColor = matchingTrail.TR_TYP
     ? newsType.find((type) => type.msg === matchingTrail.TR_TYP)?.color
     : null

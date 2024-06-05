@@ -14,6 +14,7 @@ export const roadConditionInfo = {
     { type: 'CONTENT', name: '詳細說明' }
   ]
 }
+
 export const baseTrailInfo = {
   mainTitle: { isClock: false, title: '基本資訊', icon: 'park', textColor: 'dark' },
   itemTitle: [

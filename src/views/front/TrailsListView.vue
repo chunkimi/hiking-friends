@@ -49,6 +49,7 @@ import { ref, computed, onMounted } from 'vue'
 import { onBeforeRouteLeave, useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
+import { fetchTrailsInfoData } from '@/data/api/trailsApi'
 
 import SearchBar from '@/components/front/base/SearchBar.vue'
 import BrowseMode from '@/components/front/base/BrowseMode.vue'
@@ -56,14 +57,6 @@ import InfoCard from '@/components/front/list/InfoCard.vue'
 import InfoColumnar from '@/components/front/list/InfoColumnar.vue'
 import PaginationNav from '@/components/front/base/PaginationNav.vue'
 
-import trailsData from '@/data/dummy/allTrailsInfo.json'
-
-const isHaveTrail = ref(true)
-const hasResetBtn = true
-const curMode = ref('card')
-const isCurCardMode = computed(() => {
-  return curMode.value === 'card' ? true : false
-})
 const noResultTrailsMsg = {
   icon: 'explore',
   text: '噢噢～此路不通，再重新找步道吧！'
@@ -89,6 +82,14 @@ const trailInfoTitle = [
   { type: 'TR_DIF_CLASS', name: '難度', icon: 'bi-reception-4' }
 ]
 
+const hasResetBtn = true
+const route = useRoute()
+
+const curMode = ref('card')
+const isCurCardMode = computed(() => {
+  return curMode.value === 'card' ? true : false
+})
+
 const trailsListStore = useTrailsListStore()
 const {
   currentPage,
@@ -96,13 +97,14 @@ const {
   searchKeyword,
   isListAlready,
   isFromInfoToList,
+  isIndexToSearch,
   isSavePage,
   isSaveKeyword,
-  isIndexToSearch,
   isTypeToSearch
 } = storeToRefs(trailsListStore)
 
-const allTrails = ref(trailsData)
+const isHaveTrail = ref(true)
+const allTrails = ref([])
 const filterTrails = ref([])
 const isAllTrails = ref(true)
 const perPageTrails = 12
@@ -260,31 +262,30 @@ const renderScenario = {
     isSaveKeyword.value = false
     isSavePage.value = false
   },
-  fromIndexToSearch() {
-    const route = useRoute()
-    const rawQueryValue = route.query.queryValue
+  fromIndexToSearch(queryValue) {
     searchType.value = 'trailAll'
-    renderScenario.handleSearch(rawQueryValue)
+    renderScenario.handleSearch(queryValue)
     isIndexToSearch.value = false
   },
-  fromTypeToSearch() {
-    const route = useRoute()
-    const { queryType, queryValue } = route.query
+  fromTypeToSearch(queryType, queryValue) {
     searchType.value = queryType
     renderScenario.handleSearch(queryValue)
     isTypeToSearch.value = false
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
+  allTrails.value = await fetchTrailsInfoData()
   if (isTypeToSearch.value) {
     console.log('isTypeToSearch.value')
-    renderScenario.fromTypeToSearch()
+    const { queryType, queryValue } = route.query
+    renderScenario.fromTypeToSearch(queryType, queryValue)
     return
   }
   if (isIndexToSearch.value) {
     console.log('isIndexToSearch.value')
-    renderScenario.fromIndexToSearch()
+    const rawQueryValue = route.query.queryValue
+    renderScenario.fromIndexToSearch(rawQueryValue)
     return
   }
   if (isSavePage.value && isSaveKeyword.value) {

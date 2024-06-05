@@ -60,16 +60,14 @@
           :icon="bulletinTitle.icon"
           :color="bulletinTitle.textColor"
           :title-text="bulletinTitle.title"
+          class="mb-10 mb-lg-0"
         ></IconTitle>
       </div>
       <div class="col-12 col-lg-9">
         <ul class="list-unstyled">
           <li class="row mb-6 fs-6" v-for="newsItem in trailsNews" :key="newsItem.TRAILID">
             <div class="col-12 col-lg-2">
-              <h4
-                class="fs-6 fw-bold text-center lh-1 news__sign news__sign--danger"
-                :class="newsItem.text_style"
-              >
+              <h4 class="fs-6 fw-bold text-center lh-1 news__sign" :class="newsItem.text_style">
                 {{ newsItem.TR_TYP }}
               </h4>
             </div>
@@ -93,11 +91,13 @@
   </div>
 </template>
 <script setup>
-import { computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import IconTitle from '@/components/front/base/IconTitle.vue'
-import dummyAllTrailsNews from '@/data/dummy/allTrailsNews.json'
+import { fetchTrailsNewsData } from '@/data/api/trailsApi'
 import { newsType } from '@/data/newsType.js'
+
+const allTailsNews = ref([])
 
 const bulletinTitle = {
   isClock: false,
@@ -111,11 +111,15 @@ const linkToReadMore = {
   to: { name: 'TrailConditionReport' }
 }
 
+onMounted(async () => {
+  allTailsNews.value = await fetchTrailsNewsData()
+})
+
 const trailsNews = computed(() => {
   let result = []
 
   newsType.forEach((item) => {
-    let raw = dummyAllTrailsNews.find((element) => element['TR_TYP'] == item.msg)
+    let raw = allTailsNews.value.find((element) => element['TR_TYP'] == item.msg)
     if (raw) {
       raw.text_style = `news__sign--${item.color}`
       result.push(raw)
