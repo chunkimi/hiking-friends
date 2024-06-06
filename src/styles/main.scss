@@ -2,6 +2,6 @@
 @import '~bootstrap/scss/bootstrap';
 @import 'utilities';
 @import '~bootstrap/scss/utilities/api';
-@import '_mixin.scss';
-@import '_image.scss';
-@import '_base.scss';
+@import 'mixin';
+@import 'image';
+@import 'base';
