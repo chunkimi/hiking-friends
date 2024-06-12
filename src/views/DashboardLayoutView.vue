@@ -10,4 +10,13 @@
 
 <script setup>
 import { RouterView } from 'vue-router'
+
+import { onMounted } from 'vue'
+import { useAccountStore } from '@/stores/useAccountStore.js'
+const accountStore = useAccountStore()
+const { checkLoginStatus } = accountStore
+
+onMounted(() => {
+  checkLoginStatus()
+})
 </script>
