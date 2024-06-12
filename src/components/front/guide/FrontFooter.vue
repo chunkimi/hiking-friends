@@ -51,7 +51,7 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
-import { getImageUrl } from '@/utils/base'
+import { getImageUrl } from '@/utils/imgUrl.js'
 const footerInfo = {
   logo: 'assets/logo/logo--sm.svg',
   mail: 'service@hikingfriends.com',
@@ -64,3 +64,4 @@ const footerInfo = {
   }
 }
 </script>
+@/utils/imgUrl

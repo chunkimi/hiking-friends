@@ -49,7 +49,7 @@ import { ref, computed, onMounted } from 'vue'
 import { onBeforeRouteLeave, useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
-import { fetchTrailsInfoData } from '@/data/api/trailsApi'
+import { fetchTrailsInfoData } from '@/api/trailsApi'
 
 import SearchBar from '@/components/front/base/SearchBar.vue'
 import BrowseMode from '@/components/front/base/BrowseMode.vue'

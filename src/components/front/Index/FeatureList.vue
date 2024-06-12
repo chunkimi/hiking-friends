@@ -53,7 +53,7 @@
 <script setup>
 import TypeCard from '@/components/front/base/TypeCard.vue'
 
-import { getImageUrl } from '@/utils/base'
+import { getImageUrl } from '@/utils/imgUrl.js'
 import { useMediaQuery } from '@vueuse/core'
 const isMediaLgUp = useMediaQuery('(min-width: 992px)')
 
@@ -109,3 +109,4 @@ const featureData = [
   }
 ]
 </script>
+@/utils/imgUrl
