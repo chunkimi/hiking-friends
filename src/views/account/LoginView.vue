@@ -1,5 +1,5 @@
 <style lang="scss" scoped>
-@import '@/styles/main.scss';
+@import '@/styles/main';
 </style>
 
 <template>
@@ -13,42 +13,33 @@
           >
             {{ loginInfo.pageTitle }}
           </h1>
-
-          <div class="d-grid gap-7 mt-7 w-100">
-            <div class="form-floating w-100">
+          <form class="d-grid gap-7 mt-7 w-100 needs-validation" novalidate>
+            <div
+              class="form-floating w-100"
+              v-for="formItem in loginFormInputGroup"
+              :key="formItem.id"
+            >
               <input
-                :type="formInput.email.type"
+                :type="formItem.type"
+                :id="formItem.id"
+                v-model="accountStore[formItem.storeModel]"
                 class="form-control"
-                :id="formInput.email.id"
-                :placeholder="formInput.email.placeholder"
-                v-model="email"
+                :class="{ 'is-invalid': accountStore[formItem.errorMsgKey] }"
                 required
               />
-              <label :for="formInput.email.id">Email</label>
-              <div class="text-danger" v-if="emailErrMsg">{{ emailErrMsg }}</div>
+              <label :for="formItem.id">{{ formItem.label }}</label>
+              <div class="invalid-feedback">{{ accountStore[formItem.errorMsgKey] }}</div>
             </div>
-            <div class="form-floating">
-              <input
-                :type="formInput.password.type"
-                class="form-control"
-                :id="formInput.password.id"
-                :placeholder="formInput.password.placeholder"
-                v-model="password"
-                required
-              />
-              <label :for="formInput.password.id">{{ formInput.password.label }}</label>
-              <div class="text-danger" v-if="passwordErrMsg">{{ passwordErrMsg }}</div>
-            </div>
-            <button type="button" class="btn btn-darken" @click="handleUserLogin">
-              {{ formInput.btn }}
+            <button type="submit" class="btn btn-darken" @click="handleUserLogin">
+              {{ loginFormConfig.loginBtn }}
             </button>
             <router-link
-              :to="registerPath.to"
+              :to="loginFormConfig.registerPath.to"
               class="link-secondary text-center"
               aria-current="page"
-              >{{ registerPath.title }}</router-link
+              >{{ loginFormConfig.registerPath.title }}</router-link
             >
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -57,41 +48,68 @@
 <script setup>
 import { onMounted } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
-const router = useRouter()
 
 import { storeToRefs } from 'pinia'
 import { useAccountStore } from '@/stores/useAccountStore.js'
-const accountStore = useAccountStore()
-const { email, password, emailErrMsg, passwordErrMsg, isCheckLoginSuccess } =
-  storeToRefs(accountStore)
-const { handleUserLogin, checkLoginStatus } = accountStore
-
 import logoImg from '@/assets/logo/logo.svg'
+
+const accountStore = useAccountStore()
+const { isHandleLogin, isCheckLoginSuccess, isLoginFormValid, loginEmail, loginPassword } =
+  storeToRefs(accountStore)
+const { checkLoginStatus, sendLoginRequest } = accountStore
+const router = useRouter()
 
 const loginInfo = {
   logoImg,
   pageTitle: '使用者登入｜郊友趣・Hiking Friends'
 }
-const formInput = {
-  email: {
+
+const loginFormInputGroup = [
+  {
     type: 'email',
-    id: 'login-account',
-    placeholder: '請輸入Email',
-    label: 'Email'
+    id: 'login-email',
+    label: 'Email',
+    storeModel: 'loginEmail',
+    errorMsgKey: 'emailErrMsg'
   },
-  password: {
+  {
     type: 'password',
     id: 'login-password',
-    placeholder: '請輸入密碼',
-    label: 'Password'
-  },
-  btn: '登入'
+    label: 'Password',
+    storeModel: 'loginPassword',
+    errorMsgKey: 'passwordErrMsg'
+  }
+]
+
+const loginFormConfig = {
+  loginBtn: '註冊帳號',
+  registerPath: { title: '註冊帳號', to: { name: 'Register' } }
 }
-const registerPath = { title: '註冊帳號', to: { name: 'Register' } }
+
+async function handleUserLogin(e) {
+  e.preventDefault()
+  isHandleLogin.value = true
+  if (isLoginFormValid.value) {
+    const loginData = {
+      user: {
+        email: loginEmail.value,
+        password: loginPassword.value
+      }
+    }
+    try {
+      await sendLoginRequest(loginData)
+      setTimeout(() => {
+        router.push({ name: 'PassportIndex' })
+      }, 500)
+    } catch (error) {
+      console.error('Login failed:', error)
+    }
+  }
+}
+
 onMounted(() => {
   checkLoginStatus()
   if (isCheckLoginSuccess.value) {
-    alert('已登入帳號了')
     setTimeout(() => {
       router.push({ name: 'PassportIndex' })
     }, 500)
