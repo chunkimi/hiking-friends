@@ -1,4 +1,14 @@
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import '@/styles/main';
+.form-floating > .form-control::placeholder {
+  opacity: 0;
+}
+
+.form-floating > .form-control:focus::placeholder {
+  opacity: 1;
+  color: $gray-500;
+}
+</style>
 
 <template>
   <div class="container">
@@ -7,51 +17,38 @@
         <div class="d-flex flex-column justify-content-center align-items-center">
           <h1
             class="brand__img brand--lg"
-            :style="{ backgroundImage: `url(${registerInfo.logo})` }"
+            :style="{ backgroundImage: `url(${registerInfo.logoImg})` }"
           >
-            註冊帳號｜郊友趣・Hiking Friends
+            {{ registerInfo.pageTitle }}
           </h1>
-          <h2 class="h2 mt-5">註冊帳號</h2>
+          <h2 class="h2 mt-5">{{ registerInfo.title }}</h2>
         </div>
-        <form class="d-grid gap-5 mb-5">
-          <div class="">
-            <label for="register-name" class="form-label">名稱</label>
+        <form class="d-grid gap-7 mt-7 w-100 needs-validation" novalidate>
+          <div class="form-floating w-100" v-for="formItem in formInputGroup" :key="formItem.id">
             <input
-              type="text"
+              :type="formItem.type"
+              :id="formItem.id"
+              :placeholder="formItem.placeholder"
+              v-model="registerStore[formItem.storeModel]"
+              @focus="formItem.isFocused = true"
+              @blur="formItem.isFocused = false"
               class="form-control"
-              id="register-name"
-              placeholder="請輸入使用者名稱"
+              :class="{ 'is-invalid': registerStore[formItem.errorMsgKey] }"
+              required
             />
+            <label :for="formItem.id">{{ formItem.label }}</label>
+            <div class="invalid-feedback">{{ registerStore[formItem.errorMsgKey] }}</div>
           </div>
-          <div class="">
-            <label for="register-email" class="form-label">Email </label>
-            <input type="email" class="form-control" id="register-email" placeholder="請輸入暱稱" />
-          </div>
-          <div class="">
-            <label for="register-password" class="form-label">密碼</label>
-            <input
-              type="password"
-              class="form-control"
-              id="register-password"
-              placeholder="請輸入密碼"
-            />
-          </div>
-          <div class="">
-            <label for="register-password-check" class="form-label">再次輸入密碼</label>
-            <input
-              type="password"
-              class="form-control"
-              id="register-password-check"
-              placeholder="請再次輸入密碼"
-            />
-          </div>
-          <button type="submit" class="btn btn-primary">註冊帳號</button>
+          <button type="button" class="btn btn-darken" @click="handleRegister">
+            {{ registerFormConfig.registerBtn }}
+          </button>
+          <router-link
+            :to="registerFormConfig.loginPath.to"
+            class="link-secondary text-center"
+            aria-current="page"
+            >{{ registerFormConfig.loginPath.title }}</router-link
+          >
         </form>
-        <div class="d-flex justify-content-center">
-          <router-link :to="loginPath.to" class="link-secondary text-center" aria-current="page">{{
-            loginPath.title
-          }}</router-link>
-        </div>
       </div>
     </div>
   </div>
@@ -59,8 +56,56 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
-import logo from '@/assets/logo/logo.svg'
-const registerInfo = { logo }
 
-const loginPath = { title: '已有帳號，回到登入頁', to: { name: 'Login' } }
+import { useRegisterStore } from '@/stores/useRegisterStore.js'
+
+const registerStore = useRegisterStore()
+const { handleRegister } = registerStore
+
+import { errMsg } from '@/utils/accountRule.js'
+import logoImg from '@/assets/logo/logo.svg'
+const registerInfo = { logoImg, pageTitle: '註冊帳號｜郊友趣・Hiking Friends', title: '註冊帳號' }
+const formInputGroup = [
+  {
+    type: 'email',
+    id: 'register-email',
+    placeholder: '請輸入Email',
+    label: 'Email',
+    storeModel: 'registerEmail',
+    errorMsgKey: 'emailErrMsg',
+    isFocused: false
+  },
+  {
+    type: 'text',
+    id: 'register-nickname',
+    placeholder: errMsg.nickname,
+    label: '暱稱',
+    storeModel: 'registerNickname',
+    errorMsgKey: 'nicknameErrMsg',
+    isFocused: false
+  },
+  {
+    type: 'password',
+    id: 'register-password',
+    placeholder: errMsg.password,
+    label: '密碼',
+    storeModel: 'registerPassword',
+    errorMsgKey: 'passwordErrMsg',
+    isFocused: false
+  },
+  {
+    type: 'password',
+    id: 'register-password-check',
+    placeholder: errMsg.password,
+    label: '再次輸入密碼',
+    storeModel: 'registerPasswordCheck',
+    errorMsgKey: 'passwordCheckErrMsg',
+    isFocused: false
+  }
+]
+
+const registerFormConfig = {
+  registerBtn: '註冊帳號',
+  loginPath: { title: '已有帳號，回到登入頁', to: { name: 'Login' } }
+}
 </script>
