@@ -96,7 +96,7 @@ import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
-import { getImageUrl } from '@/utils/base'
+import { getImageUrl } from '@/utils/imgUrl.js'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 
 import { useMediaQuery } from '@vueuse/core'
@@ -212,3 +212,4 @@ function searchRole(role) {
   }
 }
 </script>
+@/utils/imgUrl

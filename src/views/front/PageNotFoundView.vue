@@ -17,7 +17,7 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
-import { getImageUrl } from '@/utils/base'
+import { getImageUrl } from '@/utils/imgUrl.js'
 
 const info = {
   img: 'assets/illustration/road.png',
@@ -28,3 +28,4 @@ const info = {
   }
 }
 </script>
+@/utils/imgUrl

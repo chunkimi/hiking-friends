@@ -55,7 +55,7 @@
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
-import { getImageUrl } from '@/utils/base'
+import { getImageUrl } from '@/utils/imgUrl.js'
 import SearchBar from '@/components/front/base/SearchBar.vue'
 import hikerIcon from '@/assets/bg-img/hiker.jpeg'
 import logoImg from '@/assets/logo/logo--light.svg'
@@ -79,3 +79,4 @@ function searchToList(queryValue) {
   }
 }
 </script>
+@/utils/imgUrl

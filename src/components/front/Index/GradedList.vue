@@ -104,7 +104,7 @@
 </template>
 <script setup>
 import { RouterLink } from 'vue-router'
-import { getTrailImgUrl } from '@/utils/base'
+import { getTrailImgUrl } from '@/utils/imgUrl.js'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 import treeIcon from '@/assets/illustration/tree--light.svg'
 import personIcon from '@/assets/illustration/person-medium--light.svg'
@@ -157,3 +157,4 @@ const recommendTrails = [
   }
 ]
 </script>
+@/utils/imgUrl

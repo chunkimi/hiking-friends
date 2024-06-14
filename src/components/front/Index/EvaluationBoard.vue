@@ -124,7 +124,7 @@ import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 
-import { getImageUrl } from '@/utils/base'
+import { getImageUrl } from '@/utils/imgUrl.js'
 import bgImg from '@/assets/bg-img/shaba.jpeg'
 
 import { useMediaQuery } from '@vueuse/core'
@@ -197,3 +197,4 @@ const evaluationData = [
   }
 ]
 </script>
+@/utils/imgUrl

@@ -56,7 +56,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, onBeforeRouteLeave } from 'vue-router'
-import { fetchTrailsInfoData, fetchTrailsNewsData } from '@/data/api/trailsApi'
+import { fetchTrailsInfoData, fetchTrailsNewsData } from '@/api/trailsApi'
 
 import GoBackIcon from '@/components/front/base/GoBackIcon.vue'
 import PurposeTitle from '@/components/front/info/PurposeTitle.vue'

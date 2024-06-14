@@ -69,6 +69,10 @@
     }
   }
 }
+.btn-outline-secondary {
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-color: #fff;
+}
 </style>
 
 <template>
@@ -84,10 +88,9 @@
                 : `url(${headerInfo.logoLight})`
             }"
           >
-            {{ menuTitle.indexTitle }}
+            {{ menuConfig.indexTitle }}
           </h2></router-link
         >
-
         <button
           class="navbar-toggler"
           type="button"
@@ -120,11 +123,31 @@
               </router-link>
             </li>
           </ul>
-          <button class="btn btn-dark menu__btn mt-10 mt-lg-0">
-            <router-link to="/account" class="fs-6 link-light text-decoration-none">{{
-              menuTitle.account
+          <div class="mt-10 mt-lg-0 pt-lg-2">
+            <div
+              v-if="isCheckLoginSuccess"
+              class="d-flex justify-content-center align-items-center"
+            >
+              <p
+                class="fw-bold p-0 m-0 me-3 d-flex justify-content-center"
+                :class="isMediaLgUp ? ['text-success'] : ['text-light']"
+              >
+                <span class="material-icons"> face </span>
+                <span class="ms-1"> {{ userNickname }}</span>
+              </p>
+              <button
+                type="button"
+                class="btn btn-sm"
+                :class="isMediaLgUp ? ['btn-outline-secondary'] : ['btn-outline-light']"
+                @click="handleLogout"
+              >
+                {{ menuConfig.logoutTitle }}
+              </button>
+            </div>
+            <router-link :to="menuConfig.accountPath.to" class="btn btn-dark menu__btn" v-else>{{
+              menuConfig.accountPath.title
             }}</router-link>
-          </button>
+          </div>
         </div>
       </nav>
     </div>
@@ -132,9 +155,10 @@
 </template>
 
 <script setup>
-import { RouterLink, useRoute } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
+import { useAccountStore } from '@/stores/useAccountStore.js'
 
 import { useMediaQuery } from '@vueuse/core'
 const isMediaLgUp = useMediaQuery('(min-width: 992px)')
@@ -146,10 +170,25 @@ const headerInfo = {
   logo,
   logoLight
 }
+const menuConfig = {
+  indexTitle: '郊友趣・Hiking Friends',
+  accountPath: { title: '註冊 / 登入', to: { name: 'Login' } },
+  logoutTitle: '登出'
+}
+const menuData = [
+  { title: '首頁', to: { name: 'FrontIndex' } },
+  { title: '主題分級', to: { name: 'TrailsIntro' } },
+  { title: '探索步道', to: { name: 'TrailsList' } },
+  { title: '郊友護照', to: { name: 'PassportIndex' } }
+]
 
 const route = useRoute()
+const router = useRouter()
 const trailsListStore = useTrailsListStore()
+const accountStore = useAccountStore()
 const { isListAlready, isSavePage, isTypeToSearch } = storeToRefs(trailsListStore)
+const { isCheckLoginSuccess, userNickname, isLogoutSuccess } = storeToRefs(accountStore)
+const { sendLogoutRequest } = accountStore
 
 function reloadList() {
   const currentRoute = route.fullPath
@@ -164,16 +203,10 @@ function reloadList() {
     isTypeToSearch.value = false
   }
 }
-
-const menuTitle = {
-  indexTitle: '郊友趣・Hiking Friends',
-  account: '註冊 / 登入'
+async function handleLogout() {
+  await sendLogoutRequest()
+  if (isLogoutSuccess.value) {
+    router.push({ name: 'FrontIndex' })
+  }
 }
-
-const menuData = [
-  { title: '首頁', to: { name: 'FrontIndex' } },
-  { title: '主題分級', to: { name: 'TrailsIntro' } },
-  { title: '探索步道', to: { name: 'TrailsList' } },
-  { title: '郊友護照', to: { name: 'PassportIndex' } }
-]
 </script>

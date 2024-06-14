@@ -75,7 +75,7 @@
   </div>
 </template>
 <script setup>
-import { getTrailImgUrl } from '@/utils/base'
+import { getTrailImgUrl } from '@/utils/imgUrl'
 
 defineProps({
   trailInfo: {
@@ -89,3 +89,4 @@ const primaryInfo = [
   { type: 'TR_TOUR', name: '遊程時間' }
 ]
 </script>
+@/utils/imgUrl

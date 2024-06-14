@@ -72,7 +72,7 @@
 </template>
 <script setup>
 import { RouterLink } from 'vue-router'
-import { getTrailImgUrl } from '@/utils/base'
+import { getTrailImgUrl } from '@/utils/imgUrl.js'
 defineProps({
   curPageTrails: {
     type: Array,
@@ -88,3 +88,4 @@ defineProps({
   }
 })
 </script>
+@/utils/imgUrl
