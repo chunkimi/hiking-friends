@@ -46,18 +46,23 @@
   </div>
 </template>
 <script setup>
-import { onMounted } from 'vue'
+import { onBeforeMount } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
-
 import { storeToRefs } from 'pinia'
 import { useAccountStore } from '@/stores/useAccountStore.js'
 import logoImg from '@/assets/logo/logo.svg'
 
-const accountStore = useAccountStore()
-const { isHandleLogin, isCheckLoginSuccess, isLoginFormValid, loginEmail, loginPassword } =
-  storeToRefs(accountStore)
-const { checkLoginStatus, sendLoginRequest } = accountStore
 const router = useRouter()
+const accountStore = useAccountStore()
+const {
+  isHandleLogin,
+  isCheckLoginSuccess,
+  isLoginFormValid,
+  loginEmail,
+  loginPassword,
+  isLoginSuccess
+} = storeToRefs(accountStore)
+const { checkLoginStatus, sendLoginRequest } = accountStore
 
 const loginInfo = {
   logoImg,
@@ -82,7 +87,7 @@ const loginFormInputGroup = [
 ]
 
 const loginFormConfig = {
-  loginBtn: '註冊帳號',
+  loginBtn: '登入',
   registerPath: { title: '註冊帳號', to: { name: 'Register' } }
 }
 
@@ -98,16 +103,18 @@ async function handleUserLogin(e) {
     }
     try {
       await sendLoginRequest(loginData)
-      setTimeout(() => {
-        router.push({ name: 'PassportIndex' })
-      }, 500)
+      if (isLoginSuccess.value) {
+        setTimeout(() => {
+          router.push({ name: 'PassportIndex' })
+        }, 500)
+      }
     } catch (error) {
       console.error('Login failed:', error)
     }
   }
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   checkLoginStatus()
   if (isCheckLoginSuccess.value) {
     setTimeout(() => {

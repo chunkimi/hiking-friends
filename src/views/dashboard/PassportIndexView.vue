@@ -2,7 +2,7 @@
 
 <template>
   <p class="fs-1">會員護照</p>
-  <p class="fs-1">{{ userNickName }}</p>
+  <p class="fs-1">{{ userNickname }}</p>
   <p>{{ isCheckLoginSuccess }}</p>
 </template>
 
@@ -10,5 +10,5 @@
 import { storeToRefs } from 'pinia'
 import { useAccountStore } from '@/stores/useAccountStore.js'
 const accountStore = useAccountStore()
-const { userNickName, isCheckLoginSuccess } = storeToRefs(accountStore)
+const { userNickname, isCheckLoginSuccess } = storeToRefs(accountStore)
 </script>

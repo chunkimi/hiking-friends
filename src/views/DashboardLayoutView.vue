@@ -2,6 +2,19 @@
 
 <template>
   <div id="dashboard">
+    <header class="bg-primary bg-opacity-50 py-10">
+      <div class="container">
+        <div v-if="isCheckLoginSuccess">
+          <p class="fs-1 p-4 m-4">{{ userNickname }}</p>
+          <router-link class="btn btn-success m-4" :to="navConfig.frontPath.to">{{
+            navConfig.frontPath.title
+          }}</router-link>
+          <button class="btn btn-warning m-4" @click="handleLogout">
+            {{ navConfig.logoutBtn.title }}
+          </button>
+        </div>
+      </div>
+    </header>
     <main class="container">
       <RouterView />
     </main>
@@ -9,21 +22,34 @@
 </template>
 
 <script setup>
-import { RouterView, useRouter } from 'vue-router'
-import { onMounted } from 'vue'
+import { RouterView, RouterLink, useRouter } from 'vue-router'
+import { onBeforeMount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAccountStore } from '@/stores/useAccountStore.js'
 const accountStore = useAccountStore()
-const { isCheckLoginSuccess } = storeToRefs(accountStore)
-const { checkLoginStatus } = accountStore
+const { isCheckLoginSuccess, userNickname, isLogoutSuccess } = storeToRefs(accountStore)
+const { checkLoginStatus, sendLogoutRequest } = accountStore
 const router = useRouter()
 
-onMounted(() => {
+const navConfig = {
+  frontPath: { title: '回到主頁', to: { name: 'FrontIndex' } },
+  logoutBtn: { title: '登出' }
+}
+
+async function handleLogout() {
+  console.log('handleLogout', handleLogout)
+  await sendLogoutRequest()
+  if (isLogoutSuccess.value) {
+    setTimeout(() => {
+      router.push({ name: 'FrontIndex' })
+    }, 500)
+  }
+}
+
+onBeforeMount(() => {
   checkLoginStatus()
   if (!isCheckLoginSuccess.value) {
-    setTimeout(() => {
-      router.push({ name: 'Login' })
-    }, 500)
+    router.push({ name: 'Login' })
   }
 })
 </script>
