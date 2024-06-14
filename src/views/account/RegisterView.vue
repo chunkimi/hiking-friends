@@ -61,18 +61,6 @@ import { useRegisterStore } from '@/stores/useRegisterStore.js'
 import { errMsg } from '@/utils/accountRule.js'
 import logoImg from '@/assets/logo/logo.svg'
 
-const router = useRouter()
-const registerStore = useRegisterStore()
-const {
-  isHandleRegister,
-  isRegisterFormValid,
-  registerEmail,
-  registerNickname,
-  registerPassword,
-  isRegisterSuccess
-} = storeToRefs(registerStore)
-const { sendRegisterRequest } = registerStore
-
 const registerInfo = { logoImg, pageTitle: '註冊帳號｜郊友趣・Hiking Friends', title: '註冊帳號' }
 
 const registerFormConfig = {
@@ -118,6 +106,18 @@ const formInputGroup = [
     isFocused: false
   }
 ]
+
+const router = useRouter()
+const registerStore = useRegisterStore()
+const {
+  isHandleRegister,
+  isRegisterFormValid,
+  registerEmail,
+  registerNickname,
+  registerPassword,
+  isRegisterSuccess
+} = storeToRefs(registerStore)
+const { sendRegisterRequest } = registerStore
 
 async function handleRegister(e) {
   e.preventDefault()

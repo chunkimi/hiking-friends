@@ -16,9 +16,9 @@ export const useAccountStore = defineStore('accountStore', () => {
   const loginPassword = ref('')
   const userNickname = ref('')
   const isHandleLogin = ref(false)
-  const isLoginSuccess = ref(false)
   const isCheckLoginSuccess = ref(false)
-  const isLogoutSuccess = ref(false)
+  const isLoginSuccess = computed(() => (userNickname.value ? true : false))
+  const isLogoutSuccess = computed(() => (!userNickname.value ? true : false))
 
   const emailErrMsg = computed(() => {
     if (isHandleLogin.value) {
@@ -56,20 +56,18 @@ export const useAccountStore = defineStore('accountStore', () => {
       document.cookie = setCookie(authorization)
       userNickname.value = nickname
       isHandleLogin.value = false
-      isLoginSuccess.value = true
       alert(message)
     } catch (error) {
       console.error('Error fetching trails:', error)
     }
   }
 
-  function checkLoginStatus() {
+  async function checkLoginStatus() {
     const authToken = getCookie()
-    if (authToken.length <= 0) {
-      isCheckLoginSuccess.value = false
-      document.cookie = resetCookie()
+    if (!userNickname.value || authToken.length <= 0) {
+      resetLoginStatus()
     } else {
-      sendCheckLoginRequest(authToken)
+      await sendCheckLoginRequest(authToken)
     }
   }
 
@@ -97,7 +95,6 @@ export const useAccountStore = defineStore('accountStore', () => {
       })
       const { message } = response.data
       resetLoginStatus()
-      isLogoutSuccess.value = true
       alert(message)
     } catch (error) {
       console.error('Error fetching trails:', error)
