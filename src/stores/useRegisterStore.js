@@ -1,17 +1,16 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import { useRouter } from 'vue-router'
 import { validateRule, errMsg } from '@/utils/accountRule'
 import { registerUrl } from '@/api/accountApi'
 
 export const useRegisterStore = defineStore('registerStore', () => {
-  const router = useRouter()
   const registerEmail = ref('')
   const registerPassword = ref('')
   const registerPasswordCheck = ref('')
   const registerNickname = ref('')
   const isHandleRegister = ref(false)
+  const isRegisterSuccess = ref(false)
 
   const emailErrMsg = computed(() => {
     if (isHandleRegister.value) {
@@ -76,32 +75,13 @@ export const useRegisterStore = defineStore('registerStore', () => {
     )
   })
 
-  function handleRegister(e) {
-    e.preventDefault()
-    isHandleRegister.value = true
-    if (isRegisterFormValid.value) {
-      const registerData = {
-        user: {
-          email: registerEmail.value,
-          nickname: registerNickname.value,
-          password: registerPassword.value
-        }
-      }
-      sendRegisterRequest(registerData)
-    }
-  }
-
   async function sendRegisterRequest(registerData) {
-    console.log('sendRegisterRequest')
     try {
       const response = await axios.post(registerUrl, registerData)
-      console.log('try-response', response)
       const { message } = response.data
+      isRegisterSuccess.value = true
+      resetRegisterForm()
       alert(message)
-      setTimeout(() => {
-        resetRegisterForm()
-        router.push({ name: 'Login' })
-      }, 500)
     } catch (error) {
       console.error('Error fetching trails:', error)
     }
@@ -123,7 +103,9 @@ export const useRegisterStore = defineStore('registerStore', () => {
     passwordErrMsg,
     nicknameErrMsg,
     passwordCheckErrMsg,
+    isHandleRegister,
     isRegisterFormValid,
-    handleRegister
+    isRegisterSuccess,
+    sendRegisterRequest
   }
 })

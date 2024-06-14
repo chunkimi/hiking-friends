@@ -55,6 +55,7 @@ export const useAccountStore = defineStore('accountStore', () => {
       const { authorization } = response.headers
       document.cookie = setCookie(authorization)
       userNickname.value = nickname
+      isHandleLogin.value = false
       isLoginSuccess.value = true
       alert(message)
     } catch (error) {
@@ -88,7 +89,6 @@ export const useAccountStore = defineStore('accountStore', () => {
   async function sendLogoutRequest() {
     const authToken = getCookie()
     if (authToken.length <= 0) return
-
     try {
       const response = await axios.delete(logoutUrl, {
         headers: {

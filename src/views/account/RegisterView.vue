@@ -55,16 +55,31 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
-
+import { RouterLink, useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 import { useRegisterStore } from '@/stores/useRegisterStore.js'
-
-const registerStore = useRegisterStore()
-const { handleRegister } = registerStore
-
 import { errMsg } from '@/utils/accountRule.js'
 import logoImg from '@/assets/logo/logo.svg'
+
+const router = useRouter()
+const registerStore = useRegisterStore()
+const {
+  isHandleRegister,
+  isRegisterFormValid,
+  registerEmail,
+  registerNickname,
+  registerPassword,
+  isRegisterSuccess
+} = storeToRefs(registerStore)
+const { sendRegisterRequest } = registerStore
+
 const registerInfo = { logoImg, pageTitle: '註冊帳號｜郊友趣・Hiking Friends', title: '註冊帳號' }
+
+const registerFormConfig = {
+  registerBtn: '註冊帳號',
+  loginPath: { title: '已有帳號，回到登入頁', to: { name: 'Login' } }
+}
+
 const formInputGroup = [
   {
     type: 'email',
@@ -104,8 +119,27 @@ const formInputGroup = [
   }
 ]
 
-const registerFormConfig = {
-  registerBtn: '註冊帳號',
-  loginPath: { title: '已有帳號，回到登入頁', to: { name: 'Login' } }
+async function handleRegister(e) {
+  e.preventDefault()
+  isHandleRegister.value = true
+  if (isRegisterFormValid.value) {
+    const registerData = {
+      user: {
+        email: registerEmail.value,
+        nickname: registerNickname.value,
+        password: registerPassword.value
+      }
+    }
+    try {
+      await sendRegisterRequest(registerData)
+      if (isRegisterSuccess.value) {
+        setTimeout(() => {
+          router.push({ name: 'Login' })
+        }, 500)
+      }
+    } catch (error) {
+      console.error('Login failed:', error)
+    }
+  }
 }
 </script>

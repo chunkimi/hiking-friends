@@ -26,6 +26,7 @@ import { RouterView, RouterLink, useRouter } from 'vue-router'
 import { onBeforeMount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAccountStore } from '@/stores/useAccountStore.js'
+
 const accountStore = useAccountStore()
 const { isCheckLoginSuccess, userNickname, isLogoutSuccess } = storeToRefs(accountStore)
 const { checkLoginStatus, sendLogoutRequest } = accountStore
@@ -37,12 +38,9 @@ const navConfig = {
 }
 
 async function handleLogout() {
-  console.log('handleLogout', handleLogout)
   await sendLogoutRequest()
   if (isLogoutSuccess.value) {
-    setTimeout(() => {
-      router.push({ name: 'FrontIndex' })
-    }, 500)
+    router.push({ name: 'FrontIndex' })
   }
 }
 
