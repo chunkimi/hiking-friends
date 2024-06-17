@@ -16,3 +16,7 @@ export function getCookie(tokenName = projectToken) {
 export function resetCookie() {
   return `${projectToken}=;`
 }
+
+export const favTrailsListUrl = `${baseUrl}/todos`
+export const favTrailUrl = (fav_id) => `${favTrailsListUrl}/${fav_id}`
+export const toggleFavTrailUrl = (fav_id) => `${favTrailsListUrl}/${fav_id}/toggle`

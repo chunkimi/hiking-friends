@@ -38,9 +38,9 @@
       background-color: $light;
     }
   }
-  &__btn {
-    --bs-btn-color: #fff;
-  }
+}
+.btn-primary {
+  --bs-btn-color: #fff;
 }
 </style>
 <template>
@@ -66,7 +66,11 @@
               <span class="">{{ trailInfo[primaryItem.type] }}</span>
             </li>
           </ul>
-          <button type="button" class="btn btn-primary ms-auto trail-subject__btn w-100 w-lg-25">
+          <button
+            type="button"
+            class="btn btn-primary ms-auto trail-subject__btn w-100 w-lg-25"
+            @click="handleToFavorite(trailInfo.TRAILID)"
+          >
             加入收藏
           </button>
         </div>
@@ -76,7 +80,7 @@
 </template>
 <script setup>
 import { getTrailImgUrl } from '@/utils/imgUrl'
-
+import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore.js'
 defineProps({
   trailInfo: {
     type: Object,
@@ -88,5 +92,7 @@ const primaryInfo = [
   { type: 'TR_LENGTH', name: '步道長度' },
   { type: 'TR_TOUR', name: '遊程時間' }
 ]
+
+const favoriteTrailsStore = useFavoriteTrailsStore()
+const { handleToFavorite } = favoriteTrailsStore
 </script>
-@/utils/imgUrl

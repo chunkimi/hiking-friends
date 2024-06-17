@@ -19,9 +19,14 @@
           :class="`btn-outline-${trailInfoBtn.moreInfo.btnColor}`"
           ><i class="bi" :class="trailInfoBtn.moreInfo.icon"></i
         ></RouterLink>
-        <RouterLink to="/" class="btn w-100" :class="`btn-outline-${trailInfoBtn.addList.btnColor}`"
-          ><i class="bi" :class="trailInfoBtn.addList.icon"></i
-        ></RouterLink>
+        <button
+          type="button"
+          class="btn w-100"
+          :class="`btn-outline-${trailInfoBtn.addList.btnColor}`"
+          @click="handleToFavorite(trailItem.TRAILID)"
+        >
+          <i class="bi" :class="trailInfoBtn.addList.icon"></i>
+        </button>
       </div>
     </div>
     <ul class="list-unstyled row" v-if="isMediaMdUp">
@@ -40,6 +45,7 @@
 </template>
 <script setup>
 import { RouterLink } from 'vue-router'
+import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore.js'
 import { useMediaQuery } from '@vueuse/core'
 const isMediaMdUp = useMediaQuery('(min-width: 767px)')
 
@@ -57,4 +63,7 @@ defineProps({
     required: true
   }
 })
+
+const favoriteTrailsStore = useFavoriteTrailsStore()
+const { handleToFavorite } = favoriteTrailsStore
 </script>

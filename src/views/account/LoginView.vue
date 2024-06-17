@@ -52,21 +52,14 @@ import { storeToRefs } from 'pinia'
 import { useAccountStore } from '@/stores/useAccountStore.js'
 import logoImg from '@/assets/logo/logo.svg'
 
-const router = useRouter()
-const accountStore = useAccountStore()
-const {
-  isHandleLogin,
-  isCheckLoginSuccess,
-  isLoginFormValid,
-  loginEmail,
-  loginPassword,
-  isLoginSuccess
-} = storeToRefs(accountStore)
-const { checkLoginStatus, sendLoginRequest } = accountStore
-
 const loginInfo = {
   logoImg,
   pageTitle: '使用者登入｜郊友趣・Hiking Friends'
+}
+
+const loginFormConfig = {
+  loginBtn: '登入',
+  registerPath: { title: '註冊帳號', to: { name: 'Register' } }
 }
 
 const loginFormInputGroup = [
@@ -86,10 +79,17 @@ const loginFormInputGroup = [
   }
 ]
 
-const loginFormConfig = {
-  loginBtn: '登入',
-  registerPath: { title: '註冊帳號', to: { name: 'Register' } }
-}
+const router = useRouter()
+const accountStore = useAccountStore()
+const {
+  isHandleLogin,
+  isCheckLoginSuccess,
+  isLoginFormValid,
+  loginEmail,
+  loginPassword,
+  isLoginSuccess
+} = storeToRefs(accountStore)
+const { checkLoginStatus, sendLoginRequest } = accountStore
 
 async function handleUserLogin(e) {
   e.preventDefault()
@@ -104,22 +104,24 @@ async function handleUserLogin(e) {
     try {
       await sendLoginRequest(loginData)
       if (isLoginSuccess.value) {
-        setTimeout(() => {
-          router.push({ name: 'PassportIndex' })
-        }, 500)
+        router.push({ name: 'PassportIndex' })
       }
     } catch (error) {
-      console.error('Login failed:', error)
+      console.error('Erroe Login failed:', error)
     }
   }
 }
 
-onBeforeMount(() => {
-  checkLoginStatus()
-  if (isCheckLoginSuccess.value) {
-    setTimeout(() => {
-      router.push({ name: 'PassportIndex' })
-    }, 500)
+onBeforeMount(async () => {
+  try {
+    await checkLoginStatus()
+    if (isCheckLoginSuccess.value) {
+      setTimeout(() => {
+        router.push({ name: 'PassportIndex' })
+      }, 500)
+    }
+  } catch (error) {
+    console.error('Error during login check:', error)
   }
 })
 </script>
