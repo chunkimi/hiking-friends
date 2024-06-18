@@ -58,12 +58,14 @@
             >
           </div>
           <div class="col-6">
-            <RouterLink
-              to="/"
+            <button
+              type="button"
               class="btn w-100"
               :class="`btn-outline-${trailInfoBtn.addList.btnColor}`"
-              >{{ trailInfoBtn.addList.name }}</RouterLink
+              @click="handleToFavorite(trailItem.TRAILID)"
             >
+              {{ trailInfoBtn.addList.name }}
+            </button>
           </div>
         </div>
       </div>
@@ -72,7 +74,9 @@
 </template>
 <script setup>
 import { RouterLink } from 'vue-router'
+import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore.js'
 import { getTrailImgUrl } from '@/utils/imgUrl.js'
+
 defineProps({
   curPageTrails: {
     type: Array,
@@ -87,5 +91,7 @@ defineProps({
     required: true
   }
 })
+
+const favoriteTrailsStore = useFavoriteTrailsStore()
+const { handleToFavorite } = favoriteTrailsStore
 </script>
-@/utils/imgUrl

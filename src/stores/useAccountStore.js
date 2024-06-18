@@ -19,7 +19,6 @@ export const useAccountStore = defineStore('accountStore', () => {
   const isCheckLoginSuccess = ref(false)
   const isLoginSuccess = computed(() => (userNickname.value ? true : false))
   const isLogoutSuccess = computed(() => (!userNickname.value ? true : false))
-
   const emailErrMsg = computed(() => {
     if (isHandleLogin.value) {
       if (loginEmail.value.trim().length === 0) {
@@ -48,6 +47,13 @@ export const useAccountStore = defineStore('accountStore', () => {
     return !emailErrMsg.value && !passwordErrMsg.value
   })
 
+  const authToken = ref('')
+  const headersToken = computed(() => ({
+    headers: {
+      Authorization: authToken.value
+    }
+  }))
+
   async function sendLoginRequest(data) {
     try {
       const response = await axios.post(loginUrl, data)
@@ -63,21 +69,17 @@ export const useAccountStore = defineStore('accountStore', () => {
   }
 
   async function checkLoginStatus() {
-    const authToken = getCookie()
-    if (!userNickname.value || authToken.length <= 0) {
+    updateAuthToken()
+    if (!userNickname.value || !authToken.value || authToken.value.length <= 0) {
       resetLoginStatus()
     } else {
-      await sendCheckLoginRequest(authToken)
+      await sendCheckLoginRequest()
     }
   }
 
-  async function sendCheckLoginRequest(authToken) {
+  async function sendCheckLoginRequest() {
     try {
-      await axios.get(loginCheckUrl, {
-        headers: {
-          Authorization: authToken
-        }
-      })
+      await axios.get(loginCheckUrl, headersToken.value)
       isCheckLoginSuccess.value = true
     } catch (error) {
       console.error('Error fetching trails:', error)
@@ -85,14 +87,10 @@ export const useAccountStore = defineStore('accountStore', () => {
   }
 
   async function sendLogoutRequest() {
-    const authToken = getCookie()
-    if (authToken.length <= 0) return
+    updateAuthToken()
+    if (!authToken.value || authToken.value.length <= 0) return
     try {
-      const response = await axios.delete(logoutUrl, {
-        headers: {
-          Authorization: authToken
-        }
-      })
+      const response = await axios.delete(logoutUrl, headersToken.value)
       const { message } = response.data
       resetLoginStatus()
       alert(message)
@@ -107,6 +105,10 @@ export const useAccountStore = defineStore('accountStore', () => {
     userNickname.value = ''
     isCheckLoginSuccess.value = false
     document.cookie = resetCookie()
+  }
+
+  function updateAuthToken() {
+    authToken.value = getCookie()
   }
 
   return {

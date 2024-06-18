@@ -26,16 +26,20 @@ import { onBeforeMount } from 'vue'
 import { RouterView, RouterLink, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useAccountStore } from '@/stores/useAccountStore.js'
+import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
 
 const navConfig = {
   frontPath: { title: '回到主頁', to: { name: 'FrontIndex' } },
   logoutBtn: { title: '登出' }
 }
-
+const router = useRouter()
 const accountStore = useAccountStore()
 const { isCheckLoginSuccess, userNickname, isLogoutSuccess } = storeToRefs(accountStore)
 const { checkLoginStatus, sendLogoutRequest } = accountStore
-const router = useRouter()
+
+const favoriteTrailsStore = useFavoriteTrailsStore()
+const { favTrailsListData } = storeToRefs(favoriteTrailsStore)
+const { sendFavListRequest } = favoriteTrailsStore
 
 async function handleLogout() {
   await sendLogoutRequest()
@@ -49,9 +53,20 @@ onBeforeMount(async () => {
     await checkLoginStatus()
     if (!isCheckLoginSuccess.value) {
       router.push({ name: 'Login' })
+    } else {
+      dashboardDataInit()
     }
   } catch (error) {
     console.error('Error during login check:', error)
   }
 })
+
+async function dashboardDataInit() {
+  try {
+    await sendFavListRequest()
+    console.log('dashboard-favTrailsList', favTrailsListData)
+  } catch (error) {
+    console.error('Error dashboard request favTrailsList:', error)
+  }
+}
 </script>
