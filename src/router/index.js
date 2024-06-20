@@ -13,6 +13,8 @@ import PageNotFoundView from '@/views/front/PageNotFoundView.vue'
 
 import DashboardLayoutView from '@/views/DashboardLayoutView.vue'
 import PassportIndexView from '@/views/dashboard/PassportIndexView.vue'
+import PerAnalysisView from '@/views/dashboard/PerAnalysisView.vue'
+import FavTrailsListView from '@/views/dashboard/FavTrailsListView.vue'
 
 const routes = [
   {
@@ -73,6 +75,16 @@ const routes = [
         path: '',
         name: 'PassportIndex',
         component: PassportIndexView
+      },
+      {
+        path: '/per-analysis',
+        name: 'PerAnalysis',
+        component: PerAnalysisView
+      },
+      {
+        path: '/fav-trails',
+        name: 'FavTrailsList',
+        component: FavTrailsListView
       }
     ]
   },
