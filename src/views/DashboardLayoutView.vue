@@ -176,7 +176,7 @@ const navConfig = {
   menuData: [
     { title: '總覽', to: { name: 'PassportIndex' } },
     { title: '足跡分析', to: { name: 'PerAnalysis' } },
-    { title: '步道任務', to: { name: 'FavTrailsList' } }
+    { title: '步道任務', to: { name: 'FavManagement' } }
   ],
   frontPath: { title: '回到主頁', to: { name: 'FrontIndex' } },
   logoutTitle: '登出'
