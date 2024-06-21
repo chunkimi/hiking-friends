@@ -1,0 +1,116 @@
+[
+  {
+    "id": "fav20240621001",
+    "content": {
+      "TRAILID": "001",
+      "rating": null,
+      "reviews": null
+    },
+    "completed_at": "2024-06-21T08:00:00Z"
+  },
+  {
+    "id": "fav20240621002",
+    "content": {
+      "TRAILID": "002",
+      "rating": 4,
+      "reviews": "非常棒的步道"
+    },
+    "completed_at": "2024-06-21T10:30:00Z"
+  },
+  {
+    "id": "fav20240621003",
+    "content": {
+      "TRAILID": "016",
+      "rating": null,
+      "reviews": null
+    },
+    "completed_at": "2024-06-21T12:15:00Z"
+  },
+  {
+    "id": "fav20240621004",
+    "content": {
+      "TRAILID": "004",
+      "rating": 5,
+      "reviews": "景色宜人"
+    },
+    "completed_at": "2024-06-21T14:45:00Z"
+  },
+  {
+    "id": "fav20240621005",
+    "content": {
+      "TRAILID": "005"
+    },
+    "completed_at": null
+  },
+  {
+    "id": "fav20240621006",
+    "content": {
+      "TRAILID": "006",
+      "rating": 3,
+      "reviews": "還不錯"
+    },
+    "completed_at": "2024-06-21T17:30:00Z"
+  },
+  {
+    "id": "fav20240621007",
+    "content": {
+      "TRAILID": "007"
+    },
+    "completed_at": null
+  },
+  {
+    "id": "fav20240621008",
+    "content": {
+      "TRAILID": "008",
+      "rating": 2,
+      "reviews": "有點難走"
+    },
+    "completed_at": "2024-06-21T19:00:00Z"
+  },
+  {
+    "id": "fav20240621009",
+    "content": {
+      "TRAILID": "009",
+      "rating": null,
+      "reviews": null
+    },
+    "completed_at": "2024-06-21T21:20:00Z"
+  },
+  {
+    "id": "fav20240621010",
+    "content": {
+      "TRAILID": "018"
+    },
+    "completed_at": null
+  },
+  {
+    "id": "fav20240621011",
+    "content": {
+      "TRAILID": "011",
+      "rating": 1,
+      "reviews": "不推薦"
+    },
+    "completed_at": "2024-06-22T08:30:00Z"
+  },
+  {
+    "id": "fav20240621012",
+    "content": {
+      "TRAILID": "012"
+    },
+    "completed_at": null
+  },
+  {
+    "id": "fav20240621013",
+    "content": {
+      "TRAILID": "013"
+    },
+    "completed_at": null
+  },
+  {
+    "id": "fav20240621014",
+    "content": {
+      "TRAILID": "014"
+    },
+    "completed_at": null
+  }
+]

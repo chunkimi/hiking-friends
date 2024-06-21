@@ -144,12 +144,7 @@ $sidebar-width: 200px;
               <span class="material-icons"> face </span>
               <span class="ms-1"> {{ userNickname }}</span>
             </p>
-            <button
-              type="button"
-              class="btn btn-outline-secondary btn-sm"
-              @click="handleLogout"
-              v-if="isMediaMdDown"
-            >
+            <button type="button" class="btn btn-outline-secondary btn-sm" @click="handleLogout">
               {{ navConfig.logoutTitle }}
             </button>
           </div>
@@ -163,11 +158,13 @@ $sidebar-width: 200px;
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue'
-import { RouterView, RouterLink, useRouter } from 'vue-router'
-import { storeToRefs } from 'pinia'
-import { useAccountStore } from '@/stores/useAccountStore.js'
-import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
+import { ref } from 'vue'
+import { RouterView, RouterLink } from 'vue-router'
+// import { onBeforeMount, ref } from 'vue'
+// import { RouterView, RouterLink, useRouter } from 'vue-router'
+// import { storeToRefs } from 'pinia'
+// import { useAccountStore } from '@/stores/useAccountStore.js'
+// import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
 import { getImageUrl } from '@/utils/imgUrl'
 import { useMediaQuery } from '@vueuse/core'
 
@@ -186,17 +183,16 @@ const navConfig = {
 }
 
 const isMediaMdDown = useMediaQuery('(max-width: 768px)')
-const router = useRouter()
-const accountStore = useAccountStore()
-const { isCheckLoginSuccess, userNickname, isLogoutSuccess } = storeToRefs(accountStore)
-const { checkLoginStatus, sendLogoutRequest } = accountStore
-const favoriteTrailsStore = useFavoriteTrailsStore()
-const { favTrailsListData } = storeToRefs(favoriteTrailsStore)
-const { sendFavListRequest } = favoriteTrailsStore
+// const router = useRouter()
+// const accountStore = useAccountStore()
+// const { isCheckLoginSuccess, userNickname, isLogoutSuccess } = storeToRefs(accountStore)
+// const { checkLoginStatus, sendLogoutRequest } = accountStore
+// const favoriteTrailsStore = useFavoriteTrailsStore()
+// const { favTrailsListData } = storeToRefs(favoriteTrailsStore)
+// const { sendFavListRequest } = favoriteTrailsStore
 const isCollapseNav = ref(false)
 
 function toggleNav() {
-  console.log('toggleNav')
   isCollapseNav.value = !isCollapseNav.value
 }
 
@@ -206,32 +202,34 @@ function handleNavClick() {
   }
 }
 
-async function handleLogout() {
-  await sendLogoutRequest()
-  if (isLogoutSuccess.value) {
-    router.push({ name: 'FrontIndex' })
-  }
-}
+const userNickname = '小豬佩奇'
 
-onBeforeMount(async () => {
-  try {
-    await checkLoginStatus()
-    if (!isCheckLoginSuccess.value) {
-      router.push({ name: 'Login' })
-    } else {
-      dashboardDataInit()
-    }
-  } catch (error) {
-    console.error('Error during login check:', error)
-  }
-})
+// async function handleLogout() {
+//   await sendLogoutRequest()
+//   if (isLogoutSuccess.value) {
+//     router.push({ name: 'FrontIndex' })
+//   }
+// }
 
-async function dashboardDataInit() {
-  try {
-    await sendFavListRequest()
-    console.log('dashboard-favTrailsList', favTrailsListData)
-  } catch (error) {
-    console.error('Error dashboard request favTrailsList:', error)
-  }
-}
+// async function dashboardDataInit() {
+//   try {
+//     await sendFavListRequest()
+//     console.log('dashboard-favTrailsList', favTrailsListData)
+//   } catch (error) {
+//     console.error('Error dashboard request favTrailsList:', error)
+//   }
+// }
+
+// onBeforeMount(async () => {
+//   try {
+//     await checkLoginStatus()
+//     if (!isCheckLoginSuccess.value) {
+//       router.push({ name: 'Login' })
+//     } else {
+//       dashboardDataInit()
+//     }
+//   } catch (error) {
+//     console.error('Error during login check:', error)
+//   }
+// })
 </script>

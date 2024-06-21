@@ -1,12 +1,19 @@
 <style lang="scss" scoped></style>
 
 <template>
-  <p class="fs-1">總覽</p>
+  <div class="container">
+    <div class="block-spacing">
+      <ProgressCard :all-trails-data="allTrailsData" :fav-trails-data="favTrailsData" />
+    </div>
+  </div>
 </template>
 
 <script setup>
-// import { storeToRefs } from 'pinia'
-// import { useAccountStore } from '@/stores/useAccountStore.js'
-// const accountStore = useAccountStore()
-// const { userNickname, isCheckLoginSuccess } = storeToRefs(accountStore)
+import { ref } from 'vue'
+import dummyFavTrailsData from '@/data/dummy/favTrailsData.json'
+import dummyAllTrailsData from '@/data/dummy/allTrailsInfo.json'
+import ProgressCard from '@/components/dashboard/common/ProgressCard.vue'
+
+const allTrailsData = ref(dummyAllTrailsData)
+const favTrailsData = ref(dummyFavTrailsData)
 </script>
