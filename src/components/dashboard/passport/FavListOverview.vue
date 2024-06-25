@@ -1,3 +1,4 @@
+<style lang="scss" scoped></style>
 <template>
   <div>
     <h3 class="h3 mb-5 text-end text-dark">{{ sectionTitle }}</h3>
@@ -16,12 +17,12 @@
         <div class="table-responsive">
           <table class="table table-sm table-hover align-middle mb-0">
             <thead class="">
-              <tr class="">
-                <th scope="row"></th>
+              <tr>
+                <th scope="col"></th>
                 <th scope="col" v-for="tableItem in tableConfig" :key="tableItem.type">
                   {{ tableItem.title }}
                 </th>
-                <th scope="row"></th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody class="text-wrap">
@@ -29,6 +30,7 @@
                 class="cursor-pointer"
                 v-for="(rowItem, index) in curTableData"
                 :key="rowItem.favId"
+                @click="readTrailTask(rowItem.favId)"
               >
                 <th scope="row" class="text-dark">{{ index + 1 }}</th>
                 <td v-for="tableItem in tableConfig" :key="tableItem.type">
@@ -60,7 +62,8 @@
 </template>
 <script setup>
 import { computed, ref, onMounted, watch } from 'vue'
-import PaginationNav from '@/components/front/base/PaginationNav.vue'
+import { useRouter } from 'vue-router'
+import PaginationNav from '@/components/common/PaginationNav.vue'
 
 const props = defineProps({
   allTrailsData: {
@@ -105,7 +108,7 @@ const filterOptions = [
 ]
 
 const favListData = computed(() => {
-  let rawResult = []
+  let result = []
   props.allTrailsData.forEach((allTrail) => {
     props.favTrailsData.forEach((favTrail) => {
       if (allTrail.TRAILID === favTrail.content.TRAILID) {
@@ -116,12 +119,19 @@ const favListData = computed(() => {
         let TR_CNAME = allTrail.TR_CNAME
         let isHaveRating = favTrail?.content?.rating !== undefined ? true : false
         let isHaveReviews = favTrail?.content?.reviews !== undefined ? true : false
-        let tableInfo = { favId, TRAILID, TR_CNAME, state, isHaveRating, isHaveReviews }
-        rawResult.push(tableInfo)
+        let rawResult = {
+          favId,
+          TRAILID,
+          TR_CNAME,
+          state,
+          isHaveRating,
+          isHaveReviews
+        }
+        result.push(rawResult)
       }
     })
   })
-  return rawResult
+  return result
 })
 
 const selectedFilter = ref('')
@@ -181,6 +191,12 @@ function getDataByPage(pageNum) {
 function tableDataInit() {
   curPage.value = 1
   curTableData.value = getDataByPage(curPage.value)
+}
+
+const router = useRouter()
+function readTrailTask(taskId) {
+  console.log('readTrailTask', taskId)
+  router.push({ name: 'TrailTask', params: { task: taskId } })
 }
 
 watch([selectedFilter, tableData], () => {

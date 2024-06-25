@@ -15,6 +15,7 @@ import DashboardLayoutView from '@/views/DashboardLayoutView.vue'
 import PassportIndexView from '@/views/dashboard/PassportIndexView.vue'
 import PerAnalysisView from '@/views/dashboard/PerAnalysisView.vue'
 import FavManagementView from '@/views/dashboard/FavManagementView.vue'
+import TrailTaskView from '@/views/dashboard/TrailTaskView.vue'
 
 const routes = [
   {
@@ -77,14 +78,19 @@ const routes = [
         component: PassportIndexView
       },
       {
-        path: '/per-analysis',
+        path: 'per-analysis',
         name: 'PerAnalysis',
         component: PerAnalysisView
       },
       {
-        path: '/fav-management',
+        path: 'fav-management',
         name: 'FavManagement',
         component: FavManagementView
+      },
+      {
+        path: 'trail-task/:task',
+        name: 'TrailTask',
+        component: TrailTaskView
       }
     ]
   },

@@ -149,7 +149,7 @@ $sidebar-width: 200px;
             </button>
           </div>
         </div>
-        <div class="container">
+        <div class="container px-3 px-lg-6">
           <RouterView />
         </div>
       </main>
