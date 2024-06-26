@@ -111,6 +111,8 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     return result
   })
 
+  // console.log('favTrailsListData', favTrailsListData)
+
   return {
     // handleToFavorite,
     // sendFavListRequest,
@@ -122,5 +124,5 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
 
 function checkContentValue(typeValue) {
   if (!typeValue || typeValue === undefined || typeValue === null) return false
-  return typeValue.length > 0 ? true : false
+  return typeValue.length > 0 || typeValue > 0 ? true : false
 }
