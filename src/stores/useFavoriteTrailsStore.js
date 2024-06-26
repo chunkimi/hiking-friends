@@ -14,7 +14,8 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
       Authorization: authToken.value
     }
   }))
-  const favTrailsListData = ref([])
+
+  const favTrailsData = ref([])
 
   async function handleToFavorite(trailId) {
     updateAuthToken()
@@ -51,7 +52,7 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     try {
       const response = await axios.get(favTrailsListUrl, headersToken.value)
       const { todos } = response.data
-      favTrailsListData.value = translateData(todos)
+      favTrailsData.value = translateData(todos)
     } catch (error) {
       console.error('Error fetching trails:', error)
     }
@@ -62,7 +63,7 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
   }
 
   function compareFavTrailsList(curTrailId) {
-    const result = favTrailsListData.value.find((item) => item.content.trailId === curTrailId)
+    const result = favTrailsData.value.find((item) => item.content.trailId === curTrailId)
     return result ? true : false
   }
 
@@ -74,7 +75,6 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
   }
 
   return {
-    favTrailsListData,
     handleToFavorite,
     sendFavListRequest
   }

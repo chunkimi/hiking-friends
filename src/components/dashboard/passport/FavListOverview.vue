@@ -1,4 +1,3 @@
-<style lang="scss" scoped></style>
 <template>
   <div>
     <h3 class="h3 mb-5 text-end text-dark">{{ sectionTitle }}</h3>
@@ -16,7 +15,7 @@
       <div class="card-body">
         <div class="table-responsive">
           <table class="table table-sm table-hover align-middle mb-0">
-            <thead class="">
+            <thead>
               <tr>
                 <th scope="col"></th>
                 <th scope="col" v-for="tableItem in tableConfig" :key="tableItem.type">
@@ -28,7 +27,7 @@
             <tbody class="text-wrap">
               <tr
                 class="cursor-pointer"
-                v-for="(rowItem, index) in curTableData"
+                v-for="(rowItem, index) in curListData"
                 :key="rowItem.favId"
                 @click="readTrailTask(rowItem.favId)"
               >
@@ -60,9 +59,11 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { computed, ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { usePaginationUtils } from '@/utils/paginationUtils.js'
 import PaginationNav from '@/components/common/PaginationNav.vue'
 
 const props = defineProps({
@@ -169,41 +170,18 @@ const tableData = computed(() => {
   return favListData.value.filter((item) => item[filterKey] === filterValue)
 })
 
-const curTableData = ref([])
-const perPageTrails = 10
-const curPage = ref(1)
-const tableDataNum = computed(() => {
-  return tableData.value.length
-})
-const numberOfPages = computed(() => Math.ceil(tableDataNum.value / perPageTrails))
-
-function changePage(page) {
-  if (page >= 1 && page <= numberOfPages.value) {
-    curPage.value = page
-    curTableData.value = getDataByPage(page)
-  }
-}
-function getDataByPage(pageNum) {
-  const startIndex = (pageNum - 1) * perPageTrails
-  return tableData.value.slice(startIndex, startIndex + perPageTrails)
-}
-
-function tableDataInit() {
-  curPage.value = 1
-  curTableData.value = getDataByPage(curPage.value)
-}
+const { curPage, numberOfPages, curListData, changePage, pageInit } = usePaginationUtils(tableData)
 
 const router = useRouter()
 function readTrailTask(taskId) {
-  console.log('readTrailTask', taskId)
   router.push({ name: 'TrailTask', params: { task: taskId } })
 }
 
 watch([selectedFilter, tableData], () => {
-  tableDataInit()
+  pageInit()
 })
 
 onMounted(() => {
-  tableDataInit()
+  pageInit()
 })
 </script>

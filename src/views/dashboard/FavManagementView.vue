@@ -1,7 +1,15 @@
 <style lang="scss" scoped></style>
 
 <template>
-  <p class="fs-1">收藏清單</p>
+  <div class="container">
+    <div class="block-spacing">
+      <h1 class="h1 text-end">{{ favMgtConfig.pageTitle }}</h1>
+    </div>
+  </div>
 </template>
 
-<script setup></script>
+<script setup>
+const favMgtConfig = {
+  pageTitle: '步道任務'
+}
+</script>
