@@ -21,11 +21,7 @@ import { computed } from 'vue'
 import { commaNumber } from '@/utils/base.js'
 
 const props = defineProps({
-  allTrailsData: {
-    type: Array,
-    required: true
-  },
-  favTrailsData: {
+  favListData: {
     type: Array,
     required: true
   }
@@ -52,23 +48,16 @@ const summaryCard = [
   }
 ]
 
+const collectedCount = computed(() => props.favListData.length)
 const completedFavTrails = computed(() => {
-  return props.favTrailsData.filter(
-    (item) => item.completed_at !== null && item.completed_at !== undefined
-  )
+  return props.favListData.filter((item) => item.hikingState === true)
 })
-
-const collectedCount = computed(() => props.favTrailsData.length)
 const completedCount = computed(() => completedFavTrails.value.length)
 
 const sumLength = computed(() => {
   let rawSum = 0
-  props.allTrailsData.forEach((allTrail) => {
-    props.favTrailsData.forEach((favTrail) => {
-      if (allTrail.TRAILID === favTrail.content.TRAILID) {
-        rawSum += allTrail.TR_LENGTH_NUM
-      }
-    })
+  completedFavTrails.value.forEach((listItem) => {
+    rawSum += parseInt(listItem.TR_LENGTH_NUM)
   })
   return rawSum
 })

@@ -1,12 +1,16 @@
 <template>
   <div>
-    <h3 class="h3 mb-5 text-end text-dark">{{ sectionTitle }}</h3>
+    <h3 class="h3 mb-5 text-end text-dark">{{ listOverviewConfig.sectionTitle }}</h3>
     <div class="card shadow-sm w-100">
       <div class="card-header bg-transparent">
         <div class="input-group">
           <select class="form-select" v-model="selectedFilter">
             <option value="" disabled>請選擇篩選條件</option>
-            <option v-for="option in filterOptions" :key="option.value" :value="option.value">
+            <option
+              v-for="option in listOverviewConfig.filterOptions"
+              :key="option.value"
+              :value="option.value"
+            >
               {{ option.text }}
             </option>
           </select>
@@ -18,7 +22,11 @@
             <thead>
               <tr>
                 <th scope="col"></th>
-                <th scope="col" v-for="tableItem in tableConfig" :key="tableItem.type">
+                <th
+                  scope="col"
+                  v-for="tableItem in listOverviewConfig.tableConfig"
+                  :key="tableItem.type"
+                >
                   {{ tableItem.title }}
                 </th>
                 <th scope="col"></th>
@@ -32,7 +40,7 @@
                 @click="readTrailTask(rowItem.favId)"
               >
                 <th scope="row" class="text-dark">{{ index + 1 }}</th>
-                <td v-for="tableItem in tableConfig" :key="tableItem.type">
+                <td v-for="tableItem in listOverviewConfig.tableConfig" :key="tableItem.type">
                   <span
                     class="material-icons"
                     v-if="typeof rowItem[tableItem.type] === 'boolean'"
@@ -67,87 +75,56 @@ import { usePaginationUtils } from '@/utils/paginationUtils.js'
 import PaginationNav from '@/components/common/PaginationNav.vue'
 
 const props = defineProps({
-  allTrailsData: {
-    type: Array,
-    required: true
-  },
-  favTrailsData: {
+  favListData: {
     type: Array,
     required: true
   }
 })
 
-const sectionTitle = '收藏步道概覽'
-
-const tableConfig = [
-  {
-    title: '步道名稱',
-    type: 'TR_CNAME'
-  },
-  {
-    title: '狀態',
-    type: 'state'
-  },
-  {
-    title: '心得',
-    type: 'isHaveRating'
-  },
-  {
-    title: '評論',
-    type: 'isHaveReviews'
-  }
-]
-
-const filterOptions = [
-  { value: '', text: '所有步道' },
-  { value: 'completed_true', text: '步道完成狀態 - 已完成' },
-  { value: 'completed_false', text: '步道完成狀態 - 未完成' },
-  { value: 'rating_true', text: '評分狀態 - 已評分' },
-  { value: 'rating_false', text: '評分狀態 - 未評分' },
-  { value: 'reviews_true', text: '評論狀態 - 有評論' },
-  { value: 'reviews_false', text: '評論狀態 - 無評論' }
-]
-
-const favListData = computed(() => {
-  let result = []
-  props.allTrailsData.forEach((allTrail) => {
-    props.favTrailsData.forEach((favTrail) => {
-      if (allTrail.TRAILID === favTrail.content.TRAILID) {
-        let favId = favTrail.id
-        let state =
-          favTrail.completed_at !== null && favTrail.completed_at !== undefined ? true : false
-        let TRAILID = allTrail.TRAILID
-        let TR_CNAME = allTrail.TR_CNAME
-        let isHaveRating = favTrail?.content?.rating !== undefined ? true : false
-        let isHaveReviews = favTrail?.content?.reviews !== undefined ? true : false
-        let rawResult = {
-          favId,
-          TRAILID,
-          TR_CNAME,
-          state,
-          isHaveRating,
-          isHaveReviews
-        }
-        result.push(rawResult)
-      }
-    })
-  })
-  return result
-})
+const listOverviewConfig = {
+  sectionTitle: '收藏步道概覽',
+  tableConfig: [
+    {
+      title: '步道名稱',
+      type: 'TR_CNAME'
+    },
+    {
+      title: '狀態',
+      type: 'hikingState'
+    },
+    {
+      title: '心得',
+      type: 'isHaveRating'
+    },
+    {
+      title: '評論',
+      type: 'isHaveReviews'
+    }
+  ],
+  filterOptions: [
+    { value: '', text: '所有步道' },
+    { value: 'completed_true', text: '步道完成狀態 - 已完成' },
+    { value: 'completed_false', text: '步道完成狀態 - 未完成' },
+    { value: 'rating_true', text: '評分狀態 - 已評分' },
+    { value: 'rating_false', text: '評分狀態 - 未評分' },
+    { value: 'reviews_true', text: '評論狀態 - 有評論' },
+    { value: 'reviews_false', text: '評論狀態 - 無評論' }
+  ]
+}
 
 const selectedFilter = ref('')
 const tableData = computed(() => {
   if (selectedFilter.value === '') {
-    return favListData.value
+    return props.favListData
   }
   let filterKey, filterValue
   switch (selectedFilter.value) {
     case 'completed_true':
-      filterKey = 'state'
+      filterKey = 'hikingState'
       filterValue = true
       break
     case 'completed_false':
-      filterKey = 'state'
+      filterKey = 'hikingState'
       filterValue = false
       break
     case 'rating_true':
@@ -167,7 +144,7 @@ const tableData = computed(() => {
       filterValue = false
       break
   }
-  return favListData.value.filter((item) => item[filterKey] === filterValue)
+  return props.favListData.filter((item) => item[filterKey] === filterValue)
 })
 
 const { curPage, numberOfPages, curListData, changePage, pageInit } = usePaginationUtils(tableData)

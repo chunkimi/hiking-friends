@@ -3,8 +3,7 @@
     "id": "fav20240621001",
     "content": {
       "TRAILID": "001",
-      "rating": null,
-      "reviews": null
+      "rating": 3
     },
     "completed_at": "2024-06-21T08:00:00Z"
   },
@@ -20,20 +19,16 @@
   {
     "id": "fav20240621003",
     "content": {
-      "TRAILID": "016",
-      "rating": null,
-      "reviews": null
+      "TRAILID": "016"
     },
     "completed_at": "2024-06-21T12:15:00Z"
   },
   {
     "id": "fav20240621004",
     "content": {
-      "TRAILID": "004",
-      "rating": 5,
-      "reviews": "景色宜人"
+      "TRAILID": "004"
     },
-    "completed_at": "2024-06-21T14:45:00Z"
+    "completed_at": null
   },
   {
     "id": "fav20240621005",
@@ -71,8 +66,8 @@
     "id": "fav20240621009",
     "content": {
       "TRAILID": "009",
-      "rating": null,
-      "reviews": null
+      "rating": 5,
+      "reviews": "景色宜人"
     },
     "completed_at": "2024-06-21T21:20:00Z"
   },
@@ -88,21 +83,24 @@
     "content": {
       "TRAILID": "011",
       "rating": 1,
-      "reviews": "不推薦"
+      "reviews": null
     },
     "completed_at": "2024-06-22T08:30:00Z"
   },
   {
     "id": "fav20240621012",
     "content": {
-      "TRAILID": "012"
+      "TRAILID": "012",
+      "rating": 5,
+      "reviews": null
     },
-    "completed_at": null
+    "completed_at": "2024-06-22T08:30:00Z"
   },
   {
     "id": "fav20240621013",
     "content": {
-      "TRAILID": "013"
+      "TRAILID": "013",
+      "rating": null
     },
     "completed_at": null
   },
@@ -110,6 +108,13 @@
     "id": "fav20240621014",
     "content": {
       "TRAILID": "014"
+    },
+    "completed_at": "2024-06-22T08:30:00Z"
+  },
+  {
+    "id": "fav20240621015",
+    "content": {
+      "TRAILID": "021"
     },
     "completed_at": null
   }

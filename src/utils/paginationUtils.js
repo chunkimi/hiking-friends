@@ -5,10 +5,10 @@ export function usePaginationUtils(dataList) {
   const curPage = ref(1)
 
   const tableDataNum = computed(() => {
-    return dataList.value.length
+    return dataList.value.length || 0
   })
 
-  const numberOfPages = computed(() => Math.ceil(tableDataNum.value / perPageTrails))
+  const numberOfPages = computed(() => Math.ceil(tableDataNum.value / perPageTrails) || 0)
 
   const curListData = ref([])
 
