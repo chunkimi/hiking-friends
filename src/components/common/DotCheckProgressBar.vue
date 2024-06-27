@@ -2,12 +2,9 @@
 @import '@/styles/main.scss';
 
 .dot-check-progress {
-  &__container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   &__node {
     width: 1rem;
     height: 1rem;
@@ -15,9 +12,8 @@
     background-color: $gray-300;
     display: inline-block;
     position: relative;
-
     &.completed {
-      background-color: $success;
+      background-color: $info;
     }
   }
 
@@ -28,7 +24,7 @@
     margin: 0;
 
     &.completed {
-      background-color: $success;
+      background-color: $info;
     }
   }
 
@@ -39,15 +35,25 @@
     transform: translateX(-50%);
     font-size: 1rem;
     color: $gray-300;
-
     &.completed {
+      color: $info;
+    }
+  }
+
+  &.all-completed {
+    .dot-check-progress__node,
+    .dot-check-progress__line {
+      background-color: $success;
+    }
+
+    .dot-check-progress__icon {
       color: $success;
     }
   }
 }
 </style>
 <template>
-  <div class="dot-check-progress__container">
+  <div class="dot-check-progress" :class="allCompleted ? 'all-completed' : ''">
     <template v-for="(node, index) in progressNode" :key="node.type">
       <div class="dot-check-progress__node" :class="favItem[node.type] ? 'completed' : ''">
         <div class="dot-check-progress__icon" :class="favItem[node.type] ? 'completed' : ''">
@@ -81,4 +87,5 @@ const props = defineProps({
 })
 
 const nodeNum = computed(() => props.progressNode.length)
+const allCompleted = computed(() => props.progressNode.every((node) => props.favItem[node.type]))
 </script>

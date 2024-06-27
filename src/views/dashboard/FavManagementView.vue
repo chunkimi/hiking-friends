@@ -1,7 +1,18 @@
 <style lang="scss" scoped>
 @import '@/styles/main.scss';
 
-.btn-outline-primary {
+.task {
+  background-color: $gray-300;
+  &--completed {
+    background-color: $info;
+  }
+  &--all-completed {
+    background-color: $success;
+  }
+}
+
+.btn-outline-darken {
+  --bs-btn-hover-color: #fff;
   --bs-btn-active-color: #fff;
 }
 </style>
@@ -27,40 +38,19 @@
                 :value="tabItem.type"
                 v-model="curTabModel"
               />
-              <label class="btn btn-outline-primary" :for="tabItem.type">{{ tabItem.title }}</label>
+              <label class="btn btn-outline-darken" :for="tabItem.type">{{ tabItem.title }}</label>
             </template>
           </div>
         </div>
-        <div class="">
-          <div class="card mb-4 p-3" v-for="favItem in favListData" :key="favItem.favId">
-            <div class="d-flex">
-              <div
-                class="p-1 rounded me-4"
-                :class="favItem.hikingState ? 'bg-success' : 'bg-secondary-subtle'"
-              ></div>
-              <div class="w-100 pb-12">
-                <div class="d-flex justify-content-between">
-                  <h4 class="h3">{{ favItem.TR_CNAME }}</h4>
-                  <div class="d-flex">
-                    <button
-                      type="button"
-                      class="btn btn-sm p-1"
-                      v-for="btnItem in favMgtConfig.cardEditConfig"
-                      :key="btnItem.type"
-                      @click="handleCardBtn(btnItem.type)"
-                    >
-                      <span class="material-icons fs-6 m-1">
-                        {{ btnItem.icon }}
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                <div class="mt-4">
-                  <DotCheckProgressBar :progress-node="progressNode" :fav-item="favItem" />
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="mb-4" v-for="favItem in curListData" :key="favItem.favId">
+          <TaskCard :fav-item="favItem" />
+        </div>
+        <div class="d-flex justify-content-end bg-transparent">
+          <PaginationNav
+            :current-page="curPage"
+            :number-of-pages="numberOfPages"
+            @changePage="changePage"
+          />
         </div>
       </div>
     </div>
@@ -68,15 +58,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { progressNode } from '@/utils/favtrailStateUtils.js'
-import DotCheckProgressBar from '@/components/common/DotCheckProgressBar.vue'
+import { onMounted, computed, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
-const favoriteTrailsStore = useFavoriteTrailsStore()
-const { favTrailsListData } = storeToRefs(favoriteTrailsStore)
+import TaskCard from '@/components/dashboard/TaskCard.vue'
+import PaginationNav from '@/components/common/PaginationNav.vue'
+import { usePaginationUtils } from '@/utils/paginationUtils.js'
 
-const favListData = ref(favTrailsListData)
 
 const favMgtConfig = {
   pageTitle: '步道任務',
@@ -92,36 +80,47 @@ const favMgtConfig = {
     {
       title: '完成挑戰',
       type: 'done'
-    }
-  ],
-  cardEditConfig: [
-    {
-      icon: 'library_books',
-      type: 'info'
     },
     {
-      icon: 'edit',
-      type: 'edit'
-    },
-    {
-      icon: 'delete',
-      type: 'delete'
+      title: '任務結束',
+      type: 'close'
     }
   ]
 }
 
-const curTabModel = ref('')
-// const favItem = {
-//   favId: 'fav20240621001',
-//   hikingState: true,
-//   isHaveRating: true,
-//   isHaveReviews: false,
-//   TRAILID: '001',
-//   TR_CNAME: '蘇花古道：大南澳越嶺段',
-//   TR_LENGTH_NUM: 4.1
-// }
+const favoriteTrailsStore = useFavoriteTrailsStore()
+const { favTrailsListData } = storeToRefs(favoriteTrailsStore)
 
-function handleCardBtn(type) {
-  console.log(type)
-}
+const curTabModel = ref('all')
+const favListData = computed(() => {
+  switch (curTabModel.value) {
+    case 'all':
+      return favTrailsListData.value
+    case 'undone':
+      return favTrailsListData.value.filter((item) => !item.hikingState)
+    case 'done':
+      return favTrailsListData.value.filter((item) => item.hikingState)
+    case 'close':
+      return favTrailsListData.value.filter(
+        (item) => item.hikingState && item.isHaveRating && item.isHaveReviews
+      )
+    default:
+      return favTrailsListData.value
+  }
+})
+
+const { curPage, numberOfPages, curListData, changePage, pageInit } =
+  usePaginationUtils(favListData)
+
+watch(
+  curTabModel,
+  () => {
+    pageInit()
+  },
+  { immediate: true }
+)
+
+onMounted(() => {
+  pageInit()
+})
 </script>

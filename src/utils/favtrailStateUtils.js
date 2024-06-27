@@ -1,4 +1,4 @@
-export function convertStatusToIcon(value) {
+export const convertBooleanToIcon = (value) => {
   return value ? 'task_alt' : 'crop_square'
 }
 

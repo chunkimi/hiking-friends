@@ -29,7 +29,6 @@
                 >
                   {{ tableItem.title }}
                 </th>
-                <th scope="col"></th>
               </tr>
             </thead>
             <tbody class="text-wrap">
@@ -45,12 +44,9 @@
                     class="material-icons"
                     v-if="typeof rowItem[tableItem.type] === 'boolean'"
                     :class="rowItem[tableItem.type] ? 'text-success' : 'text-danger'"
-                    >{{ rowItem[tableItem.type] ? 'task_alt' : 'crop_square' }}</span
+                    >{{ convertBooleanToIcon(rowItem[tableItem.type]) }}</span
                   >
                   <span v-else class="text-dark">{{ rowItem[tableItem.type] }}</span>
-                </td>
-                <td>
-                  <span class="material-icons text-dark"> info </span>
                 </td>
               </tr>
             </tbody>
@@ -71,8 +67,10 @@
 <script setup>
 import { computed, ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { usePaginationUtils } from '@/utils/paginationUtils.js'
 import PaginationNav from '@/components/common/PaginationNav.vue'
+import { usePaginationUtils } from '@/utils/paginationUtils.js'
+
+import { convertBooleanToIcon } from '@/utils/favTrailStateUtils.js'
 
 const props = defineProps({
   favListData: {

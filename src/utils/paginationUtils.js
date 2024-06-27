@@ -16,6 +16,7 @@ export function usePaginationUtils(dataList) {
     if (page >= 1 && page <= numberOfPages.value) {
       curPage.value = page
       curListData.value = getDataByPage(page)
+      scrollToTop()
     }
   }
 
@@ -27,6 +28,12 @@ export function usePaginationUtils(dataList) {
   function pageInit() {
     curPage.value = 1
     curListData.value = getDataByPage(curPage.value)
+  }
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
   }
 
   watch(dataList, () => {
