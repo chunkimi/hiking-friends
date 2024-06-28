@@ -28,5 +28,18 @@ button {
 //   background: rgba(0, 0, 0, 0.5);
 // }
 // .modal-backdrop {
-//   display: none;
+//   // display: none;
+//   opacity: 0;
+// }
+
+// .dashboard__main {
+//   &.modal {
+//     z-index: 8888;
+//   }
+//   &.modal-dialog {
+//     z-index: 9999;
+//   }
+//   &.modal-backdrop {
+//     z-index: 10;
+//   }
 // }

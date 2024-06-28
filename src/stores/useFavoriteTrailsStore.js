@@ -113,16 +113,30 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
 
   // console.log('favTrailsListData', favTrailsListData)
 
+  function checkContentValue(typeValue) {
+    if (!typeValue || typeValue === undefined || typeValue === null) return false
+    return typeValue.length > 0 || typeValue > 0 ? true : false
+  }
+
+  const curFavId = ref('')
+  const curFavItem = computed(() => {
+    if (!curFavId.value) return {}
+    return favTrailsListData.value.find((item) => item.favId === curFavId.value) || {}
+  })
+  const curFavData = computed(() => {
+    if (!curFavId.value) return {}
+    return favTrailsData.value.find((item) => item.id === curFavId.value) || {}
+  })
+
   return {
     // handleToFavorite,
     // sendFavListRequest,
     allTrailsData,
     favTrailsData,
-    favTrailsListData
+    favTrailsListData,
+    curFavId,
+    curFavItem,
+    curFavData,
+    checkContentValue
   }
 })
-
-function checkContentValue(typeValue) {
-  if (!typeValue || typeValue === undefined || typeValue === null) return false
-  return typeValue.length > 0 || typeValue > 0 ? true : false
-}

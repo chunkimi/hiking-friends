@@ -49,12 +49,14 @@
           <PaginationNav
             :current-page="curPage"
             :number-of-pages="numberOfPages"
-            @changePage="changePage"
+            @change-page="changePage"
           />
         </div>
       </div>
     </div>
   </div>
+  <!-- modal -->
+  <FeedbackModal />
 </template>
 
 <script setup>
@@ -63,8 +65,8 @@ import { storeToRefs } from 'pinia'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
 import TaskCard from '@/components/dashboard/TaskCard.vue'
 import PaginationNav from '@/components/common/PaginationNav.vue'
+import FeedbackModal from '@/components/dashboard/modal/FeedbackModal.vue'
 import { usePaginationUtils } from '@/utils/paginationUtils.js'
-
 
 const favMgtConfig = {
   pageTitle: '步道任務',

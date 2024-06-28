@@ -26,6 +26,8 @@
               v-for="btnItem in cardEditConfig"
               :key="btnItem.type"
               @click="handleCardBtn(btnItem.type)"
+              :data-bs-toggle="btnItem.type === 'edit' ? 'modal' : ''"
+              :data-bs-target="btnItem.type === 'edit' ? '#feedbackModal' : ''"
             >
               <span class="material-icons fs-6 m-1">
                 {{ btnItem.icon }}
@@ -42,6 +44,9 @@
 </template>
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
 import DotCheckProgressBar from '@/components/common/DotCheckProgressBar.vue'
 import { progressNode } from '@/utils/favTrailStateUtils.js'
 
@@ -51,6 +56,9 @@ const props = defineProps({
     required: true
   }
 })
+
+const favoriteTrailsStore = useFavoriteTrailsStore()
+const { curFavId } = storeToRefs(favoriteTrailsStore)
 
 const cardEditConfig = [
   {
@@ -67,10 +75,6 @@ const cardEditConfig = [
   }
 ]
 
-function handleCardBtn(type) {
-  console.log(type)
-}
-
 const taskState = computed(() => {
   const progressNodeTypes = progressNode.map((node) => node.type)
   if (progressNodeTypes.every((type) => props.favItem[type])) {
@@ -81,4 +85,21 @@ const taskState = computed(() => {
     return ''
   }
 })
+
+const router = useRouter()
+
+function handleCardBtn(type) {
+  switch (type) {
+    case 'info':
+      router.push({ name: 'TrailTask', params: { task: props.favItem.favId } })
+      break
+    case 'edit':
+      console.log('edit')
+      curFavId.value = props.favItem.favId
+      break
+    case 'delete':
+      console.log('删除favItem', props.favItem.favId)
+      break
+  }
+}
 </script>

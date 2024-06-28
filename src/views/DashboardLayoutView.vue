@@ -4,8 +4,11 @@
 $sidebar-width: 200px;
 
 .dashboard {
+  &____wrap {
+    z-index: 9999;
+  }
   &__sidebar {
-    z-index: 10;
+    z-index: 2;
     width: $sidebar-width;
     height: 100vh;
     margin-left: -$sidebar-width;
@@ -18,7 +21,7 @@ $sidebar-width: 200px;
     }
   }
   &__main {
-    z-index: 9;
+    z-index: 1;
     width: 100%;
     @include media-breakpoint-up(md) {
       width: calc(100vw - #{$sidebar-width});
