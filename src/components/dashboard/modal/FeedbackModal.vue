@@ -70,7 +70,7 @@
                     class="btn feedback__rating"
                     :class="{ active: ratings[item - 1] }"
                   >
-                    <span class="material-icons">star</span>
+                    <span class="material-icons">{{ feedbackConfig.ratingIcon }}</span>
                   </label>
                 </template>
               </div>
@@ -122,6 +122,7 @@ const feedbackConfig = {
   saveBtn: '儲存',
   delBtn: '刪除此筆步道任務',
   ratingStarNum: 5,
+  ratingIcon: 'star',
   form: {
     hikingState: {
       title: '完走狀態',

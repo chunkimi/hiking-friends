@@ -1,6 +1,7 @@
 <style lang="scss" scoped>
 @import '@/styles/main.scss';
 
+$sidebar-width-sm: 120px;
 $sidebar-width: 200px;
 
 .dashboard {
@@ -9,9 +10,9 @@ $sidebar-width: 200px;
   }
   &__sidebar {
     z-index: 2;
-    width: $sidebar-width;
+    width: $sidebar-width-sm;
     height: 100vh;
-    margin-left: -$sidebar-width;
+    margin-left: -$sidebar-width-sm;
     position: fixed;
     top: 0;
     @include media-breakpoint-up(md) {
@@ -29,9 +30,13 @@ $sidebar-width: 200px;
     }
   }
   &__brand {
-    width: 120px;
-    height: 36px;
+    width: 60px;
+    height: 18px;
     @include img-replace-text;
+    @include media-breakpoint-up(md) {
+      width: 120px;
+      height: 36px;
+    }
   }
   &__link {
     &__text {
@@ -53,9 +58,6 @@ $sidebar-width: 200px;
   .dashboard__sidebar {
     margin-left: 0;
   }
-  // .dashboard__main {
-  //   margin-left: $sidebar-width;
-  // }
   @include media-breakpoint-up(md) {
     .dashboard__sidebar {
       margin-left: -$sidebar-width;
@@ -123,7 +125,8 @@ $sidebar-width: 200px;
                 aria-current="page"
                 @click="handleNavClick"
               >
-                {{ navItem.title }}
+                <span class="material-icons me-1" v-if="isMediaMdDown">{{ navItem.icon }}</span>
+                <span v-else>{{ navItem.title }}</span>
               </router-link>
             </li>
           </ul>
@@ -177,9 +180,9 @@ const navConfig = {
     main: '郊友護照'
   },
   menuData: [
-    { title: '總覽', to: { name: 'PassportIndex' } },
-    { title: '足跡分析', to: { name: 'PerAnalysis' } },
-    { title: '步道任務', to: { name: 'FavManagement' } }
+    { title: '總覽', icon: 'network_check', to: { name: 'PassportIndex' } },
+    { title: '足跡分析', icon: 'equalizer', to: { name: 'PerAnalysis' } },
+    { title: '步道任務', icon: 'receipt_long', to: { name: 'FavManagement' } }
   ],
   frontPath: { title: '回到主頁', to: { name: 'FrontIndex' } },
   logoutTitle: '登出'
