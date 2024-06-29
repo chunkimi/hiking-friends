@@ -87,11 +87,11 @@ const listOverviewConfig = {
       type: 'TR_CNAME'
     },
     {
-      title: '狀態',
+      title: '完走',
       type: 'hikingState'
     },
     {
-      title: '心得',
+      title: '評分',
       type: 'isHaveRating'
     },
     {

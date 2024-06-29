@@ -182,7 +182,7 @@ const navConfig = {
   menuData: [
     { title: '總覽', icon: 'network_check', to: { name: 'PassportIndex' } },
     { title: '足跡分析', icon: 'equalizer', to: { name: 'PerAnalysis' } },
-    { title: '步道任務', icon: 'receipt_long', to: { name: 'FavManagement' } }
+    { title: '任務管理', icon: 'receipt_long', to: { name: 'FavManagement' } }
   ],
   frontPath: { title: '回到主頁', to: { name: 'FrontIndex' } },
   logoutTitle: '登出'

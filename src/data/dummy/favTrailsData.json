@@ -82,10 +82,10 @@
     "id": "fav20240621011",
     "content": {
       "TRAILID": "011",
-      "rating": 1,
+      "rating": null,
       "reviews": null
     },
-    "completed_at": "2024-06-22T08:30:00Z"
+    "completed_at": null
   },
   {
     "id": "fav20240621012",

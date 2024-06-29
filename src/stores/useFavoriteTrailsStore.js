@@ -111,7 +111,21 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     return result
   })
 
+  const allTrailsNum = computed(() => {
+    return allTrailsData.value.length || 0
+  })
+
+  const favTrailsNum = computed(() => {
+    return favTrailsData.value.length || 0
+  })
+
+  const doneFavNum = computed(() => {
+    let raw = favTrailsListData.value.filter((item) => item.hikingState)
+    return raw.length || 0
+  })
+
   // console.log('favTrailsListData', favTrailsListData)
+  // console.log('dataNum', allTrailsNum, favTrailsNum, doneFavNum)
 
   function checkContentValue(typeValue) {
     if (!typeValue || typeValue === undefined || typeValue === null) return false
@@ -133,6 +147,9 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     // sendFavListRequest,
     allTrailsData,
     favTrailsData,
+    allTrailsNum,
+    favTrailsNum,
+    doneFavNum,
     favTrailsListData,
     curFavId,
     curFavItem,

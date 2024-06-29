@@ -190,7 +190,6 @@ function updateRatings(index) {
     }
     curFavData.value.content.rating = index - 1
   }
-  console.log('ratings', ratings.value)
 }
 
 function handleDelFav() {
