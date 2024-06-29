@@ -1,15 +1,12 @@
 <style lang="scss" scoped>
-.doughnut-chart {
+.horizontal-chart {
   width: 100%;
-  aspect-ratio: 1;
-  max-width: 320px;
-  max-height: 320px;
 }
 </style>
 <template>
   <div></div>
-  <div class="doughnut-chart">
-    <canvas :id="`doughnut-chart-${chartId}`"></canvas>
+  <div class="horizontal-chart">
+    <canvas :id="`horizontal-chart-${chartId}`"></canvas>
   </div>
 </template>
 <script setup>
@@ -33,9 +30,9 @@ watch(
   () => props.chartData,
   () => {
     if (chart) {
-      updateDoughnutChart()
+      updateHorizontalChartChart()
     } else {
-      renderDoughnutChart()
+      renderHorizontalChartChart()
     }
   },
   { deep: true, immediate: true }
@@ -45,43 +42,37 @@ onBeforeUnmount(() => {
   chart.destroy()
 })
 
-async function renderDoughnutChart() {
+async function renderHorizontalChartChart() {
   await nextTick()
   if (chart) {
     chart.destroy()
   }
 
-  const ctx = document.getElementById(`doughnut-chart-${props.chartId}`).getContext('2d')
-  const { labels, datasets } = props.chartData
-
-  const data = {
-    labels: labels,
-    datasets: [
-      {
-        ...datasets,
-        hoverOffset: 4
-      }
-    ]
-  }
+  const ctx = document.getElementById(`horizontal-chart-${props.chartId}`).getContext('2d')
 
   const config = {
-    type: 'doughnut',
-    data,
+    type: 'bar',
+    data: props.chartData,
     options: {
-      plugins: {
-        responsive: true,
-        legend: {
-          display: false
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          stacked: true,
+          max: 100
+        },
+        y: {
+          stacked: true
         }
-      },
-      cutout: 80
+      }
     }
   }
 
   chart = new Chart(ctx, config)
 }
 
-function updateDoughnutChart() {
+function updateHorizontalChartChart() {
   const { labels, datasets } = props.chartData
   ;(chart.data = {
     labels,

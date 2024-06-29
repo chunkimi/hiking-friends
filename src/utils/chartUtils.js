@@ -1,12 +1,25 @@
-export const chartColorArr = ['#f3c763', '#e5c07b', '#d98880', '#6fa3bf', '#b294bb', '#7fb3a7']
+export const chartColorArr = [
+  '#e5c07b',
+  '#d98880',
+  '#6fa3bf',
+  '#b294bb',
+  '#d2b48c',
+  '#7fb3a7',
+  '#ffeb3b'
+]
+export const priorityChartColor = '#ffd700'
 export const undoneChartColor = '#d3d3d3'
+
+export function getChartArrColor(index) {
+  return chartColorArr[index % chartColorArr.length]
+}
 
 export function getPalette(dataCount) {
   dataCount = Math.max(Math.floor(dataCount), 0)
 
   const result = []
   for (let i = 0; i < dataCount; i++) {
-    result.push(chartColorArr[i % chartColorArr.length])
+    result.push(getChartArrColor(i))
   }
 
   return result
