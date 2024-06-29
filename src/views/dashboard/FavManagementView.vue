@@ -80,7 +80,7 @@ const favMgtConfig = {
       type: 'undone'
     },
     {
-      title: '完成挑戰',
+      title: '完走山徑',
       type: 'done'
     },
     {
@@ -101,7 +101,10 @@ const favListData = computed(() => {
     case 'undone':
       return favTrailsListData.value.filter((item) => !item.hikingState)
     case 'done':
-      return favTrailsListData.value.filter((item) => item.hikingState)
+      return favTrailsListData.value.filter(
+        (item) =>
+          (item.hikingState && !item.isHaveRating) || (item.hikingState && !item.isHaveReviews)
+      )
     case 'close':
       return favTrailsListData.value.filter(
         (item) => item.hikingState && item.isHaveRating && item.isHaveReviews

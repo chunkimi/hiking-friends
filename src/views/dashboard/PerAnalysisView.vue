@@ -5,8 +5,11 @@
     <div class="block-spacing">
       <h1 class="h1 text-end">{{ perAnalConfig.pageTitle }}</h1>
       <ProgressCard :fav-list-data="favTrailsListData" />
-      <!-- 圖表:收藏／總數，完成／總數，完成／收藏 -->
-
+      <ProgressStateChart
+        :all-trails-num="allTrailsNum"
+        :fav-trails-num="favTrailsNum"
+        :done-fav-num="doneFavNum"
+      />
       <div class="block-spacing">
         <h2 class="h3">已完成步道偏好分析</h2>
         <div>
@@ -44,10 +47,12 @@
 
 <script setup>
 import ProgressCard from '@/components/dashboard/ProgressCard.vue'
+import ProgressStateChart from '@/components/dashboard/ProgressStateChart.vue'
 import { storeToRefs } from 'pinia'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
 const favoriteTrailsStore = useFavoriteTrailsStore()
-const { favTrailsListData } = storeToRefs(favoriteTrailsStore)
+const { favTrailsListData, allTrailsNum, favTrailsNum, doneFavNum } =
+  storeToRefs(favoriteTrailsStore)
 
 const perAnalConfig = {
   pageTitle: '足跡分析'

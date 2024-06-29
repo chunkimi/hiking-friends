@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-12 col-md-4 mb-4" v-for="cardItem in summaryCard" :key="cardItem.title">
-      <div class="p-6 rounded border shadow-sm d-grid gap-3">
+      <div class="p-6 card shadow d-grid gap-3">
         <div class="d-flex justify-content-between align-items-center">
           <span class="material-icons display-4">{{ cardItem.icon }}</span>
           <h4 class="fs-5 fw-normal text-secondary m-0">{{ cardItem.title }}</h4>
