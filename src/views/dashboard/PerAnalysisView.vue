@@ -4,7 +4,7 @@
   <div class="container">
     <div class="block-spacing">
       <h1 class="h1 text-end">{{ perAnalConfig.pageTitle }}</h1>
-      <ProgressCard :fav-list-data="favTrailsListData" />
+      <ProgressCard :fav-list-data="favStateListData" />
       <ProgressStateChart
         :all-trails-num="allTrailsNum"
         :fav-trails-num="favTrailsNum"
@@ -51,7 +51,7 @@ import ProgressStateChart from '@/components/dashboard/ProgressStateChart.vue'
 import { storeToRefs } from 'pinia'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
 const favoriteTrailsStore = useFavoriteTrailsStore()
-const { favTrailsListData, allTrailsNum, favTrailsNum, doneFavNum } =
+const { favStateListData, allTrailsNum, favTrailsNum, doneFavNum } =
   storeToRefs(favoriteTrailsStore)
 
 const perAnalConfig = {

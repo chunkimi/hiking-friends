@@ -57,7 +57,7 @@ const completedCount = computed(() => completedFavTrails.value.length)
 const sumLength = computed(() => {
   let rawSum = 0
   completedFavTrails.value.forEach((listItem) => {
-    rawSum += parseInt(listItem.TR_LENGTH_NUM)
+    rawSum += parseInt(listItem.info.TR_LENGTH_NUM)
   })
   return rawSum
 })

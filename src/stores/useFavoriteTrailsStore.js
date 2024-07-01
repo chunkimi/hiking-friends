@@ -81,19 +81,26 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
   // dummyData
   const allTrailsData = ref(dummyAllTrailsData)
   const favTrailsData = ref(dummyFavTrailsData)
-  const favTrailsListData = computed(() => {
-    let result = []
-    allTrailsData.value.forEach((allTrail) => {
-      favTrailsData.value.forEach((favTrail) => {
-        if (allTrail.TRAILID === favTrail.content.TRAILID) {
-          const favId = favTrail.id
 
+  const favStateListData = computed(() => {
+    let result = []
+    allTrailsData.value.forEach((trailInfo) => {
+      favTrailsData.value.forEach((favTrail) => {
+        if (trailInfo.TRAILID === favTrail.content.TRAILID) {
+          const favId = favTrail.id
+          const TRAILID = favTrail?.content?.TRAILID
           const hikingState = checkContentValue(favTrail.completed_at)
           const isHaveRating = checkContentValue(favTrail?.content?.rating)
           const isHaveReviews = checkContentValue(favTrail?.content?.reviews)
-          const TRAILID = allTrail.TRAILID
-          const TR_CNAME = allTrail.TR_CNAME
-          const TR_LENGTH_NUM = allTrail.TR_LENGTH_NUM
+
+          const { TR_CNAME, TR_LENGTH_NUM, TR_ADMIN, TR_ALT, TR_DIF_CLASS } = trailInfo
+
+          const info = {
+            TR_LENGTH_NUM,
+            TR_ADMIN,
+            TR_ALT,
+            TR_DIF_CLASS
+          }
 
           const rawResult = {
             favId,
@@ -102,7 +109,7 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
             isHaveReviews,
             TRAILID,
             TR_CNAME,
-            TR_LENGTH_NUM
+            info
           }
           result.push(rawResult)
         }
@@ -120,11 +127,11 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
   })
 
   const doneFavNum = computed(() => {
-    let raw = favTrailsListData.value.filter((item) => item.hikingState)
+    let raw = favStateListData.value.filter((item) => item.hikingState)
     return raw.length || 0
   })
 
-  // console.log('favTrailsListData', favTrailsListData)
+  // console.log('favStateListData', favStateListData)
   // console.log('dataNum', allTrailsNum, favTrailsNum, doneFavNum)
 
   function checkContentValue(typeValue) {
@@ -135,7 +142,7 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
   const curFavId = ref('')
   const curFavItem = computed(() => {
     if (!curFavId.value) return {}
-    return favTrailsListData.value.find((item) => item.favId === curFavId.value) || {}
+    return favStateListData.value.find((item) => item.favId === curFavId.value) || {}
   })
   const curFavData = computed(() => {
     if (!curFavId.value) return {}
@@ -150,7 +157,7 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     allTrailsNum,
     favTrailsNum,
     doneFavNum,
-    favTrailsListData,
+    favStateListData,
     curFavId,
     curFavItem,
     curFavData,

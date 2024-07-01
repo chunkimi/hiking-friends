@@ -3,13 +3,13 @@
 <template>
   <div class="container">
     <div class="block-spacing">
-      <ProgressCard :fav-list-data="favTrailsListData" />
+      <ProgressCard :fav-list-data="favStateListData" />
       <ProgressStateChart
         :all-trails-num="allTrailsNum"
         :fav-trails-num="favTrailsNum"
         :done-fav-num="doneFavNum"
       />
-      <FavListOverview :fav-list-data="favTrailsListData" />
+      <FavListOverview :fav-list-data="favStateListData" />
     </div>
   </div>
 </template>
@@ -21,6 +21,6 @@ import FavListOverview from '@/components/dashboard/FavListOverview.vue'
 import { storeToRefs } from 'pinia'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
 const favoriteTrailsStore = useFavoriteTrailsStore()
-const { favTrailsListData, allTrailsNum, favTrailsNum, doneFavNum } =
+const { favStateListData, allTrailsNum, favTrailsNum, doneFavNum } =
   storeToRefs(favoriteTrailsStore)
 </script>

@@ -194,7 +194,7 @@ const isMediaMdDown = useMediaQuery('(max-width: 768px)')
 // const { isCheckLoginSuccess, userNickname, isLogoutSuccess } = storeToRefs(accountStore)
 // const { checkLoginStatus, sendLogoutRequest } = accountStore
 // const favoriteTrailsStore = useFavoriteTrailsStore()
-// const { favTrailsListData } = storeToRefs(favoriteTrailsStore)
+// const { favStateListData  } = storeToRefs(favoriteTrailsStore)
 // const { sendFavListRequest } = favoriteTrailsStore
 const isCollapseNav = ref(false)
 
@@ -220,7 +220,7 @@ const userNickname = '小豬佩奇'
 // async function dashboardDataInit() {
 //   try {
 //     await sendFavListRequest()
-//     console.log('dashboard-favTrailsList', favTrailsListData)
+//     console.log('dashboard-favTrailsList', favStateListData )
 //   } catch (error) {
 //     console.error('Error dashboard request favTrailsList:', error)
 //   }

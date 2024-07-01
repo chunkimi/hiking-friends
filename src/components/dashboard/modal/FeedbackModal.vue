@@ -140,13 +140,15 @@ const feedbackConfig = {
 }
 
 const curFavItem = ref({
+  favId: 'fav20240621001',
   TRAILID: '001',
   TR_CNAME: '蘇花古道：大南澳越嶺段',
-  TR_LENGTH_NUM: 4.1,
-  favId: 'fav20240621001',
   hikingState: true,
   isHaveRating: true,
-  isHaveReviews: false
+  isHaveReviews: false,
+  info: {
+    TR_LENGTH_NUM: 4.1
+  }
 })
 
 const curFavData = ref({

@@ -91,26 +91,26 @@ const favMgtConfig = {
 }
 
 const favoriteTrailsStore = useFavoriteTrailsStore()
-const { favTrailsListData } = storeToRefs(favoriteTrailsStore)
+const { favStateListData } = storeToRefs(favoriteTrailsStore)
 
 const curTabModel = ref('all')
 const favListData = computed(() => {
   switch (curTabModel.value) {
     case 'all':
-      return favTrailsListData.value
+      return favStateListData.value
     case 'undone':
-      return favTrailsListData.value.filter((item) => !item.hikingState)
+      return favStateListData.value.filter((item) => !item.hikingState)
     case 'done':
-      return favTrailsListData.value.filter(
+      return favStateListData.value.filter(
         (item) =>
           (item.hikingState && !item.isHaveRating) || (item.hikingState && !item.isHaveReviews)
       )
     case 'close':
-      return favTrailsListData.value.filter(
+      return favStateListData.value.filter(
         (item) => item.hikingState && item.isHaveRating && item.isHaveReviews
       )
     default:
-      return favTrailsListData.value
+      return favStateListData.value
   }
 })
 
