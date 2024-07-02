@@ -134,8 +134,7 @@
     "id": "1379610",
     "content": {
       "TRAILID": "049",
-      "rating": "1",
-      "reviews": "Disappointing experience, trail poorly marked."
+      "rating": "1"
     },
     "completed_at": "2023-03-18"
   },
@@ -150,8 +149,7 @@
     "id": "1899432",
     "content": {
       "TRAILID": "052",
-      "rating": "3",
-      "reviews": "Enjoyed the scenic beauty along the trail."
+      "rating": "3"
     },
     "completed_at": "2021-05-29"
   },

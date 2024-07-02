@@ -71,6 +71,19 @@ async function renderDoughnutChart() {
         responsive: true,
         legend: {
           display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              let label = context.label || ''
+
+              if (context.dataset.data[context.dataIndex] > 0) {
+                label += `: ${context.dataset.data[context.dataIndex]}%`
+              }
+
+              return label
+            }
+          }
         }
       },
       cutout: 80

@@ -42,9 +42,19 @@
             </template>
           </div>
         </div>
-        <div class="mb-4" v-for="favItem in curListData" :key="favItem.favId">
-          <TaskCard :fav-item="favItem" />
+        <p class="text-end fw-light">
+          <span>{{ favMgtConfig.typeNumText }}</span>
+          <span>{{ favListData.length }}</span>
+        </p>
+        <div v-if="isHaveCurListData">
+          <div class="mb-4" v-for="favItem in curListData" :key="favItem.favId">
+            <TaskCard :fav-item="favItem" />
+          </div>
         </div>
+        <div v-else class="py-20">
+          <p class="display-6 text-center text-primary">{{ favMgtConfig.noValueNote }}</p>
+        </div>
+
         <div class="d-flex justify-content-end bg-transparent">
           <PaginationNav
             :current-page="curPage"
@@ -84,10 +94,16 @@ const favMgtConfig = {
       type: 'done'
     },
     {
+      title: '筆記進行',
+      type: 'edit'
+    },
+    {
       title: '任務結束',
       type: 'close'
     }
-  ]
+  ],
+  typeNumText: '此分類任務數量：',
+  noValueNote: '此分類無步道任務卡片'
 }
 
 const favoriteTrailsStore = useFavoriteTrailsStore()
@@ -105,6 +121,10 @@ const favListData = computed(() => {
         (item) =>
           (item.hikingState && !item.isHaveRating) || (item.hikingState && !item.isHaveReviews)
       )
+    case 'edit':
+      return favStateListData.value.filter(
+        (item) => item.hikingState && item.isHaveRating && !item.isHaveReviews
+      )
     case 'close':
       return favStateListData.value.filter(
         (item) => item.hikingState && item.isHaveRating && item.isHaveReviews
@@ -116,6 +136,8 @@ const favListData = computed(() => {
 
 const { curPage, numberOfPages, curListData, changePage, pageInit } =
   usePaginationUtils(favListData)
+
+const isHaveCurListData = computed(() => (curListData.value.length > 0 ? true : false))
 
 watch(
   curTabModel,
