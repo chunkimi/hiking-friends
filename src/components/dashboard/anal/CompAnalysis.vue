@@ -3,29 +3,31 @@
   <div>
     <h3 class="h4 m-0">{{ compAnalConfig.sectionTitle }}</h3>
     <p class="text-secondary fw-lighter">{{ compAnalConfig.note }}</p>
-    <div class="row">
-      <div class="col-12">
-        <div class="card p-6">
-          <BubbleChart
-            :chart-id="chartId"
-            :chart-data="bubbleChartData"
-            :chart-scales="compAnalConfig.chartScales"
-          />
-        </div>
-      </div>
+    <div class="card p-6">
+      <BubbleChart
+        :chart-id="chartId"
+        :chart-data="bubbleChartData"
+        :chart-scales="compAnalConfig.chartScales"
+      />
     </div>
-    <div class="mt-20"></div>
   </div>
 </template>
 <script setup>
 import { computed } from 'vue'
 import BubbleChart from '@/components/chart/BubbleChart.vue'
-import { getPalette } from '@/utils/chartUtils.js'
-import { getAllRegionFromFav, getRegionByAdmin } from '@/utils/favTrailStateUtils.js'
+import { getRegionByAdmin } from '@/utils/favTrailStateUtils.js'
 import { hexToRgb } from '@/utils/base.js'
 
 const props = defineProps({
   favListData: {
+    type: Array,
+    required: true
+  },
+  allRegions: {
+    type: Array,
+    required: true
+  },
+  regionsChartColor: {
     type: Array,
     required: true
   }
@@ -60,12 +62,9 @@ const bubbleChartData = computed(() => {
       }
     })
 
-  const allRegion = getAllRegionFromFav(props.favListData)
-  const regionsChartColor = getPalette(allRegion.length)
-
   const result = []
 
-  allRegion.forEach((regionItem, index) => {
+  props.allRegions.forEach((regionItem, index) => {
     const rawData = doneData
       .filter((doneItem) => doneItem.region === regionItem)
       .map((filterItem) => {
@@ -73,7 +72,7 @@ const bubbleChartData = computed(() => {
           ...filterItem.chartValue
         }
       })
-    const rgbColor = hexToRgb(regionsChartColor[index])
+    const rgbColor = hexToRgb(props.regionsChartColor[index])
     const rawResult = {
       label: regionItem,
       data: rawData,

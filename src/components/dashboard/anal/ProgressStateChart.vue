@@ -38,7 +38,7 @@ import { priorityChartColor, undoneChartColor, getChartArrColor } from '@/utils/
 
 const taskStateConfig = {
   favTrailCompTitle: '已收藏步道完走率',
-  totalExecRate: '個人步道任務占步道總數統計'
+  totalExecRate: '收藏與完走占步道總數比例'
 }
 
 const props = defineProps({

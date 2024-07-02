@@ -19,7 +19,24 @@
       <div>
         <h2 class="h2">{{ perAnalConfig.secondarySection.title }}</h2>
         <p class="text-secondary fw-light">{{ perAnalConfig.secondarySection.note }}</p>
-        <CompAnalysis :fav-list-data="favStateListData" />
+        <div class="row">
+          <div class="col-12">
+            <CompAnalysis
+              :fav-list-data="favStateListData"
+              :all-regions="allRegions"
+              :regions-chart-color="regionsChartColor"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-lg-6">
+          <RegionStats
+            :fav-list-data="favStateListData"
+            :all-regions="allRegions"
+            :regions-chart-color="regionsChartColor"
+          ></RegionStats>
+        </div>
       </div>
 
       <!-- 圖表:步道難度與地區 -->
@@ -55,8 +72,13 @@
 import ProgressCard from '@/components/dashboard/anal/ProgressCard.vue'
 import ProgressStateChart from '@/components/dashboard/anal/ProgressStateChart.vue'
 import CompAnalysis from '@/components/dashboard/anal/CompAnalysis.vue'
+import RegionStats from '@/components/dashboard/anal/RegionStats.vue'
+import { getPalette } from '@/utils/chartUtils.js'
+import { getAllRegionFromFav } from '@/utils/favTrailStateUtils.js'
+
 import { storeToRefs } from 'pinia'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
+import { computed } from 'vue'
 const favoriteTrailsStore = useFavoriteTrailsStore()
 const { favStateListData, allTrailsNum, favTrailsNum, doneFavNum } =
   storeToRefs(favoriteTrailsStore)
@@ -72,4 +94,8 @@ const perAnalConfig = {
     note: '個人化的完走步道情報分析'
   }
 }
+
+const allRegions = computed(() => getAllRegionFromFav(favStateListData.value) || [])
+
+const regionsChartColor = computed(() => getPalette(allRegions.value.length) || [])
 </script>

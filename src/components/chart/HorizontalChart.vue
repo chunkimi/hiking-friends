@@ -1,6 +1,7 @@
 <style lang="scss" scoped>
 .horizontal-chart {
-  width: 100%;
+  width: 80%;
+  margin: 0 auto;
 }
 </style>
 <template>
@@ -30,9 +31,9 @@ watch(
   () => props.chartData,
   () => {
     if (chart) {
-      updateHorizontalChartChart()
+      updateHorizontalChart()
     } else {
-      renderHorizontalChartChart()
+      renderHorizontalChart()
     }
   },
   { deep: true, immediate: true }
@@ -42,7 +43,7 @@ onBeforeUnmount(() => {
   chart.destroy()
 })
 
-async function renderHorizontalChartChart() {
+async function renderHorizontalChart() {
   await nextTick()
   if (chart) {
     chart.destroy()
@@ -65,6 +66,9 @@ async function renderHorizontalChartChart() {
         y: {
           stacked: true
         }
+      },
+      label: function (context) {
+        return `${context.formattedValue || '0'}%`
       }
     }
   }
@@ -72,7 +76,7 @@ async function renderHorizontalChartChart() {
   chart = new Chart(ctx, config)
 }
 
-function updateHorizontalChartChart() {
+function updateHorizontalChart() {
   const { labels, datasets } = props.chartData
   ;(chart.data = {
     labels,
