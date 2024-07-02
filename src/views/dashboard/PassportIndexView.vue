@@ -15,9 +15,9 @@
 </template>
 
 <script setup>
-import ProgressCard from '@/components/dashboard/ProgressCard.vue'
-import ProgressStateChart from '@/components/dashboard/ProgressStateChart.vue'
-import FavListOverview from '@/components/dashboard/FavListOverview.vue'
+import ProgressCard from '@/components/dashboard/anal/ProgressCard.vue'
+import ProgressStateChart from '@/components/dashboard/anal/ProgressStateChart.vue'
+import FavListOverview from '@/components/dashboard/list/FavListOverview.vue'
 import { storeToRefs } from 'pinia'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
 const favoriteTrailsStore = useFavoriteTrailsStore()

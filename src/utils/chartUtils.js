@@ -1,13 +1,24 @@
 export const chartColorArr = [
-  '#e5c07b',
-  '#d98880',
-  '#6fa3bf',
   '#b294bb',
-  '#d2b48c',
+  '#d98880',
+  '#e5c07b',
+  '#6fa3bf',
   '#7fb3a7',
-  '#ffeb3b'
+  '#ffeb3b',
+  '#fdd835',
+  '#9dc1bb',
+  '#c3a6b1',
+  '#f0ab86',
+  '#b4aee8',
+  '#ffadad',
+  '#ffd6a5',
+  '#ffc979',
+  '#a0d6b4',
+  '#7ac5cd'
 ]
+
 export const priorityChartColor = '#ffd700'
+// '#fdd835'
 export const undoneChartColor = '#d3d3d3'
 
 export function getChartArrColor(index) {

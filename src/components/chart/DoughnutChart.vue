@@ -7,7 +7,6 @@
 }
 </style>
 <template>
-  <div></div>
   <div class="doughnut-chart">
     <canvas :id="`doughnut-chart-${chartId}`"></canvas>
   </div>

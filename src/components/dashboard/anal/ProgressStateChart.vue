@@ -7,7 +7,7 @@
 <template>
   <div class="row flex-lg-row-reverse">
     <div class="col-12 col-lg-4 mb-20 mb-lg-0">
-      <h3 class="h5">{{ taskStateConfig.favTrailCompTitle }}</h3>
+      <h3 class="h4">{{ taskStateConfig.favTrailCompTitle }}</h3>
       <div class="card p-6 state-chart-card">
         <div class="chart-square__container d-flex justify-content-center align-items-center">
           <DoughnutChart :chart-id="favTrailCompChartId" :chart-data="favTrailCompChart" />
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="col-12 col-lg-8">
-      <h3 class="h5">{{ taskStateConfig.totalExecRate }}</h3>
+      <h3 class="h4">{{ taskStateConfig.totalExecRate }}</h3>
       <div class="card p-6 state-chart-card">
         <div class="h-100 d-flex justify-content-center align-items-center">
           <HorizontalChart :chart-id="totalExecChartId" :chart-data="totalExecChart" />

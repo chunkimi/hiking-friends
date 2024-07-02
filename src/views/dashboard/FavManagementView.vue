@@ -63,7 +63,7 @@
 import { onMounted, computed, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
-import TaskCard from '@/components/dashboard/TaskCard.vue'
+import TaskCard from '@/components/dashboard/list/TaskCard.vue'
 import PaginationNav from '@/components/common/PaginationNav.vue'
 import FeedbackModal from '@/components/dashboard/modal/FeedbackModal.vue'
 import { usePaginationUtils } from '@/utils/paginationUtils.js'
