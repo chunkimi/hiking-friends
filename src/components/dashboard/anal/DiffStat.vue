@@ -31,7 +31,7 @@ const diffStatConfig = {
 }
 
 const props = defineProps({
-  favListData: {
+  doneFavList: {
     type: Array,
     required: true
   }
@@ -40,7 +40,7 @@ const props = defineProps({
 const statisticalDiffs = computed(() => {
   const labels = trailDifClassArr.map((item) => item.degree)
 
-  const doneDataDiff = props.favListData
+  const doneDataDiff = props.doneFavList
     .filter((item) => item.hikingState)
     .map((doneItem) => doneItem.info.TR_DIF_CLASS)
 
@@ -59,18 +59,6 @@ const statisticalDiffs = computed(() => {
 
 const radarChartData = computed(() => {
   const rgbColor = hexToRgb(criticalChartColor)
-  // const labels = trailDifClassArr.map((item) => item.degree)
-
-  // const doneDataDiff = props.favListData
-  //   .filter((item) => item.hikingState)
-  //   .map((doneItem) => doneItem.info.TR_DIF_CLASS)
-
-  // const diffCount = doneDataDiff.reduce((count, region) => {
-  //   count[region] = (count[region] || 0) + 1
-  //   return count
-  // }, {})
-
-  // const data = labels.map((region) => diffCount[region] || 0)
 
   const labels = statisticalDiffs.value.map((item) => item.degree)
 

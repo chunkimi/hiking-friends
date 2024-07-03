@@ -30,7 +30,7 @@ const regionStatsConfig = {
 }
 
 const props = defineProps({
-  favListData: {
+  doneFavList: {
     type: Array,
     required: true
   },
@@ -47,9 +47,9 @@ const props = defineProps({
 const chartId = 'regionPolar'
 
 const statisticalRegions = computed(() => {
-  const doneDataRegion = props.favListData
-    .filter((item) => item.hikingState)
-    .map((doneItem) => getRegionByAdmin(doneItem.info.TR_ADMIN))
+  const doneDataRegion = props.doneFavList.map((doneItem) =>
+    getRegionByAdmin(doneItem.info.TR_ADMIN)
+  )
 
   const regionCount = doneDataRegion.reduce((count, region) => {
     count[region] = (count[region] || 0) + 1
