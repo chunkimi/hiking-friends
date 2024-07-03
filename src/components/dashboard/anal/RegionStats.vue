@@ -1,7 +1,7 @@
 <template>
   <h3 class="h4">{{ regionStatsConfig.sectionTitle }}</h3>
   <div class="card">
-    <div class="card-body">
+    <div class="card-body d-flex justify-content-center">
       <PolarAreaChart :chart-id="chartId" :chart-data="polarAreaChartData" />
     </div>
     <div class="card-footer bg-transparent">

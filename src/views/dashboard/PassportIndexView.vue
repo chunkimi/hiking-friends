@@ -10,7 +10,7 @@
         :fav-trails-num="favTrailsNum"
         :done-fav-num="doneFavNum"
       />
-      <FavListOverview :fav-list-data="favStateListData" class="mt-20" />
+      <FavListOverview :fav-list-data="favStateListData" />
     </div>
   </div>
 </template>

@@ -79,7 +79,7 @@ import FeedbackModal from '@/components/dashboard/modal/FeedbackModal.vue'
 import { usePaginationUtils } from '@/utils/paginationUtils.js'
 
 const favMgtConfig = {
-  pageTitle: '步道任務',
+  pageTitle: '任務管理',
   tabMenu: [
     {
       title: '全部收藏',

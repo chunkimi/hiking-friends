@@ -1,6 +1,6 @@
 <style lang="scss" scoped>
 .radar-chart {
-  width: 80%;
+  width: 100%;
   height: 100%;
   margin: 0 auto;
 }
@@ -13,6 +13,12 @@
 <script setup>
 import { watch, nextTick, onBeforeUnmount } from 'vue'
 import Chart from 'chart.js/auto'
+
+import { useMediaQuery } from '@vueuse/core'
+const isMediaLgDown = useMediaQuery('(max-width: 991px)')
+const isMediaLgUp = useMediaQuery('(min-width: 992px)')
+
+const isMediaXXLUp = useMediaQuery('(min-width: 1400px)')
 
 const props = defineProps({
   chartId: {
@@ -33,17 +39,28 @@ watch(
     if (chart) {
       updateRadarChart()
     } else {
-      RadarRadarChart()
+      renderRadarChart()
     }
   },
   { deep: true, immediate: true }
+)
+
+watch(
+  [isMediaLgDown, isMediaLgUp, isMediaXXLUp],
+  () => {
+    if (chart) {
+      chart.destroy()
+    }
+    renderRadarChart()
+  },
+  { immediate: true }
 )
 
 onBeforeUnmount(() => {
   chart.destroy()
 })
 
-async function RadarRadarChart() {
+async function renderRadarChart() {
   await nextTick()
   if (chart) {
     chart.destroy()

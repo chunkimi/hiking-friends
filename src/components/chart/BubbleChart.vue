@@ -1,6 +1,6 @@
 <style lang="scss" scoped>
 .bubble-chart {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
 }
 </style>
@@ -13,6 +13,11 @@
 <script setup>
 import { watch, nextTick, onBeforeUnmount } from 'vue'
 import Chart from 'chart.js/auto'
+
+import { useMediaQuery } from '@vueuse/core'
+const isMediaLgDown = useMediaQuery('(max-width: 991px)')
+const isMediaLgUp = useMediaQuery('(min-width: 992px)')
+const isMediaXXLUp = useMediaQuery('(min-width: 1400px)')
 
 const props = defineProps({
   chartId: {
@@ -41,6 +46,17 @@ watch(
     }
   },
   { deep: true, immediate: true }
+)
+
+watch(
+  [isMediaLgDown, isMediaLgUp, isMediaXXLUp],
+  () => {
+    if (chart) {
+      chart.destroy()
+    }
+    renderBubbleChart()
+  },
+  { immediate: true }
 )
 
 onBeforeUnmount(() => {

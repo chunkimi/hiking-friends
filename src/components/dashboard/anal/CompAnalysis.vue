@@ -3,7 +3,7 @@
   <div>
     <h3 class="h4 m-0">{{ compAnalConfig.sectionTitle }}</h3>
     <p class="text-secondary fw-lighter">{{ compAnalConfig.note }}</p>
-    <div class="card p-6">
+    <div class="card p-6 d-flex justify-content-center">
       <BubbleChart
         :chart-id="chartId"
         :chart-data="bubbleChartData"

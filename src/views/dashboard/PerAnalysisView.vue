@@ -6,13 +6,15 @@
     <div class="block-spacing">
       <div>
         <h2 class="h2">{{ perAnalConfig.ridgeLineSection.title }}</h2>
-        <p class="text-secondary fw-light mb-10">{{ perAnalConfig.ridgeLineSection.note }}</p>
-        <div class="w-100">
-          <LineChart
-            :chart-id="ridgeLineChartId"
-            :chart-data="ridgeLineChart"
-            :chart-option="ridgeLineChartOption"
-          />
+        <p class="text-secondary fw-light">{{ perAnalConfig.ridgeLineSection.note }}</p>
+        <div class="row col-12">
+          <div class="w-100 d-flex justify-content-center">
+            <LineChart
+              :chart-id="ridgeLineChartId"
+              :chart-data="ridgeLineChart"
+              :chart-option="ridgeLineChartOption"
+            />
+          </div>
         </div>
       </div>
       <div>
@@ -25,7 +27,7 @@
         :fav-trails-num="favTrailsNum"
         :done-fav-num="doneFavNum"
       />
-      <div class="mt-20">
+      <div>
         <h2 class="h2">{{ perAnalConfig.doneAnalSection.title }}</h2>
         <p class="text-secondary fw-light">{{ perAnalConfig.doneAnalSection.note }}</p>
         <div class="row">

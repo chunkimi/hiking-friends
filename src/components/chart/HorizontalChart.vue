@@ -1,6 +1,8 @@
 <style lang="scss" scoped>
 .horizontal-chart {
-  width: 80%;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
   margin: 0 auto;
 }
 </style>
@@ -13,6 +15,12 @@
 <script setup>
 import { watch, nextTick, onBeforeUnmount } from 'vue'
 import Chart from 'chart.js/auto'
+
+import { useMediaQuery } from '@vueuse/core'
+const isMediaLgDown = useMediaQuery('(max-width: 991px)')
+const isMediaLgUp = useMediaQuery('(min-width: 992px)')
+
+const isMediaXXLUp = useMediaQuery('(min-width: 1400px)')
 
 const props = defineProps({
   chartId: {
@@ -37,6 +45,17 @@ watch(
     }
   },
   { deep: true, immediate: true }
+)
+
+watch(
+  [isMediaLgDown, isMediaLgUp, isMediaXXLUp],
+  () => {
+    if (chart) {
+      chart.destroy()
+    }
+    renderHorizontalChart()
+  },
+  { immediate: true }
 )
 
 onBeforeUnmount(() => {
@@ -67,8 +86,14 @@ async function renderHorizontalChart() {
           stacked: true
         }
       },
-      label: function (context) {
-        return `${context.formattedValue || '0'}%`
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function (tooltipItem) {
+              return tooltipItem.raw + '%'
+            }
+          }
+        }
       }
     }
   }

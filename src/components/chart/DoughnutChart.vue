@@ -1,8 +1,8 @@
 <style lang="scss" scoped>
 .doughnut-chart {
-  width: 80%;
-  max-width: 320px;
-  max-height: 320px;
+  width: 100%;
+  max-width: 240px;
+  max-height: 240px;
   margin: 0 auto;
   aspect-ratio: 1;
 }
@@ -15,6 +15,11 @@
 <script setup>
 import { watch, nextTick, onBeforeUnmount } from 'vue'
 import Chart from 'chart.js/auto'
+
+import { useMediaQuery } from '@vueuse/core'
+const isMediaLgDown = useMediaQuery('(max-width: 991px)')
+const isMediaLgUp = useMediaQuery('(min-width: 992px)')
+const isMediaXXLUp = useMediaQuery('(min-width: 1400px)')
 
 const props = defineProps({
   chartId: {
@@ -41,6 +46,17 @@ watch(
   { deep: true, immediate: true }
 )
 
+watch(
+  [isMediaLgDown, isMediaLgUp, isMediaXXLUp],
+  () => {
+    if (chart) {
+      chart.destroy()
+    }
+    renderDoughnutChart()
+  },
+  { immediate: true }
+)
+
 onBeforeUnmount(() => {
   chart.destroy()
 })
@@ -50,7 +66,6 @@ async function renderDoughnutChart() {
   if (chart) {
     chart.destroy()
   }
-
   const ctx = document.getElementById(`doughnut-chart-${props.chartId}`).getContext('2d')
   const { labels, datasets } = props.chartData
 
@@ -76,13 +91,7 @@ async function renderDoughnutChart() {
         tooltip: {
           callbacks: {
             label: function (context) {
-              let label = context.label || ''
-
-              if (context.dataset.data[context.dataIndex] > 0) {
-                label += `: ${context.dataset.data[context.dataIndex]}%`
-              }
-
-              return label
+              return `${context.dataset.data[context.dataIndex]}%` || ''
             }
           }
         }

@@ -2,7 +2,7 @@
 <template>
   <h3 class="h4">{{ diffStatConfig.sectionTitle }}</h3>
   <div class="card">
-    <div class="card-cody">
+    <div class="card-cody d-flex justify-content-center">
       <RadarChart :chart-id="chartId" :chart-data="radarChartData" />
     </div>
     <div class="card-footer bg-transparent">

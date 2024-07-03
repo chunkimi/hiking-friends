@@ -2,6 +2,9 @@
 .state-chart-card {
   height: 100%;
   max-height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
 <template>
@@ -9,10 +12,10 @@
     <div class="col-12 col-lg-4 mb-20 mb-lg-0">
       <h3 class="h4">{{ taskStateConfig.favTrailCompTitle }}</h3>
       <div class="card state-chart-card">
-        <div class="chart-square__container d-flex justify-content-center align-items-center">
+        <div class="chart-square">
           <DoughnutChart :chart-id="favTrailCompChartId" :chart-data="favTrailCompChart" />
           <div class="chart-square__content">
-            <p class="text-center m-0 p-0">
+            <p class="m-0 p-0">
               <span class="display-4">{{ favTrailCompState.favCompRate }}</span>
               <span>%</span>
             </p>
@@ -22,8 +25,8 @@
     </div>
     <div class="col-12 col-lg-8">
       <h3 class="h4">{{ taskStateConfig.totalExecRate }}</h3>
-      <div class="card state-chart-card">
-        <div class="h-100 d-flex justify-content-center align-items-center">
+      <div class="card px-6 py-20 state-chart-card">
+        <div class="h-100 w-100">
           <HorizontalChart :chart-id="totalExecChartId" :chart-data="totalExecChart" />
         </div>
       </div>
@@ -62,9 +65,7 @@ const favTrailCompState = computed(() => {
   const favCompRate = Math.round((props.doneFavNum / props.favTrailsNum) * 100)
   return { chartData, favCompRate }
 })
-
 const favTrailCompChartId = 'favTrailComp'
-
 const favTrailCompChart = computed(() => {
   return {
     labels: ['已完走', '未執行'],
@@ -83,7 +84,6 @@ const totalCompState = computed(() => {
     favCompToTotalRate
   }
 })
-
 const totalExecChartId = 'totalExec'
 const totalExecChart = computed(() => {
   const labels = ['收藏百分比', '完走百分比']
