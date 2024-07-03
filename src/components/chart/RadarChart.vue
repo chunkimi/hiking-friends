@@ -71,16 +71,7 @@ async function RadarRadarChart() {
     options: {
       responsive: true,
       plugins: {
-        // tooltip: {
-        //   callbacks: {
-        //     label: function (context) {
-        //       const index = context.dataIndex
-        //       const label = context.chart.data.labels[index]
-        //       const value = context.chart.data.datasets[0].data[index]
-        //       return `${label}: ${value}`
-        //     }
-        //   }
-        // },
+        responsive: true,
         legend: {
           position: 'top'
         }

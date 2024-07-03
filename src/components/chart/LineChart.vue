@@ -1,13 +1,13 @@
 <style lang="scss" scoped>
-.bubble-chart {
+.line-chart {
   width: 80%;
+  height: 100%;
   margin: 0 auto;
 }
 </style>
-
 <template>
-  <div class="bubble-chart">
-    <canvas :id="`bubble-chart-${chartId}`"></canvas>
+  <div class="line-chart">
+    <canvas :id="`line-chart-${chartId}`"></canvas>
   </div>
 </template>
 <script setup>
@@ -23,7 +23,7 @@ const props = defineProps({
     type: Object,
     required: true
   },
-  chartScales: {
+  chartOption: {
     type: Object,
     required: true
   }
@@ -35,9 +35,9 @@ watch(
   () => props.chartData,
   () => {
     if (chart) {
-      updateBubbleChart()
+      updateLineChart()
     } else {
-      renderBubbleChart()
+      RadarLineChart()
     }
   },
   { deep: true, immediate: true }
@@ -47,39 +47,32 @@ onBeforeUnmount(() => {
   chart.destroy()
 })
 
-async function renderBubbleChart() {
+async function RadarLineChart() {
   await nextTick()
   if (chart) {
     chart.destroy()
   }
 
-  const ctx = document.getElementById(`bubble-chart-${props.chartId}`).getContext('2d')
+  const ctx = document.getElementById(`line-chart-${props.chartId}`).getContext('2d')
 
   const config = {
-    type: 'bubble',
+    type: 'line',
     data: props.chartData,
     options: {
+      scales: {
+        x: props.chartOption.scalesX,
+        y: props.chartOption.scalesY
+      },
       plugins: {
         responsive: true,
+        legend: {
+          position: 'top'
+        },
         tooltip: {
           callbacks: {
             label: function (context) {
-              return context.raw.floatingText
+              return `${context.dataset.label}: ${context.raw}`
             }
-          }
-        }
-      },
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: props.chartScales.x
-          }
-        },
-        y: {
-          title: {
-            display: true,
-            text: props.chartScales.y
           }
         }
       }
@@ -89,12 +82,12 @@ async function renderBubbleChart() {
   chart = new Chart(ctx, config)
 }
 
-function updateBubbleChart() {
-  const { labels, datasets } = props.chartData
-  ;(chart.data = {
-    labels,
-    datasets
-  }),
-    chart.update()
+function updateLineChart() {
+  chart.data = props.chartData
+
+  const { scalesX, scalesY } = props.chartOption
+  chart.options.scales.x = scalesX
+  chart.options.scales.y = scalesY
+  chart.update()
 }
 </script>

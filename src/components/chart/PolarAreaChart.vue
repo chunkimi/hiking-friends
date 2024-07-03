@@ -71,6 +71,7 @@ async function renderPolarAreaChart() {
     options: {
       responsive: true,
       plugins: {
+        responsive: true,
         tooltip: {
           callbacks: {
             label: function (context) {

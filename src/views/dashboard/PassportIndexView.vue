@@ -2,6 +2,7 @@
 
 <template>
   <div class="container">
+    <h1 class="h1 text-end mt-10">{{ passportConfig.pageTitle }}</h1>
     <div class="block-spacing">
       <ProgressCard :fav-list-data="favStateListData" />
       <ProgressStateChart
@@ -9,7 +10,7 @@
         :fav-trails-num="favTrailsNum"
         :done-fav-num="doneFavNum"
       />
-      <FavListOverview :fav-list-data="favStateListData" />
+      <FavListOverview :fav-list-data="favStateListData" class="mt-20" />
     </div>
   </div>
 </template>
@@ -23,4 +24,8 @@ import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
 const favoriteTrailsStore = useFavoriteTrailsStore()
 const { favStateListData, allTrailsNum, favTrailsNum, doneFavNum } =
   storeToRefs(favoriteTrailsStore)
+
+const passportConfig = {
+  pageTitle: '總覽'
+}
 </script>

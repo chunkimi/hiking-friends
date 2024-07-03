@@ -2,12 +2,19 @@
 
 <template>
   <div class="container">
-    <h1 class="h1 text-end my-10">{{ perAnalConfig.pageTitle }}</h1>
-    <div>
-      <h2 class="h2">{{ perAnalConfig.ridgeLineSection.title }}</h2>
-      <p class="text-secondary fw-light mb-10">{{ perAnalConfig.ridgeLineSection.note }}</p>
-    </div>
+    <h1 class="h1 text-end mt-10">{{ perAnalConfig.pageTitle }}</h1>
     <div class="block-spacing">
+      <div>
+        <h2 class="h2">{{ perAnalConfig.ridgeLineSection.title }}</h2>
+        <p class="text-secondary fw-light mb-10">{{ perAnalConfig.ridgeLineSection.note }}</p>
+        <div class="w-100">
+          <LineChart
+            :chart-id="ridgeLineChartId"
+            :chart-data="ridgeLineChart"
+            :chart-option="ridgeLineChartOption"
+          />
+        </div>
+      </div>
       <div>
         <h2 class="h2">{{ perAnalConfig.progressSection.title }}</h2>
         <p class="text-secondary fw-light mb-10">{{ perAnalConfig.progressSection.note }}</p>
@@ -18,9 +25,7 @@
         :fav-trails-num="favTrailsNum"
         :done-fav-num="doneFavNum"
       />
-    </div>
-    <div class="block-spacing">
-      <div>
+      <div class="mt-20">
         <h2 class="h2">{{ perAnalConfig.doneAnalSection.title }}</h2>
         <p class="text-secondary fw-light">{{ perAnalConfig.doneAnalSection.note }}</p>
         <div class="row">
@@ -55,8 +60,10 @@ import ProgressStateChart from '@/components/dashboard/anal/ProgressStateChart.v
 import CompAnalysis from '@/components/dashboard/anal/CompAnalysis.vue'
 import RegionStats from '@/components/dashboard/anal/RegionStats.vue'
 import DiffStat from '@/components/dashboard/anal/DiffStat.vue'
+import LineChart from '@/components/chart/LineChart.vue'
 
-import { getPalette } from '@/utils/chartUtils.js'
+import { hexToRgb } from '@/utils/base.js'
+import { getPalette, standardChartColor } from '@/utils/chartUtils.js'
 import { getAllRegionFromFav } from '@/utils/favTrailStateUtils.js'
 
 import { storeToRefs } from 'pinia'
@@ -84,9 +91,47 @@ const perAnalConfig = {
 
 const doneFavList = computed(() => favStateListData.value.filter((item) => item.hikingState))
 
-console.log('doneFavList', doneFavList.value)
-
 const allRegions = computed(() => getAllRegionFromFav(favStateListData.value) || [])
 
 const regionsChartColor = computed(() => getPalette(allRegions.value.length) || [])
+
+const ridgeLineChartId = 'ridgeLine'
+const ridgeLineChartOption = {
+  scalesX: {
+    display: false
+  },
+  scalesY: {
+    title: {
+      display: true,
+      text: '海拔 (m)'
+    },
+    min: 0,
+    max: 4000,
+    ticks: {
+      stepSize: 250
+    }
+  }
+}
+
+const ridgeLineChart = computed(() => {
+  const altitudes = doneFavList.value.map((trail) => parseInt(trail.info.TR_ALT))
+  const trailNames = doneFavList.value.map((trail) => trail.TR_CNAME)
+  const rgbColor = hexToRgb(standardChartColor)
+
+  return {
+    labels: trailNames,
+    datasets: [
+      {
+        label: '海拔 (m)',
+        data: altitudes,
+        backgroundColor: `rgba(${rgbColor}, 0.75)`,
+        borderColor: `rgba(${rgbColor}, 1)`,
+        borderWidth: 0.5,
+        fill: true,
+        pointRadius: 2,
+        lineTension: 0.4
+      }
+    ]
+  }
+})
 </script>
