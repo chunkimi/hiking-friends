@@ -30,40 +30,17 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-lg-6 mb-20 mb-lg-0">
           <RegionStats
             :fav-list-data="favStateListData"
             :all-regions="allRegions"
             :regions-chart-color="regionsChartColor"
-          ></RegionStats>
+          />
+        </div>
+        <div class="col-12 col-lg-6">
+          <DiffStat :fav-list-data="favStateListData" />
         </div>
       </div>
-
-      <!-- 圖表:步道難度與地區 -->
-      <!-- <div class="block-spacing">
-          <div class="row">
-            <div class="col-12 col-lg-6">
-              <div class="card">
-                <h3 class="h4">難易度統計</h3>
-                <p>bar chart</p>
-              </div>
-            </div>
-            <div class="col-12 col-lg-6">
-              <div class="card">
-                <h3 class="h4">地區統計</h3>
-                <p>polar area chart</p>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <div class="card">
-                <h3 class="h4">步道難易度與地區綜合分析</h3>
-                <p>radar chart</p>
-              </div>
-            </div>
-          </div>
-        </div> -->
     </div>
   </div>
 </template>
@@ -73,6 +50,8 @@ import ProgressCard from '@/components/dashboard/anal/ProgressCard.vue'
 import ProgressStateChart from '@/components/dashboard/anal/ProgressStateChart.vue'
 import CompAnalysis from '@/components/dashboard/anal/CompAnalysis.vue'
 import RegionStats from '@/components/dashboard/anal/RegionStats.vue'
+import DiffStat from '@/components/dashboard/anal/DiffStat.vue'
+
 import { getPalette } from '@/utils/chartUtils.js'
 import { getAllRegionFromFav } from '@/utils/favTrailStateUtils.js'
 

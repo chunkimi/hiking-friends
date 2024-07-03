@@ -1,17 +1,21 @@
 <template>
   <h3 class="h4">{{ regionStatsConfig.sectionTitle }}</h3>
-  <div class="card p-6">
-    <PolarAreaChart :chart-id="chartId" :chart-data="polarAreaChartData" />
-    <ul class="list-unstyled d-flex flex-wrap">
-      <li
-        class="fs-6 fw-light text-center w-50 py-3"
-        v-for="item in statisticalRegions"
-        :key="item.region"
-      >
-        <span class="me-1">{{ item.region }}：</span>
-        <span>{{ item.num }}筆</span>
-      </li>
-    </ul>
+  <div class="card">
+    <div class="card-body">
+      <PolarAreaChart :chart-id="chartId" :chart-data="polarAreaChartData" />
+    </div>
+    <div class="card-footer bg-transparent">
+      <ul class="list-unstyled d-flex d-flex flex-wrap m-0">
+        <li
+          class="fs-6 fw-light text-center w-50 mb-2"
+          v-for="item in statisticalRegions"
+          :key="item.region"
+        >
+          <span class="me-1">{{ item.region }}：</span>
+          <span>{{ item.num }}筆</span>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -46,7 +50,6 @@ const statisticalRegions = computed(() => {
   const doneDataRegion = props.favListData
     .filter((item) => item.hikingState)
     .map((doneItem) => getRegionByAdmin(doneItem.info.TR_ADMIN))
-  console.log('doneData', doneDataRegion)
 
   const regionCount = doneDataRegion.reduce((count, region) => {
     count[region] = (count[region] || 0) + 1

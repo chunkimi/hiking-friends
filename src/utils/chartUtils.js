@@ -18,8 +18,12 @@ export const chartColorArr = [
 ]
 
 export const priorityChartColor = '#ffd700'
-// '#fdd835'
+
 export const undoneChartColor = '#d3d3d3'
+
+export const standardChartColor = '#7fb3a7'
+
+export const criticalChartColor = '#7ac5cd'
 
 export function getChartArrColor(index) {
   return chartColorArr[index % chartColorArr.length]

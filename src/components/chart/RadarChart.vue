@@ -1,13 +1,13 @@
 <style lang="scss" scoped>
-.polar-area-chart {
+.radar-chart {
   width: 80%;
-  height: 80%;
+  height: 100%;
   margin: 0 auto;
 }
 </style>
 <template>
-  <div class="polar-area-chart">
-    <canvas :id="`polar-area-chart-${chartId}`"></canvas>
+  <div class="radar-chart">
+    <canvas :id="`radar-chart-${chartId}`"></canvas>
   </div>
 </template>
 <script setup>
@@ -31,9 +31,9 @@ watch(
   () => props.chartData,
   () => {
     if (chart) {
-      updatePolarAreaChart()
+      updateRadarChart()
     } else {
-      renderPolarAreaChart()
+      RadarRadarChart()
     }
   },
   { deep: true, immediate: true }
@@ -43,13 +43,13 @@ onBeforeUnmount(() => {
   chart.destroy()
 })
 
-async function renderPolarAreaChart() {
+async function RadarRadarChart() {
   await nextTick()
   if (chart) {
     chart.destroy()
   }
 
-  const ctx = document.getElementById(`polar-area-chart-${props.chartId}`).getContext('2d')
+  const ctx = document.getElementById(`radar-chart-${props.chartId}`).getContext('2d')
 
   const { labels, datasets } = props.chartData
 
@@ -66,27 +66,23 @@ async function renderPolarAreaChart() {
   }
 
   const config = {
-    type: 'polarArea',
+    type: 'radar',
     data,
     options: {
       responsive: true,
       plugins: {
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              const index = context.dataIndex
-              const label = context.chart.data.labels[index]
-              const value = context.chart.data.datasets[0].data[index]
-              return `${label}: ${value}`
-            }
-          }
-        },
+        // tooltip: {
+        //   callbacks: {
+        //     label: function (context) {
+        //       const index = context.dataIndex
+        //       const label = context.chart.data.labels[index]
+        //       const value = context.chart.data.datasets[0].data[index]
+        //       return `${label}: ${value}`
+        //     }
+        //   }
+        // },
         legend: {
           position: 'top'
-        },
-        title: {
-          display: true,
-          text: props.chartData.datasets[0].label
         }
       },
       scales: {
@@ -104,9 +100,8 @@ async function renderPolarAreaChart() {
   chart = new Chart(ctx, config)
 }
 
-function updatePolarAreaChart() {
+function updateRadarChart() {
   const { labels, datasets } = props.chartData
-
   const maxScaleValue = Math.max(...datasets[0].data) + 2
 
   chart.data.labels = labels
@@ -118,5 +113,6 @@ function updatePolarAreaChart() {
   ]
 
   chart.options.scales.r.max = maxScaleValue
+  chart.update()
 }
 </script>
