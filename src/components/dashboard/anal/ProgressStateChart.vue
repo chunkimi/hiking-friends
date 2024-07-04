@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
 .state-chart-card {
   height: 100%;
-  max-height: 360px;
+  max-height: 280px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,7 +12,7 @@
     <div class="col-12 col-lg-4 mb-20 mb-lg-0">
       <h3 class="h4">{{ taskStateConfig.favTrailCompTitle }}</h3>
       <div class="card state-chart-card">
-        <div class="chart-square">
+        <div class="chart-square d-flex align-items-center justify-content-center">
           <DoughnutChart :chart-id="favTrailCompChartId" :chart-data="favTrailCompChart" />
           <div class="chart-square__content">
             <p class="m-0 p-0">
@@ -35,9 +35,9 @@
 </template>
 <script setup>
 import { computed } from 'vue'
+import { priorityChartColor, undoneChartColor, getChartArrColor } from '@/utils/chartUtils.js'
 import DoughnutChart from '@/components/chart/DoughnutChart.vue'
 import HorizontalChart from '@/components/chart/HorizontalChart.vue'
-import { priorityChartColor, undoneChartColor, getChartArrColor } from '@/utils/chartUtils.js'
 
 const taskStateConfig = {
   favTrailCompTitle: '已收藏步道完走率',
@@ -53,16 +53,16 @@ const props = defineProps({
     type: Number,
     required: true
   },
-  doneFavNum: {
+  doneTaskNum: {
     type: Number,
     required: true
   }
 })
 
 const favTrailCompState = computed(() => {
-  const favUndone = parseInt(props.favTrailsNum) - parseInt(props.doneFavNum)
-  const chartData = [props.doneFavNum, favUndone]
-  const favCompRate = Math.round((props.doneFavNum / props.favTrailsNum) * 100)
+  const favUndone = parseInt(props.favTrailsNum) - parseInt(props.doneTaskNum)
+  const chartData = [props.doneTaskNum, favUndone]
+  const favCompRate = Math.round((props.doneTaskNum / props.favTrailsNum) * 100)
   return { chartData, favCompRate }
 })
 const favTrailCompChartId = 'favTrailComp'
@@ -78,7 +78,7 @@ const favTrailCompChart = computed(() => {
 
 const totalCompState = computed(() => {
   const FavToTotalRate = Math.round((props.favTrailsNum / props.allTrailsNum) * 100)
-  const favCompToTotalRate = Math.round((props.doneFavNum / props.allTrailsNum) * 100)
+  const favCompToTotalRate = Math.round((props.doneTaskNum / props.allTrailsNum) * 100)
   return {
     FavToTotalRate,
     favCompToTotalRate

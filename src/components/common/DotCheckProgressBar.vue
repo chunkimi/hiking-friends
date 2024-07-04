@@ -55,8 +55,8 @@
 <template>
   <div class="dot-check-progress" :class="allCompleted ? 'all-completed' : ''">
     <template v-for="(node, index) in progressNode" :key="node.type">
-      <div class="dot-check-progress__node" :class="favItem[node.type] ? 'completed' : ''">
-        <div class="dot-check-progress__icon" :class="favItem[node.type] ? 'completed' : ''">
+      <div class="dot-check-progress__node" :class="taskItem[node.type] ? 'completed' : ''">
+        <div class="dot-check-progress__icon" :class="taskItem[node.type] ? 'completed' : ''">
           <span class="material-icons">{{ node.icon }}</span>
         </div>
       </div>
@@ -64,7 +64,7 @@
         v-if="index < nodeNum - 1"
         class="dot-check-progress__line"
         :class="
-          favItem[progressNode[index].type] && favItem[progressNode[index + 1].type]
+          taskItem[progressNode[index].type] && taskItem[progressNode[index + 1].type]
             ? 'completed'
             : ''
         "
@@ -80,12 +80,12 @@ const props = defineProps({
     type: Array,
     required: true
   },
-  favItem: {
+  taskItem: {
     type: Object,
     required: true
   }
 })
 
 const nodeNum = computed(() => props.progressNode.length)
-const allCompleted = computed(() => props.progressNode.every((node) => props.favItem[node.type]))
+const allCompleted = computed(() => props.progressNode.every((node) => props.taskItem[node.type]))
 </script>

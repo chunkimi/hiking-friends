@@ -21,16 +21,16 @@
 
 <script setup>
 import { computed } from 'vue'
-import PolarAreaChart from '@/components/chart/PolarAreaChart.vue'
 import { getRegionByAdmin } from '@/utils/favTrailStateUtils.js'
 import { hexToRgb } from '@/utils/base.js'
+import PolarAreaChart from '@/components/chart/PolarAreaChart.vue'
 
 const regionStatsConfig = {
   sectionTitle: '各地區數量統計'
 }
 
 const props = defineProps({
-  doneFavList: {
+  doneTaskList: {
     type: Array,
     required: true
   },
@@ -47,7 +47,7 @@ const props = defineProps({
 const chartId = 'regionPolar'
 
 const statisticalRegions = computed(() => {
-  const doneDataRegion = props.doneFavList.map((doneItem) =>
+  const doneDataRegion = props.doneTaskList.map((doneItem) =>
     getRegionByAdmin(doneItem.info.TR_ADMIN)
   )
 

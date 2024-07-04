@@ -14,12 +14,12 @@
 </template>
 <script setup>
 import { computed } from 'vue'
-import BubbleChart from '@/components/chart/BubbleChart.vue'
 import { getRegionByAdmin } from '@/utils/favTrailStateUtils.js'
 import { hexToRgb } from '@/utils/base.js'
+import BubbleChart from '@/components/chart/BubbleChart.vue'
 
 const props = defineProps({
-  favListData: {
+  taskListData: {
     type: Array,
     required: true
   },
@@ -46,7 +46,7 @@ const chartId = 'comAnal'
 
 const bubbleChartData = computed(() => {
   const bubbleSizeBase = 5
-  const doneData = props.favListData
+  const doneData = props.taskListData
     .filter((item) => item.hikingState)
     .map((doneItem) => {
       const region = getRegionByAdmin(doneItem.info.TR_ADMIN)

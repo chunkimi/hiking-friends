@@ -21,7 +21,7 @@ import { computed } from 'vue'
 import { commaNumber } from '@/utils/base.js'
 
 const props = defineProps({
-  favListData: {
+  taskListData: {
     type: Array,
     required: true
   }
@@ -48,9 +48,9 @@ const summaryCard = [
   }
 ]
 
-const collectedCount = computed(() => props.favListData.length)
+const collectedCount = computed(() => props.taskListData.length)
 const completedFavTrails = computed(() => {
-  return props.favListData.filter((item) => item.hikingState === true)
+  return props.taskListData.filter((item) => item.hikingState === true)
 })
 const completedCount = computed(() => completedFavTrails.value.length)
 

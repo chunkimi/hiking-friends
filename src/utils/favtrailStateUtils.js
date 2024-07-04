@@ -21,7 +21,7 @@ export function convertBooleanToIcon(value) {
   return value ? 'task_alt' : 'crop_square'
 }
 
-export const defaultFavItem = {
+export const defaultTaskItem = {
   favId: '',
   hikingState: '',
   isHaveRating: '',

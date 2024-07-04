@@ -18,7 +18,7 @@
       <div class="p-1 rounded me-4 task" :class="`task--${taskState}`"></div>
       <div class="w-100 pb-12">
         <div class="d-flex justify-content-between">
-          <h4 class="h3">{{ favItem.TR_CNAME }}</h4>
+          <h4 class="h3">{{ taskItem.TR_CNAME }}</h4>
           <div class="d-flex">
             <button
               type="button"
@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="mt-4">
-          <DotCheckProgressBar :progress-node="progressNode" :fav-item="favItem" />
+          <DotCheckProgressBar :progress-node="progressNode" :task-item="taskItem" />
         </div>
       </div>
     </div>
@@ -43,12 +43,11 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-
-import DotCheckProgressBar from '@/components/common/DotCheckProgressBar.vue'
 import { progressNode } from '@/utils/favTrailStateUtils.js'
+import DotCheckProgressBar from '@/components/common/DotCheckProgressBar.vue'
 
 const props = defineProps({
-  favItem: {
+  taskItem: {
     type: Object,
     required: true
   }
@@ -67,9 +66,9 @@ const cardEditConfig = [
 
 const taskState = computed(() => {
   const progressNodeTypes = progressNode.map((node) => node.type)
-  if (progressNodeTypes.every((type) => props.favItem[type])) {
+  if (progressNodeTypes.every((type) => props.taskItem[type])) {
     return 'all-completed'
-  } else if (props.favItem.hikingState) {
+  } else if (props.taskItem.hikingState) {
     return 'completed'
   } else {
     return ''
@@ -81,10 +80,10 @@ const router = useRouter()
 function handleCardBtn(type) {
   switch (type) {
     case 'edit':
-      router.push({ name: 'TrailTask', params: { task: props.favItem.favId } })
+      router.push({ name: 'TrailTask', params: { task: props.taskItem.favId } })
       break
     case 'delete':
-      console.log('删除favItem', props.favItem.favId)
+      console.log('删除taskItem', props.taskItem.favId)
       break
   }
 }

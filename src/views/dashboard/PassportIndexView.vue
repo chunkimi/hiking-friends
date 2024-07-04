@@ -3,26 +3,31 @@
 <template>
   <div class="container">
     <h1 class="h1 text-end mt-10">{{ passportConfig.pageTitle }}</h1>
-    <div class="block-spacing">
-      <ProgressCard :fav-list-data="favStateListData" />
+    <div v-if="isEmptyTaskData">
+      <EmptyListMes />
+    </div>
+    <div v-else class="block-spacing">
+      <ProgressCard :task-list-data="taskListData" />
       <ProgressStateChart
         :all-trails-num="allTrailsNum"
         :fav-trails-num="favTrailsNum"
-        :done-fav-num="doneFavNum"
+        :done-task-num="doneTaskNum"
       />
-      <FavListOverview :fav-list-data="favStateListData" />
+      <TaskListOverview :task-list-data="taskListData" />
     </div>
   </div>
 </template>
 
 <script setup>
-import ProgressCard from '@/components/dashboard/anal/ProgressCard.vue'
-import ProgressStateChart from '@/components/dashboard/anal/ProgressStateChart.vue'
-import FavListOverview from '@/components/dashboard/list/FavListOverview.vue'
 import { storeToRefs } from 'pinia'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
+import ProgressCard from '@/components/dashboard/anal/ProgressCard.vue'
+import ProgressStateChart from '@/components/dashboard/anal/ProgressStateChart.vue'
+import TaskListOverview from '@/components/dashboard/task/TaskListOverview.vue'
+import EmptyListMes from '@/components/dashboard/EmptyListMes.vue'
+
 const favoriteTrailsStore = useFavoriteTrailsStore()
-const { favStateListData, allTrailsNum, favTrailsNum, doneFavNum } =
+const { taskListData, allTrailsNum, favTrailsNum, doneTaskNum, isEmptyTaskData } =
   storeToRefs(favoriteTrailsStore)
 
 const passportConfig = {

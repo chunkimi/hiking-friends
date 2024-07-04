@@ -82,7 +82,8 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
   const allTrailsData = ref(dummyAllTrailsData)
   const favTrailsData = ref(dummyFavTrailsData)
 
-  const favStateListData = computed(() => {
+  const taskListData = computed(() => {
+    if (favTrailsData.value.length === 0) return []
     let result = []
     allTrailsData.value.forEach((trailInfo) => {
       favTrailsData.value.forEach((favTrail) => {
@@ -118,6 +119,8 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     return result
   })
 
+  const isEmptyTaskData = computed(() => (taskListData.value.length === 0 ? true : false))
+
   const allTrailsNum = computed(() => {
     return allTrailsData.value.length || 0
   })
@@ -126,8 +129,8 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     return favTrailsData.value.length || 0
   })
 
-  const doneFavNum = computed(() => {
-    let raw = favStateListData.value.filter((item) => item.hikingState)
+  const doneTaskNum = computed(() => {
+    let raw = taskListData.value.filter((item) => item.hikingState)
     return raw.length || 0
   })
 
@@ -143,8 +146,9 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     favTrailsData,
     allTrailsNum,
     favTrailsNum,
-    doneFavNum,
-    favStateListData,
+    doneTaskNum,
+    taskListData,
+    isEmptyTaskData,
     checkContentValue
   }
 })

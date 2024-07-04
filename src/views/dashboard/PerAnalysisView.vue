@@ -3,7 +3,10 @@
 <template>
   <div class="container">
     <h1 class="h1 text-end mt-10">{{ perAnalConfig.pageTitle }}</h1>
-    <div class="block-spacing">
+    <div v-if="isEmptyTaskData">
+      <EmptyListMes :is-empty-anal="isEmptyDoneTask" />
+    </div>
+    <div v-else class="block-spacing">
       <div>
         <h2 class="h2">{{ perAnalConfig.ridgeLineSection.title }}</h2>
         <p class="text-secondary fw-light">{{ perAnalConfig.ridgeLineSection.note }}</p>
@@ -20,12 +23,12 @@
       <div>
         <h2 class="h2">{{ perAnalConfig.progressSection.title }}</h2>
         <p class="text-secondary fw-light mb-10">{{ perAnalConfig.progressSection.note }}</p>
-        <ProgressCard :fav-list-data="favStateListData" />
+        <ProgressCard :task-list-data="taskListData" />
       </div>
       <ProgressStateChart
         :all-trails-num="allTrailsNum"
         :fav-trails-num="favTrailsNum"
-        :done-fav-num="doneFavNum"
+        :done-task-num="doneTaskNum"
       />
       <div>
         <h2 class="h2">{{ perAnalConfig.doneAnalSection.title }}</h2>
@@ -33,7 +36,7 @@
         <div class="row">
           <div class="col-12">
             <CompAnalysis
-              :fav-list-data="favStateListData"
+              :task-list-data="taskListData"
               :all-regions="allRegions"
               :regions-chart-color="regionsChartColor"
             />
@@ -43,13 +46,13 @@
       <div class="row">
         <div class="col-12 col-lg-6 mb-20 mb-lg-0">
           <RegionStats
-            :done-fav-list="doneFavList"
+            :done-task-list="doneTaskList"
             :all-regions="allRegions"
             :regions-chart-color="regionsChartColor"
           />
         </div>
         <div class="col-12 col-lg-6">
-          <DiffStat :done-fav-list="doneFavList" />
+          <DiffStat :done-task-list="doneTaskList" />
         </div>
       </div>
     </div>
@@ -57,23 +60,20 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
+import { hexToRgb } from '@/utils/base.js'
+import { getPalette, standardChartColor } from '@/utils/chartUtils.js'
+import { getAllRegionFromFav } from '@/utils/favTrailStateUtils.js'
+
 import ProgressCard from '@/components/dashboard/anal/ProgressCard.vue'
 import ProgressStateChart from '@/components/dashboard/anal/ProgressStateChart.vue'
 import CompAnalysis from '@/components/dashboard/anal/CompAnalysis.vue'
 import RegionStats from '@/components/dashboard/anal/RegionStats.vue'
 import DiffStat from '@/components/dashboard/anal/DiffStat.vue'
 import LineChart from '@/components/chart/LineChart.vue'
-
-import { hexToRgb } from '@/utils/base.js'
-import { getPalette, standardChartColor } from '@/utils/chartUtils.js'
-import { getAllRegionFromFav } from '@/utils/favTrailStateUtils.js'
-
-import { storeToRefs } from 'pinia'
-import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
-import { computed } from 'vue'
-const favoriteTrailsStore = useFavoriteTrailsStore()
-const { favStateListData, allTrailsNum, favTrailsNum, doneFavNum } =
-  storeToRefs(favoriteTrailsStore)
+import EmptyListMes from '@/components/dashboard/EmptyListMes.vue'
 
 const perAnalConfig = {
   pageTitle: '足跡分析',
@@ -91,9 +91,15 @@ const perAnalConfig = {
   }
 }
 
-const doneFavList = computed(() => favStateListData.value.filter((item) => item.hikingState))
+const favoriteTrailsStore = useFavoriteTrailsStore()
+const { taskListData, allTrailsNum, favTrailsNum, doneTaskNum, isEmptyTaskData } =
+  storeToRefs(favoriteTrailsStore)
 
-const allRegions = computed(() => getAllRegionFromFav(favStateListData.value) || [])
+const isEmptyDoneTask = computed(() => (doneTaskNum.value === 0 ? true : false))
+
+const doneTaskList = computed(() => taskListData.value.filter((item) => item.hikingState))
+
+const allRegions = computed(() => getAllRegionFromFav(taskListData.value) || [])
 
 const regionsChartColor = computed(() => getPalette(allRegions.value.length) || [])
 
@@ -116,8 +122,8 @@ const ridgeLineChartOption = {
 }
 
 const ridgeLineChart = computed(() => {
-  const altitudes = doneFavList.value.map((trail) => parseInt(trail.info.TR_ALT))
-  const trailNames = doneFavList.value.map((trail) => trail.TR_CNAME)
+  const altitudes = doneTaskList.value.map((trail) => parseInt(trail.info.TR_ALT))
+  const trailNames = doneTaskList.value.map((trail) => trail.TR_CNAME)
   const rgbColor = hexToRgb(standardChartColor)
 
   return {

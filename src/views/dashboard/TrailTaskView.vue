@@ -62,7 +62,7 @@
             <span class="material-icons"> volume_down </span>
             <span class="my-1">{{ progressDescription }}</span>
           </p>
-          <DotCheckProgressBar :progress-node="progressNode" :fav-item="curTrailTask" />
+          <DotCheckProgressBar :progress-node="progressNode" :task-item="curTrailTask" />
         </div>
       </div>
       <div class="">
@@ -82,12 +82,12 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
-import { defaultFavItem, getRegionByAdmin } from '@/utils/favTrailStateUtils.js'
+import { defaultTaskItem, getRegionByAdmin } from '@/utils/favTrailStateUtils.js'
 import { progressNode, getProgressDescription } from '@/utils/favTrailStateUtils.js'
 
 import GoBackIcon from '@/components/front/base/GoBackIcon.vue'
 import DotCheckProgressBar from '@/components/common/DotCheckProgressBar.vue'
-import TaskNote from '@/components/dashboard/TaskNote.vue'
+import TaskNote from '@/components/dashboard/task/TaskNote.vue'
 
 const taskConfig = {
   pageTitle: '步道任務管理',
@@ -122,12 +122,12 @@ const taskConfig = {
 }
 
 const favoriteTrailsStore = useFavoriteTrailsStore()
-const { favStateListData } = storeToRefs(favoriteTrailsStore)
+const { taskListData } = storeToRefs(favoriteTrailsStore)
 
 const route = useRoute()
 const curTaskId = route.params.task
 const curTrailTask = computed(() => {
-  return favStateListData.value.find((item) => item.favId == curTaskId) || defaultFavItem
+  return taskListData.value.find((item) => item.favId == curTaskId) || defaultTaskItem
 })
 
 const router = useRouter()

@@ -19,7 +19,6 @@ import Chart from 'chart.js/auto'
 import { useMediaQuery } from '@vueuse/core'
 const isMediaLgDown = useMediaQuery('(max-width: 991px)')
 const isMediaLgUp = useMediaQuery('(min-width: 992px)')
-
 const isMediaXXLUp = useMediaQuery('(min-width: 1400px)')
 
 const props = defineProps({

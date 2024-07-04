@@ -67,13 +67,12 @@
 <script setup>
 import { computed, ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import PaginationNav from '@/components/common/PaginationNav.vue'
 import { usePaginationUtils } from '@/utils/paginationUtils.js'
-
 import { convertBooleanToIcon } from '@/utils/favTrailStateUtils.js'
+import PaginationNav from '@/components/common/PaginationNav.vue'
 
 const props = defineProps({
-  favListData: {
+  taskListData: {
     type: Array,
     required: true
   }
@@ -113,7 +112,7 @@ const listOverviewConfig = {
 const selectedFilter = ref('')
 const tableData = computed(() => {
   if (selectedFilter.value === '') {
-    return props.favListData
+    return props.taskListData
   }
   let filterKey, filterValue
   switch (selectedFilter.value) {
@@ -142,7 +141,7 @@ const tableData = computed(() => {
       filterValue = false
       break
   }
-  return props.favListData.filter((item) => item[filterKey] === filterValue)
+  return props.taskListData.filter((item) => item[filterKey] === filterValue)
 })
 
 const { curPage, numberOfPages, curListData, changePage, pageInit } = usePaginationUtils(tableData)

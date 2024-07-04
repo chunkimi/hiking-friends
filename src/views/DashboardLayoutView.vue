@@ -95,9 +95,9 @@ $sidebar-width: 200px;
           @click="toggleNav"
           :class="isCollapseNav && isMediaMdDown ? 'text-light' : ''"
         >
-          <span class="material-icons"> menu_open </span>
+          <span class="material-icons">{{ navConfig.menuIcon }}</span>
         </p>
-        <div class="text-center">
+        <div class="text-center px-1">
           <h2
             class="brand__img brand__sm m-0"
             :style="{
@@ -121,7 +121,7 @@ $sidebar-width: 200px;
             >
               <router-link
                 :to="navItem.to"
-                class="fs-6 w-100 text-decoration-none dashboard__link__text"
+                class="fs-6 py-4 px-7 px-md-10 px-lg-14 text-decoration-none dashboard__link__text"
                 aria-current="page"
                 @click="handleNavClick"
               >
@@ -143,7 +143,7 @@ $sidebar-width: 200px;
             class="d-inline-block lh-1 p-4 m-0 text-secondary cursor-pointer border-end"
             @click="toggleNav"
           >
-            <span class="material-icons"> menu_open </span>
+            <span class="material-icons">{{ navConfig.menuIcon }}</span>
           </p>
           <div class="d-flex justify-content-center align-items-center pe-8">
             <p class="fw-bold p-0 m-0 mx-3 d-flex justify-content-center">
@@ -182,10 +182,11 @@ const navConfig = {
   menuData: [
     { title: '總覽', icon: 'dashboard', to: { name: 'PassportIndex' } },
     { title: '足跡分析', icon: 'insights', to: { name: 'PerAnalysis' } },
-    { title: '步道任務', icon: 'assignment', to: { name: 'FavManagement' } }
+    { title: '步道任務', icon: 'assignment', to: { name: 'TaskListMgt' } }
   ],
   frontPath: { title: '回到主頁', to: { name: 'FrontIndex' } },
-  logoutTitle: '登出'
+  logoutTitle: '登出',
+  menuIcon: 'menu_open'
 }
 
 const isMediaMdDown = useMediaQuery('(max-width: 768px)')
@@ -193,9 +194,11 @@ const isMediaMdDown = useMediaQuery('(max-width: 768px)')
 // const accountStore = useAccountStore()
 // const { isCheckLoginSuccess, userNickname, isLogoutSuccess } = storeToRefs(accountStore)
 // const { checkLoginStatus, sendLogoutRequest } = accountStore
+
 // const favoriteTrailsStore = useFavoriteTrailsStore()
-// const { favStateListData  } = storeToRefs(favoriteTrailsStore)
+// const { taskListData } = storeToRefs(favoriteTrailsStore)
 // const { sendFavListRequest } = favoriteTrailsStore
+
 const isCollapseNav = ref(false)
 
 function toggleNav() {
@@ -220,7 +223,7 @@ const userNickname = '小豬佩奇'
 // async function dashboardDataInit() {
 //   try {
 //     await sendFavListRequest()
-//     console.log('dashboard-favTrailsList', favStateListData )
+//     console.log('dashboard-favTrailsList', taskListData )
 //   } catch (error) {
 //     console.error('Error dashboard request favTrailsList:', error)
 //   }

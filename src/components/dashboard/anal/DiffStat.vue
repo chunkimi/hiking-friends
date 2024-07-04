@@ -21,17 +21,17 @@
 </template>
 <script setup>
 import { computed } from 'vue'
-import RadarChart from '@/components/chart/RadarChart.vue'
 import { trailDifClassArr } from '@/data/trailDifClass.js'
 import { criticalChartColor } from '@/utils/chartUtils.js'
 import { hexToRgb } from '@/utils/base.js'
+import RadarChart from '@/components/chart/RadarChart.vue'
 
 const diffStatConfig = {
   sectionTitle: '難易度統計'
 }
 
 const props = defineProps({
-  doneFavList: {
+  doneTaskList: {
     type: Array,
     required: true
   }
@@ -40,7 +40,7 @@ const props = defineProps({
 const statisticalDiffs = computed(() => {
   const labels = trailDifClassArr.map((item) => item.degree)
 
-  const doneDataDiff = props.doneFavList
+  const doneDataDiff = props.doneTaskList
     .filter((item) => item.hikingState)
     .map((doneItem) => doneItem.info.TR_DIF_CLASS)
 
