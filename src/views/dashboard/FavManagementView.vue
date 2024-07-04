@@ -65,8 +65,6 @@
       </div>
     </div>
   </div>
-  <!-- modal -->
-  <FeedbackModal />
 </template>
 
 <script setup>
@@ -75,7 +73,7 @@ import { storeToRefs } from 'pinia'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
 import TaskCard from '@/components/dashboard/list/TaskCard.vue'
 import PaginationNav from '@/components/common/PaginationNav.vue'
-import FeedbackModal from '@/components/dashboard/modal/FeedbackModal.vue'
+
 import { usePaginationUtils } from '@/utils/paginationUtils.js'
 
 const favMgtConfig = {

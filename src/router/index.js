@@ -54,13 +54,11 @@ const routes = [
     component: FrontLayoutView,
     children: [
       {
-        // 使用者登入頁
         path: '',
         name: 'Login',
         component: LoginView
       },
       {
-        // 使用者註冊
         path: 'register',
         name: 'Register',
         component: RegisterView
@@ -68,7 +66,6 @@ const routes = [
     ]
   },
   {
-    // 使用者登山護照介面
     path: '/passport',
     component: DashboardLayoutView,
     children: [

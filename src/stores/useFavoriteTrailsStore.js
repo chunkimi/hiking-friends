@@ -96,8 +96,8 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
           const { TR_CNAME, TR_LENGTH_NUM, TR_ADMIN, TR_ALT, TR_DIF_CLASS } = trailInfo
 
           const info = {
-            TR_LENGTH_NUM,
             TR_ADMIN,
+            TR_LENGTH_NUM,
             TR_ALT,
             TR_DIF_CLASS
           }
@@ -131,23 +131,10 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     return raw.length || 0
   })
 
-  // console.log('favStateListData', favStateListData)
-  // console.log('dataNum', allTrailsNum, favTrailsNum, doneFavNum)
-
   function checkContentValue(typeValue) {
     if (!typeValue || typeValue === undefined || typeValue === null) return false
     return typeValue.length > 0 || typeValue > 0 ? true : false
   }
-
-  const curFavId = ref('')
-  const curFavItem = computed(() => {
-    if (!curFavId.value) return {}
-    return favStateListData.value.find((item) => item.favId === curFavId.value) || {}
-  })
-  const curFavData = computed(() => {
-    if (!curFavId.value) return {}
-    return favTrailsData.value.find((item) => item.id === curFavId.value) || {}
-  })
 
   return {
     // handleToFavorite,
@@ -158,9 +145,6 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     favTrailsNum,
     doneFavNum,
     favStateListData,
-    curFavId,
-    curFavItem,
-    curFavData,
     checkContentValue
   }
 })
