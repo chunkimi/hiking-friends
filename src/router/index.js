@@ -13,6 +13,9 @@ import PageNotFoundView from '@/views/front/PageNotFoundView.vue'
 
 import DashboardLayoutView from '@/views/DashboardLayoutView.vue'
 import PassportIndexView from '@/views/dashboard/PassportIndexView.vue'
+import PerAnalysisView from '@/views/dashboard/PerAnalysisView.vue'
+import TaskListMgtView from '@/views/dashboard/TaskListMgtView.vue'
+import TrailTaskView from '@/views/dashboard/TrailTaskView.vue'
 
 const routes = [
   {
@@ -51,13 +54,11 @@ const routes = [
     component: FrontLayoutView,
     children: [
       {
-        // 使用者登入頁
         path: '',
         name: 'Login',
         component: LoginView
       },
       {
-        // 使用者註冊
         path: 'register',
         name: 'Register',
         component: RegisterView
@@ -65,7 +66,6 @@ const routes = [
     ]
   },
   {
-    // 使用者登山護照介面
     path: '/passport',
     component: DashboardLayoutView,
     children: [
@@ -73,6 +73,21 @@ const routes = [
         path: '',
         name: 'PassportIndex',
         component: PassportIndexView
+      },
+      {
+        path: 'per-analysis',
+        name: 'PerAnalysis',
+        component: PerAnalysisView
+      },
+      {
+        path: 'task-list',
+        name: 'TaskListMgt',
+        component: TaskListMgtView
+      },
+      {
+        path: 'trail-task/:task',
+        name: 'TrailTask',
+        component: TrailTaskView
       }
     ]
   },

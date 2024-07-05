@@ -39,11 +39,6 @@
       background-color: $lighter;
     }
   }
-  &__brand {
-    width: 120px;
-    height: 36px;
-    @include img-replace-text;
-  }
 }
 
 .menu {

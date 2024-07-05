@@ -55,7 +55,7 @@ import SearchBar from '@/components/front/base/SearchBar.vue'
 import BrowseMode from '@/components/front/base/BrowseMode.vue'
 import InfoCard from '@/components/front/list/InfoCard.vue'
 import InfoColumnar from '@/components/front/list/InfoColumnar.vue'
-import PaginationNav from '@/components/front/base/PaginationNav.vue'
+import PaginationNav from '@/components/common/PaginationNav.vue'
 
 const noResultTrailsMsg = {
   icon: 'explore',
