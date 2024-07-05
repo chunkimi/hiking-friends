@@ -23,27 +23,31 @@
     <div v-if="isEmptyTaskData">
       <EmptyListMes />
     </div>
-    <div class="d-flex justify-content-center mt-20 mb-5">
-      <div class="mx-auto btn-group mb-5" role="group" aria-label="Basic radio toggle button group">
-        <template v-for="tabItem in taskMgtConfig.tabMenu" :key="tabItem.type">
-          <input
-            type="radio"
-            class="btn-check"
-            autocomplete="off"
-            :name="tabItem.type"
-            :id="tabItem.type"
-            :value="tabItem.type"
-            v-model="curTabModel"
-          />
-          <label class="btn btn-outline-darken" :for="tabItem.type">{{ tabItem.title }}</label>
-        </template>
-      </div>
-    </div>
-    <p class="text-end fw-light mb-5">
-      <span>{{ taskMgtConfig.typeNumText }}</span>
-      <span>{{ taskMgtListData.length }}</span>
-    </p>
     <div v-if="isHaveCurListData">
+      <div class="d-flex justify-content-center mt-20 mb-5">
+        <div
+          class="mx-auto btn-group mb-5"
+          role="group"
+          aria-label="Basic radio toggle button group"
+        >
+          <template v-for="tabItem in taskMgtConfig.tabMenu" :key="tabItem.type">
+            <input
+              type="radio"
+              class="btn-check"
+              autocomplete="off"
+              :name="tabItem.type"
+              :id="tabItem.type"
+              :value="tabItem.type"
+              v-model="curTabModel"
+            />
+            <label class="btn btn-outline-darken" :for="tabItem.type">{{ tabItem.title }}</label>
+          </template>
+        </div>
+      </div>
+      <p class="text-end fw-light mb-5">
+        <span>{{ taskMgtConfig.typeNumText }}</span>
+        <span>{{ taskMgtListData.length }}</span>
+      </p>
       <div class="mb-4" v-for="taskItem in curListData" :key="taskItem.favId">
         <TaskCard :task-item="taskItem" />
       </div>
