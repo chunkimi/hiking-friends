@@ -7,7 +7,7 @@ import { resolve, dirname } from 'node:path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base:'/hiking-friends',
+  base:'/hiking-friends/',
   plugins: [
     vue(),
   ],
@@ -19,5 +19,8 @@ export default defineConfig({
         'node_modules/bootstrap',
       ),
     }
+  },
+  build:{
+    chunkSizeWarningLimit: 1500,
   }
 })
