@@ -1,4 +1,4 @@
-const baseUrl = import.meta.env.VITE_BASE_URL
+const baseUrl = import.meta.env.VITE_ACCOUNT_BASE_URL
 
 export const registerUrl = `${baseUrl}/users`
 export const loginUrl = `${registerUrl}/sign_in`
