@@ -23,7 +23,7 @@
     <div v-if="isEmptyTaskData">
       <EmptyListMes />
     </div>
-    <div v-if="isHaveCurListData">
+    <div v-else>
       <div class="d-flex justify-content-center mt-20 mb-5">
         <div
           class="mx-auto btn-group mb-5"
@@ -44,23 +44,25 @@
           </template>
         </div>
       </div>
-      <p class="text-end fw-light mb-5">
-        <span>{{ taskMgtConfig.typeNumText }}</span>
-        <span>{{ taskMgtListData.length }}</span>
-      </p>
-      <div class="mb-4" v-for="taskItem in curListData" :key="taskItem.favId">
-        <TaskCard :task-item="taskItem" />
+      <div v-if="isHaveCurListData">
+        <p class="text-end fw-light mb-5">
+          <span>{{ taskMgtConfig.typeNumText }}</span>
+          <span>{{ taskMgtListData.length }}</span>
+        </p>
+        <div class="mb-4" v-for="taskItem in curListData" :key="taskItem.favId">
+          <TaskCard :task-item="taskItem" />
+        </div>
+        <div class="d-flex justify-content-end bg-transparent">
+          <PaginationNav
+            :current-page="curPage"
+            :number-of-pages="numberOfPages"
+            @change-page="changePage"
+          />
+        </div>
       </div>
-      <div class="d-flex justify-content-end bg-transparent">
-        <PaginationNav
-          :current-page="curPage"
-          :number-of-pages="numberOfPages"
-          @change-page="changePage"
-        />
+      <div v-else class="py-20">
+        <p class="display-6 text-center text-primary">{{ taskMgtConfig.noValueNote }}</p>
       </div>
-    </div>
-    <div v-else class="py-20">
-      <p class="display-6 text-center text-primary">{{ taskMgtConfig.noValueNote }}</p>
     </div>
   </div>
 </template>
