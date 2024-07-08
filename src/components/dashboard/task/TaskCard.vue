@@ -43,6 +43,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
 import { progressNode } from '@/utils/favTrailStateUtils.js'
 import DotCheckProgressBar from '@/components/common/DotCheckProgressBar.vue'
 
@@ -76,6 +77,8 @@ const taskState = computed(() => {
 })
 
 const router = useRouter()
+const favoriteTrailsStore = useFavoriteTrailsStore()
+const { handleDel } = favoriteTrailsStore
 
 function handleCardBtn(type) {
   switch (type) {
@@ -83,7 +86,7 @@ function handleCardBtn(type) {
       router.push({ name: 'TrailTask', params: { task: props.taskItem.favId } })
       break
     case 'delete':
-      console.log('删除taskItem', props.taskItem.favId)
+      handleDel(props.taskItem.favId)
       break
   }
 }

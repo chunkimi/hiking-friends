@@ -2,9 +2,9 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import axios from 'axios'
 import { useAccountStore } from '@/stores/useAccountStore.js'
-import { favTrailsListUrl, getCookie } from '@/api/accountApi.js'
+import { favTrailsListUrl, favTrailUrl, getCookie } from '@/api/accountApi.js'
 
-// favTrailUrl, toggleFavTrailUrl
+// toggleFavTrailUrl
 
 // dummyData
 import dummyAllTrailsData from '@/data/dummy/allTrailsInfo.json'
@@ -44,10 +44,10 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
         content: contentCompile
       }
     }
-    await sendFavTrailIdRequest(bodyValue)
+    await sendAddFavRequest(bodyValue)
   }
 
-  async function sendFavTrailIdRequest(bodyValue) {
+  async function sendAddFavRequest(bodyValue) {
     try {
       await axios.post(favTrailsListUrl, bodyValue, headersToken.value)
       alert('已加入待訪')
@@ -65,7 +65,6 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     try {
       const response = await axios.get(favTrailsListUrl, headersToken.value)
       const { todos } = response.data
-      console.log('向遠端取得all data')
       favTrailsData.value = translateData(todos)
     } catch (error) {
       console.error('Error fetching trails:', error)
@@ -111,6 +110,10 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
 
     return result
   })
+  function checkContentValue(typeValue) {
+    if (!typeValue || typeValue === undefined || typeValue === null) return false
+    return typeValue.length > 0 || typeValue > 0 ? true : false
+  }
 
   const isEmptyTaskData = computed(() => (taskListData.value.length === 0 ? true : false))
 
@@ -127,9 +130,21 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     return raw.length || 0
   })
 
-  function checkContentValue(typeValue) {
-    if (!typeValue || typeValue === undefined || typeValue === null) return false
-    return typeValue.length > 0 || typeValue > 0 ? true : false
+  async function handleDel(id) {
+    const taskItem = taskListData.value.find((item) => item.favId === id)
+    const trailName = taskItem.TR_CNAME
+    await sendDelFavTrailRequest(id, trailName)
+    await sendFavListRequest()
+    return true
+  }
+  async function sendDelFavTrailRequest(id, trailName) {
+    const delUrl = favTrailUrl(id)
+    try {
+      await axios.delete(delUrl, headersToken.value)
+      alert(`成功刪除${trailName}`)
+    } catch (error) {
+      console.error('Error fetching add fav trail:', error)
+    }
   }
 
   return {
@@ -142,6 +157,7 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     doneTaskNum,
     taskListData,
     isEmptyTaskData,
-    checkContentValue
+    checkContentValue,
+    handleDel
   }
 })

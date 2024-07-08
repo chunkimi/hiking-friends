@@ -27,7 +27,7 @@
         <button type="button" class="btn btn-sm btn-secondary w-100 mb-5" @click="handleSaveUpdate">
           {{ noteConfig.saveBtn }}
         </button>
-        <button type="button" class="btn btn-sm btn-outline-danger w-100" @click="handleDelFav">
+        <button type="button" class="btn btn-sm btn-outline-danger w-100" @click="handleDelTask">
           {{ noteConfig.delBtn }}
         </button>
       </div>
@@ -37,6 +37,7 @@
 
 <script setup>
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
 import { defaultFavData } from '@/utils/favTrailStateUtils.js'
@@ -60,6 +61,7 @@ const props = defineProps({
 
 const favoriteTrailsStore = useFavoriteTrailsStore()
 const { favTrailsData } = storeToRefs(favoriteTrailsStore)
+const { handleDel } = favoriteTrailsStore
 
 const curFavData = computed(() => {
   if (!props.curTaskId) return defaultFavData
@@ -81,7 +83,12 @@ function handleSaveUpdate() {
   console.log('ratingValue', ratingValue.value, stateValue.value, reviewsValue.value)
 }
 
-function handleDelFav() {
-  console.log('handleDelFav')
+const router = useRouter()
+
+async function handleDelTask() {
+  const result = await handleDel(props.curTaskId)
+  if (result) {
+    router.push({ name: 'TaskListMgt' })
+  }
 }
 </script>

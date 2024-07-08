@@ -191,8 +191,7 @@ const isMediaMdDown = useMediaQuery('(max-width: 768px)')
 const router = useRouter()
 
 const accountStore = useAccountStore()
-const { isCheckLoginSuccess, userNickname, isLoginSuccess, isLogoutSuccess } =
-  storeToRefs(accountStore)
+const { isCheckLoginSuccess, userNickname, isLogoutSuccess } = storeToRefs(accountStore)
 const { checkLoginStatus, sendLogoutRequest } = accountStore
 
 const favoriteTrailsStore = useFavoriteTrailsStore()
@@ -203,6 +202,7 @@ async function handleLogout() {
   await sendLogoutRequest()
   if (isLogoutSuccess.value) {
     favTrailsData.value = []
+    taskListData.value = []
     router.push({ name: 'FrontIndex' })
   }
 }
@@ -210,7 +210,6 @@ async function handleLogout() {
 async function dashboardDataInit() {
   try {
     await sendFavListRequest()
-    console.log('dashboard-favTrailsList', taskListData)
   } catch (error) {
     console.error('Error dashboard request favTrailsList:', error)
   }
@@ -222,9 +221,7 @@ onBeforeMount(async () => {
     if (!isCheckLoginSuccess.value) {
       router.push({ name: 'Login' })
     } else {
-      if (!isLoginSuccess.value) {
-        dashboardDataInit()
-      }
+      dashboardDataInit()
     }
   } catch (error) {
     console.error('Error during login check:', error)
