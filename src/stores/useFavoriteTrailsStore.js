@@ -2,9 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import axios from 'axios'
 import { useAccountStore } from '@/stores/useAccountStore.js'
-import { favTrailsListUrl, favTrailUrl, getCookie } from '@/api/accountApi.js'
-
-// toggleFavTrailUrl
+import { favTrailsListUrl, favTrailUrl, toggleFavUrl, getCookie } from '@/api/accountApi.js'
 
 // dummyData
 import dummyAllTrailsData from '@/data/dummy/allTrailsInfo.json'
@@ -130,6 +128,21 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     return raw.length || 0
   })
 
+  async function handleToggleState(id) {
+    await sendToggleStateRequest(id)
+    await sendFavListRequest()
+  }
+
+  async function sendToggleStateRequest(id) {
+    const targetUrl = toggleFavUrl(id)
+    try {
+      await axios.patch(targetUrl, {}, headersToken.value)
+      alert('已更新狀態')
+    } catch (error) {
+      console.error('Error fetching add fav trail:', error)
+    }
+  }
+
   async function handleDel(id) {
     const taskItem = taskListData.value.find((item) => item.favId === id)
     const trailName = taskItem.TR_CNAME
@@ -158,6 +171,7 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     taskListData,
     isEmptyTaskData,
     checkContentValue,
-    handleDel
+    handleDel,
+    handleToggleState
   }
 })

@@ -61,7 +61,7 @@ const props = defineProps({
 
 const favoriteTrailsStore = useFavoriteTrailsStore()
 const { favTrailsData } = storeToRefs(favoriteTrailsStore)
-const { handleDel } = favoriteTrailsStore
+const { handleDel, handleToggleState } = favoriteTrailsStore
 
 const curFavData = computed(() => {
   if (!props.curTaskId) return defaultFavData
@@ -81,10 +81,13 @@ const ratingValue = computed(() => {
 
 function handleSaveUpdate() {
   console.log('ratingValue', ratingValue.value, stateValue.value, reviewsValue.value)
+  const originState = curFavData.value.completed_at ? true : false
+  if (stateValue.value !== originState) {
+    handleToggleState(props.curTaskId)
+  }
 }
 
 const router = useRouter()
-
 async function handleDelTask() {
   const result = await handleDel(props.curTaskId)
   if (result) {
