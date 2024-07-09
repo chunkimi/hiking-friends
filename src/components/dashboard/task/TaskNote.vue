@@ -27,7 +27,7 @@
         <button type="button" class="btn btn-sm btn-secondary w-100 mb-5" @click="handleSaveUpdate">
           {{ noteConfig.saveBtn }}
         </button>
-        <button type="button" class="btn btn-sm btn-outline-danger w-100" @click="handleDelFav">
+        <button type="button" class="btn btn-sm btn-outline-danger w-100" @click="handleDelTask">
           {{ noteConfig.delBtn }}
         </button>
       </div>
@@ -37,12 +37,13 @@
 
 <script setup>
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
 import { defaultFavData } from '@/utils/favTrailStateUtils.js'
-import TaskFormHikingState from '@/components/dashboard/task/TaskFormHikingState.vue'
-import TaskFormRating from '@/components/dashboard/task/TaskFormRating.vue'
-import TaskFormReviews from '@/components/dashboard/task/TaskFormReviews.vue'
+import TaskFormHikingState from '@/components/dashboard/task/form/TaskFormHikingState.vue'
+import TaskFormRating from '@/components/dashboard/task/form/TaskFormRating.vue'
+import TaskFormReviews from '@/components/dashboard/task/form/TaskFormReviews.vue'
 
 const noteConfig = {
   undoneMes: '完成步道，就可以開啟心得筆記欄(๑•̀ㅂ•́)و✧',
@@ -60,6 +61,7 @@ const props = defineProps({
 
 const favoriteTrailsStore = useFavoriteTrailsStore()
 const { favTrailsData } = storeToRefs(favoriteTrailsStore)
+const { handleDel, handleToggleState, handleEditContent } = favoriteTrailsStore
 
 const curFavData = computed(() => {
   if (!props.curTaskId) return defaultFavData
@@ -77,11 +79,24 @@ const ratingValue = computed(() => {
   return result.length
 })
 
-function handleSaveUpdate() {
-  console.log('ratingValue', ratingValue.value, stateValue.value, reviewsValue.value)
+async function handleSaveUpdate() {
+  const originState = curFavData.value.completed_at ? true : false
+  if (stateValue.value !== originState) {
+    await handleToggleState(props.curTaskId)
+  }
+  const contentValue = {
+    TRAILID: curFavData.value.content?.TRAILID,
+    rating: ratingValue.value,
+    reviews: reviewsValue.value
+  }
+  await handleEditContent(props.curTaskId, contentValue)
 }
 
-function handleDelFav() {
-  console.log('handleDelFav')
+const router = useRouter()
+async function handleDelTask() {
+  const result = await handleDel(props.curTaskId)
+  if (result) {
+    router.push({ name: 'TaskListMgt' })
+  }
 }
 </script>
