@@ -27,8 +27,8 @@
 import { computed } from 'vue'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 import RoadConditionModal from '@/components/front/base/RoadConditionModal.vue'
-import { newsType } from '@/data/newsType.js'
-import { roadConditionInfo } from '@/data/sectionTitle/trailInfoSectionTitle.js'
+import { newsType } from '@/utils/trailInfoUtils.js'
+import { roadConditionInfo } from '@/utils/trailInfoUtils.js'
 
 const props = defineProps({
   trailId: {

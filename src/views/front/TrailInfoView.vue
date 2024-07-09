@@ -62,7 +62,7 @@ import GoBackIcon from '@/components/front/base/GoBackIcon.vue'
 import PurposeTitle from '@/components/front/info/PurposeTitle.vue'
 import BasicInfo from '@/components/front/info/BasicInfo.vue'
 import TrailOpenStatus from '@/components/front/info/TrailOpenStatus.vue'
-import { baseTrailInfo, extendedTrailInfo } from '@/data/sectionTitle/trailInfoSectionTitle.js'
+import { baseTrailInfo, extendedTrailInfo } from '@/utils/trailInfoUtils.js'
 
 const allTrailsData = ref([])
 const allTailsNews = ref([])

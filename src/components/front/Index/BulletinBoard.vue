@@ -95,7 +95,7 @@ import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 import { fetchTrailsNewsData } from '@/api/trailsApi'
-import { newsType } from '@/data/newsType.js'
+import { newsType } from '@/utils/trailInfoUtils.js'
 
 const allTailsNews = ref([])
 

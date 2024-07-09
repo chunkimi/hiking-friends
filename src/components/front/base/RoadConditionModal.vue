@@ -52,7 +52,7 @@
   </div>
 </template>
 <script setup>
-import { roadConditionInfo } from '@/data/sectionTitle/trailInfoSectionTitle.js'
+import { roadConditionInfo } from '@/utils/trailInfoUtils.js'
 defineProps({
   roadCondition: {
     type: Object,

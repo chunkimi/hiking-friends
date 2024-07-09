@@ -61,7 +61,7 @@ import { onMounted, computed, ref } from 'vue'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 import RoadConditionModal from '@/components/front/base/RoadConditionModal.vue'
 import { fetchTrailsNewsData } from '@/api/trailsApi'
-import { newsType } from '@/data/newsType.js'
+import { newsType } from '@/utils/trailInfoUtils.js'
 
 import { useMediaQuery } from '@vueuse/core'
 const isMediaLgDown = useMediaQuery('(max-width: 992px)')
