@@ -143,6 +143,27 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     }
   }
 
+  async function handleEditContent(taskId, contentValue) {
+    const contentCompile = JSON.stringify(contentValue)
+    const bodyValue = {
+      todo: {
+        content: contentCompile
+      }
+    }
+    await sendEditContentRequest(taskId, bodyValue)
+    await sendFavListRequest()
+  }
+
+  async function sendEditContentRequest(taskId, bodyValue) {
+    const targetUrl = favTrailUrl(taskId)
+    try {
+      await axios.put(targetUrl, bodyValue, headersToken.value)
+      alert('已更新筆記')
+    } catch (error) {
+      console.error('Error fetching add fav trail:', error)
+    }
+  }
+
   async function handleDel(id) {
     const taskItem = taskListData.value.find((item) => item.favId === id)
     const trailName = taskItem.TR_CNAME
@@ -151,9 +172,9 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     return true
   }
   async function sendDelFavTrailRequest(id, trailName) {
-    const delUrl = favTrailUrl(id)
+    const targetUrl = favTrailUrl(id)
     try {
-      await axios.delete(delUrl, headersToken.value)
+      await axios.delete(targetUrl, headersToken.value)
       alert(`成功刪除${trailName}`)
     } catch (error) {
       console.error('Error fetching add fav trail:', error)
@@ -172,6 +193,7 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     isEmptyTaskData,
     checkContentValue,
     handleDel,
-    handleToggleState
+    handleToggleState,
+    handleEditContent
   }
 })
