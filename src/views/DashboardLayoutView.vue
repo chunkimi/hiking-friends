@@ -156,7 +156,10 @@ $sidebar-width: 200px;
           </div>
         </div>
         <div class="container px-3 px-lg-6">
-          <RouterView />
+          <div v-if="isOpenLoading">
+            <LoadingSpinner />
+          </div>
+          <div v-else><RouterView /></div>
         </div>
       </main>
     </div>
@@ -171,6 +174,7 @@ import { useAccountStore } from '@/stores/useAccountStore.js'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
 import { getImageUrl } from '@/utils/imgUrl'
 import { useMediaQuery } from '@vueuse/core'
+import LoadingSpinner from '@/components/common/LoadingSpinner.vue'
 
 const navConfig = {
   pageTitle: {
@@ -187,6 +191,7 @@ const navConfig = {
   menuIcon: 'menu_open'
 }
 
+const isOpenLoading = ref(true)
 const isMediaMdDown = useMediaQuery('(max-width: 768px)')
 const router = useRouter()
 
@@ -208,8 +213,10 @@ async function handleLogout() {
 }
 
 async function dashboardDataInit() {
+  isOpenLoading.value = true
   try {
     await sendFavListRequest()
+    isOpenLoading.value = false
   } catch (error) {
     console.error('Error dashboard request favTrailsList:', error)
   }
