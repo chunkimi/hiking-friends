@@ -35,7 +35,7 @@ const props = defineProps({
     type: String,
     required: true
   },
-  allTrailsNews: {
+  allTailsCondition: {
     type: Array,
     required: true
   }
@@ -44,7 +44,7 @@ const props = defineProps({
 const mainTitle = roadConditionInfo.mainTitle
 
 const roadCondition = computed(() => {
-  const matchingTrail = props.allTrailsNews.find((trail) => trail.TRAILID === props.trailId)
+  const matchingTrail = props.allTailsCondition.find((trail) => trail.TRAILID === props.trailId)
   if (!matchingTrail) {
     return {
       TR_TYP: '全線開放',

@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="col-6 mx-auto mx-lg-0 col-lg-3">
-        <TrailOpenStatus :all-trails-news="allTailsNews" :trail-id="curTrailId" />
+        <TrailOpenStatus :all-trails-condition="allTailsCondition" :trail-id="curTrailId" />
       </div>
     </div>
     <div class="py-15">
@@ -56,23 +56,22 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, onBeforeRouteLeave } from 'vue-router'
-import { fetchTrailsInfoData, fetchTrailsNewsData } from '@/api/trailsApi'
-
+import { storeToRefs } from 'pinia'
+import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
+import { baseTrailInfo, extendedTrailInfo } from '@/utils/trailInfoUtils.js'
 import GoBackIcon from '@/components/front/base/GoBackIcon.vue'
 import PurposeTitle from '@/components/front/info/PurposeTitle.vue'
 import BasicInfo from '@/components/front/info/BasicInfo.vue'
 import TrailOpenStatus from '@/components/front/info/TrailOpenStatus.vue'
-import { baseTrailInfo, extendedTrailInfo } from '@/utils/trailInfoUtils.js'
 
-const allTrailsData = ref([])
-const allTailsNews = ref([])
+const trailsListStore = useTrailsListStore()
+const { allTrailsData, allTailsCondition } = storeToRefs(trailsListStore)
+
 const route = useRoute()
 const curTrailId = route.params.trail
 const curTrailData = ref({})
 
 onMounted(async () => {
-  allTrailsData.value = await fetchTrailsInfoData()
-  allTailsNews.value = await fetchTrailsNewsData()
   curTrailData.value = allTrailsData.value.find((item) => item.TRAILID === curTrailId) || {}
 })
 

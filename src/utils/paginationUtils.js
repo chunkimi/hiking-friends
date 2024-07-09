@@ -1,7 +1,6 @@
 import { ref, computed, watch } from 'vue'
 
-export function usePaginationUtils(dataList) {
-  const perPageTrails = 10
+export function usePaginationUtils(dataList, perPageTrails) {
   const curPage = ref(1)
 
   const tableDataNum = computed(() => {
