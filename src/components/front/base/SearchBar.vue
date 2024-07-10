@@ -92,7 +92,6 @@ function onSearch() {
 
 function resetSearch() {
   queryWord.value = ''
-  emit('search-data', '')
   emit('search-reset', true)
 }
 </script>
