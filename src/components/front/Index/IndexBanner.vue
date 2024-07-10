@@ -70,13 +70,14 @@ const bannerSetting = {
 
 const router = useRouter()
 const trailsListStore = useTrailsListStore()
-const { isIndexToSearch } = storeToRefs(trailsListStore)
+const { isSearchByOutside, searchKeyword, searchType } = storeToRefs(trailsListStore)
 
 function searchToList(queryValue) {
   if (queryValue.length !== 0) {
-    isIndexToSearch.value = true
-    router.push({ name: 'TrailsList', query: { queryValue } })
+    searchKeyword.value = queryValue
+    searchType.value = 'all'
+    isSearchByOutside.value = true
+    router.push({ name: 'TrailsList' })
   }
 }
 </script>
-@/utils/imgUrl

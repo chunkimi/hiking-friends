@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onBeforeMount } from 'vue'
 // import { ref, computed, onMounted, onBeforeMount } from 'vue'
 // import { onBeforeRouteLeave, useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
@@ -93,7 +93,7 @@ const isCurCardMode = computed(() => {
 // const route = useRoute()
 
 const trailsListStore = useTrailsListStore()
-const { allTrailsData } = storeToRefs(trailsListStore)
+const { allTrailsData, isSearchByOutside, searchKeyword, searchType } = storeToRefs(trailsListStore)
 
 const isHaveTrail = ref(true)
 const filterTrailsData = ref([])
@@ -112,29 +112,47 @@ onMounted(() => {
   pageInit()
 })
 
-const searchKeyword = ref('')
-
 const searchbar = {
   handleSearch(queryValue) {
     searchKeyword.value = queryValue
-    filterTrailsData.value = searchTrailByType(allTrailsData.value, searchKeyword.value, 'all')
-    if (filterTrailsData.value.length !== 0) {
-      isFilterData.value = true
-      isHaveTrail.value = true
-      pageInit()
-    } else {
-      isHaveTrail.value = false
-      searchKeyword.value = ''
-    }
+    searchType.value = 'all'
+    listSearch()
   },
   handleReset(isReset) {
     if (isReset) {
       isFilterData.value = false
       filterTrailsData.value = []
-      isHaveTrail.value = true
       searchKeyword.value = ''
+      searchType.value = ''
+      isSearchByOutside.value = false
+      isHaveTrail.value = true
       pageInit()
     }
   }
 }
+
+function listSearch() {
+  filterTrailsData.value = searchTrailByType(
+    allTrailsData.value,
+    searchKeyword.value,
+    searchType.value
+  )
+  if (filterTrailsData.value.length !== 0) {
+    isFilterData.value = true
+    isHaveTrail.value = true
+    pageInit()
+  } else {
+    isHaveTrail.value = false
+    searchKeyword.value = ''
+  }
+}
+
+onBeforeMount(() => {
+  if (isSearchByOutside.value) {
+    listSearch()
+  } else {
+    isFilterData.value = false
+    pageInit()
+  }
+})
 </script>

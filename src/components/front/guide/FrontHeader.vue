@@ -188,6 +188,9 @@ const { sendLogoutRequest } = accountStore
 
 function reloadList() {
   const currentRoute = route.fullPath
+  if (currentRoute.includes('trails-list')) {
+    window.location.reload()
+  }
   // if (currentRoute.includes('trails-list') && isListAlready) {
   //   isListAlready.value = false
   //   window.location.reload()

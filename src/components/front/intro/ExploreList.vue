@@ -38,12 +38,11 @@ const exploreGuideData = [
       textColor: 'primary'
     },
     subtitle: '選擇心儀的目的區域',
-    // keywords: ['北部地區', '中部地區', '南部地區', '東部地區']
     keywords: [
-      { title: '北部地區', queryType: 'trailArea', queryValue: '北部' },
-      { title: '中部地區', queryType: 'trailArea', queryValue: '中部' },
-      { title: '南部地區', queryType: 'trailArea', queryValue: '南部' },
-      { title: '東部地區', queryType: 'trailArea', queryValue: '東部' }
+      { title: '北部地區', queryType: 'area', queryValue: '北部' },
+      { title: '中部地區', queryType: 'area', queryValue: '中部' },
+      { title: '南部地區', queryType: 'area', queryValue: '南部' },
+      { title: '東部地區', queryType: 'area', queryValue: '東部' }
     ]
   },
   {
@@ -54,10 +53,9 @@ const exploreGuideData = [
       textColor: 'info'
     },
     subtitle: '探索不同類型與定位',
-    // keywords: ['國家步道', '區域步道']
     keywords: [
-      { title: '國家步道', queryType: 'trailSys', queryValue: '國家步道' },
-      { title: '區域步道', queryType: 'trailSys', queryValue: '區域步道' }
+      { title: '國家步道', queryType: 'sys', queryValue: '國家步道' },
+      { title: '區域步道', queryType: 'sys', queryValue: '區域步道' }
     ]
   },
   {
@@ -68,11 +66,10 @@ const exploreGuideData = [
       textColor: 'warning'
     },
     subtitle: '根據時間計畫選擇理想步道',
-    // keywords: ['半天遊程', '一天鍛鍊', '多天挑戰']
     keywords: [
-      { title: '半天遊程', queryType: 'trailTour', queryValue: '半天' },
-      { title: '一天鍛鍊', queryType: 'trailTour', queryValue: '一天' },
-      { title: '多天挑戰', queryType: 'trailTour', queryValue: '多天' }
+      { title: '半天遊程', queryType: 'tour', queryValue: '半天' },
+      { title: '一天鍛鍊', queryType: 'tour', queryValue: '一天' },
+      { title: '多天挑戰', queryType: 'tour', queryValue: '多天' }
     ]
   }
 ]

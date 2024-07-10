@@ -4,11 +4,15 @@ import axios from 'axios'
 import { trailsInfoUrl, trailsConditionUrl } from '@/api/trailsApi'
 
 // dummyData
-// import dummyAllTrailsData from '@/data/dummy/allTrailsInfo.json'
+import dummyAllTrailsData from '@/data/dummy/allTrailsInfo.json'
+import dummyAllTailsCondition from '@/data/dummy/allTrailsNews.json'
 
 export const useTrailsListStore = defineStore('trailListStore', () => {
-  const allTrailsData = ref([])
-  const allTailsCondition = ref([])
+  const allTrailsData = ref(dummyAllTrailsData)
+  const allTailsCondition = ref(dummyAllTailsCondition)
+
+  // const allTrailsData = ref([])
+  // const allTailsCondition = ref([])
 
   async function sendTrailsInfoRequest() {
     try {
@@ -30,29 +34,29 @@ export const useTrailsListStore = defineStore('trailListStore', () => {
     }
   }
 
+  const isSearchByOutside = ref(null)
+  const searchKeyword = ref('')
+  const searchType = ref('')
+  const isTypeToSearch = ref(null)
   // const currentPage = ref(0)
   // const isSavePage = ref(null)
-  // const searchType = ref('trailAll')
-  // const searchKeyword = ref('')
   // const isSaveKeyword = ref(null)
   // const isListAlready = ref(null)
   // const isFromInfoToList = ref(null)
-  // const isIndexToSearch = ref(null)
-  const isTypeToSearch = ref(null)
 
   return {
     allTrailsData,
     sendTrailsInfoRequest,
     allTailsCondition,
     sendTrailsConditionRequest,
+    searchKeyword,
+    searchType,
+    isSearchByOutside,
+    isTypeToSearch
     // currentPage,
-    // searchType,
-    // searchKeyword,
     // isListAlready,
     // isFromInfoToList,
-    // isIndexToSearch,
     // isSavePage,
     // isSaveKeyword,
-    isTypeToSearch
   }
 })

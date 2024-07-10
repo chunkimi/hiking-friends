@@ -48,10 +48,8 @@ export function searchTrailTour(allData, keyword) {
   })
 }
 
-export function searchTrailDif(allData, keyword) {
-  return allData.filter(
-    (item) => item.TR_DIF_CLASS && parseInt(item.TR_DIF_CLASS === parseInt(keyword))
-  )
+export function searchTrailDif(allData, keywordArr) {
+  return allData.filter((item) => item.TR_DIF_CLASS && keywordArr.includes(item.TR_DIF_CLASS))
 }
 
 export function searchAllType(allData, keyword) {
