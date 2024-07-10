@@ -152,9 +152,8 @@
 <script setup>
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
+// import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 import { useAccountStore } from '@/stores/useAccountStore.js'
-
 import { useMediaQuery } from '@vueuse/core'
 const isMediaLgUp = useMediaQuery('(min-width: 992px)')
 
@@ -179,24 +178,26 @@ const menuData = [
 
 const route = useRoute()
 const router = useRouter()
-const trailsListStore = useTrailsListStore()
+
+// const trailsListStore = useTrailsListStore()
+// const { isListAlready, isSavePage, isTypeToSearch } = storeToRefs(trailsListStore)
+
 const accountStore = useAccountStore()
-const { isListAlready, isSavePage, isTypeToSearch } = storeToRefs(trailsListStore)
 const { isCheckLoginSuccess, userNickname, isLogoutSuccess } = storeToRefs(accountStore)
 const { sendLogoutRequest } = accountStore
 
 function reloadList() {
   const currentRoute = route.fullPath
-  if (currentRoute.includes('trails-list') && isListAlready) {
-    isListAlready.value = false
-    window.location.reload()
-  }
-  if (!currentRoute.includes('trails-list')) {
-    isSavePage.value = false
-  }
-  if (currentRoute.includes('trails-intro')) {
-    isTypeToSearch.value = false
-  }
+  // if (currentRoute.includes('trails-list') && isListAlready) {
+  //   isListAlready.value = false
+  //   window.location.reload()
+  // }
+  // if (!currentRoute.includes('trails-list')) {
+  //   isSavePage.value = false
+  // }
+  // if (currentRoute.includes('trails-intro')) {
+  //   isTypeToSearch.value = false
+  // }
 }
 async function handleLogout() {
   await sendLogoutRequest()
