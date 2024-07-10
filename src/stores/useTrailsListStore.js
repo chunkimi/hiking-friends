@@ -33,30 +33,25 @@ export const useTrailsListStore = defineStore('trailListStore', () => {
       return []
     }
   }
-
+  const isHaveTrail = ref(true)
+  const filterTrailsData = ref([])
+  const isFilterData = ref(false)
   const isSearchByOutside = ref(null)
   const searchKeyword = ref('')
   const searchType = ref('')
-  const isTypeToSearch = ref(null)
-  // const currentPage = ref(0)
-  // const isSavePage = ref(null)
-  // const isSaveKeyword = ref(null)
-  // const isListAlready = ref(null)
-  // const isFromInfoToList = ref(null)
+  const toggleReload = ref(false)
 
   return {
     allTrailsData,
     sendTrailsInfoRequest,
     allTailsCondition,
     sendTrailsConditionRequest,
+    filterTrailsData,
+    isHaveTrail,
+    isFilterData,
     searchKeyword,
     searchType,
     isSearchByOutside,
-    isTypeToSearch
-    // currentPage,
-    // isListAlready,
-    // isFromInfoToList,
-    // isSavePage,
-    // isSaveKeyword,
+    toggleReload
   }
 })

@@ -59,7 +59,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 
 const searchSetting = {
   placeholder: '探索步道',
@@ -94,4 +96,16 @@ function resetSearch() {
   queryWord.value = ''
   emit('search-reset', true)
 }
+
+const trailsListStore = useTrailsListStore()
+const { toggleReload } = storeToRefs(trailsListStore)
+
+watch(
+  () => toggleReload.value,
+  (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+      queryWord.value = ''
+    }
+  }
+)
 </script>
