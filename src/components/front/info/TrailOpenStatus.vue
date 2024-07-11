@@ -27,16 +27,12 @@
 import { computed } from 'vue'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 import RoadConditionModal from '@/components/front/base/RoadConditionModal.vue'
-import { newsType } from '@/data/newsType.js'
-import { roadConditionInfo } from '@/data/sectionTitle/trailInfoSectionTitle.js'
+import { newsType } from '@/utils/trailInfoUtils.js'
+import { roadConditionInfo } from '@/utils/trailInfoUtils.js'
 
 const props = defineProps({
-  trailId: {
-    type: String,
-    required: true
-  },
-  allTrailsNews: {
-    type: Array,
+  curTrailCondition: {
+    type: Object,
     required: true
   }
 })
@@ -44,8 +40,8 @@ const props = defineProps({
 const mainTitle = roadConditionInfo.mainTitle
 
 const roadCondition = computed(() => {
-  const matchingTrail = props.allTrailsNews.find((trail) => trail.TRAILID === props.trailId)
-  if (!matchingTrail) {
+  let isOpenError = props.curTrailCondition.value?.TRAILID ? true : false
+  if (!isOpenError) {
     return {
       TR_TYP: '全線開放',
       msgColor: 'success',
@@ -53,12 +49,12 @@ const roadCondition = computed(() => {
     }
   }
 
-  const msgColor = matchingTrail.TR_TYP
-    ? newsType.find((type) => type.msg === matchingTrail.TR_TYP)?.color
+  const msgColor = props.curTrailCondition.value.TR_TYP
+    ? newsType.find((type) => type.msg === props.curTrailCondition.value.TR_TYP)?.color
     : null
 
   return {
-    ...matchingTrail,
+    ...props.curTrailCondition.value,
     msgColor,
     isNoPassing: true
   }

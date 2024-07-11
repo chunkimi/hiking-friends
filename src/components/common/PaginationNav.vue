@@ -16,7 +16,13 @@
               :key="page"
               @click="handleChangePage(page)"
             >
-              <p class="page-link bg-transparent cursor-pointer" href="#">{{ page }}</p>
+              <p
+                class="page-link cursor-pointer"
+                href="#"
+                :class="page === currentPage ? ['bg-primary', 'text-light'] : 'bg-transparent'"
+              >
+                {{ page }}
+              </p>
             </li>
             <li class="page-item" @click="handleChangePage(currentPage + 1)">
               <p class="page-link bg-transparent cursor-pointer" href="#" aria-label="Next">

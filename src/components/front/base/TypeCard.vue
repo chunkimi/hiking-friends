@@ -11,13 +11,13 @@
       <h6 class="fs-5 text-center text-secondary">{{ cardSubtitle }}</h6>
       <div class="fs-6 text-center">
         <template v-for="(keyword, index) in cardKeywordsArr" :key="index">
-          <RouterLink
+          <span
             v-if="isKeywordLink"
-            :to="searchType(keyword)"
-            class="p-2 link-secondary text-decoration-none"
+            @click="searchTypeToList(keyword)"
+            class="p-2 text-secondary cursor-pointer"
           >
             {{ keyword.title }}
-          </RouterLink>
+          </span>
           <span class="p-2 text-secondary" v-else>{{ keyword }}</span>
           <template v-if="(index + 1) % 2 === 0">
             <br />
@@ -29,11 +29,11 @@
 </template>
 
 <script setup>
-import IconTitle from '@/components/front/base/IconTitle.vue'
 import { computed } from 'vue'
-import { RouterLink } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
+import IconTitle from '@/components/front/base/IconTitle.vue'
 
 const props = defineProps({
   cardItem: {
@@ -58,15 +58,13 @@ const cardSubtitle = computed(() => props.cardItem.subtitle || '')
 const cardKeywordsArr = computed(() => props.cardItem.keywords || [])
 
 const trailsListStore = useTrailsListStore()
-const { isTypeToSearch } = storeToRefs(trailsListStore)
+const { isSearchByOutside, searchKeyword, searchType } = storeToRefs(trailsListStore)
 
-function searchType(keyword) {
-  const queryValue = keyword.queryValue
-  const queryType = keyword.queryType
-  isTypeToSearch.value = true
-  return {
-    name: 'TrailsList',
-    query: { queryValue, queryType }
-  }
+const router = useRouter()
+function searchTypeToList(keyword) {
+  searchKeyword.value = keyword.queryValue
+  searchType.value = keyword.queryType
+  isSearchByOutside.value = true
+  router.push({ name: 'TrailsList' })
 }
 </script>

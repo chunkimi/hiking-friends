@@ -132,8 +132,11 @@ const taskMgtListData = computed(() => {
   }
 })
 
-const { curPage, numberOfPages, curListData, changePage, pageInit } =
-  usePaginationUtils(taskMgtListData)
+const perPageTrails = 10
+const { curPage, numberOfPages, curListData, changePage, pageInit } = usePaginationUtils(
+  taskMgtListData,
+  perPageTrails
+)
 
 const isHaveCurListData = computed(() => (curListData.value.length > 0 ? true : false))
 

@@ -34,45 +34,45 @@
 </style>
 <template>
   <IconTitle
-    :is-clock-line="roleListTitle.isClock"
-    :icon="roleListTitle.icon"
-    :title-text="roleListTitle.title"
-    :color="roleListTitle.textColor"
+    :is-clock-line="roleListConfig.isClock"
+    :icon="roleListConfig.icon"
+    :title-text="roleListConfig.title"
+    :color="roleListConfig.textColor"
     class="mb-10"
   ></IconTitle>
-  <p class="text-center text-gray-green">{{ roleListTitle.noteText }}</p>
+  <p class="text-center text-gray-green">{{ roleListConfig.noteText }}</p>
   <ul class="list-unstyled" :class="[isMediaMdDown ? 'd-flex justify-content-around' : 'row']">
     <li
-      v-for="roleItem in roleData"
-      :key="roleItem.class"
+      v-for="roleItem in hikerRole"
+      :key="roleItem.role"
       :class="[isMediaMdDown ? '' : 'col-12 col-md-4 mb-5 mb-lg-0']"
-      @click="getRoleGuide(roleItem.role, roleItem.guide, roleItem.class)"
+      @click="getRoleGuide(roleItem.title, roleItem.guide, roleItem.role)"
     >
       <button
         v-if="isMediaMdDown"
         class="btn btn-primary"
-        :class="curRole === roleItem.role ? 'btn-success' : 'btn-primary'"
+        :class="cutTitle === roleItem.title ? 'btn-success' : 'btn-primary'"
       >
-        {{ roleItem.role }}
+        {{ roleItem.title }}
       </button>
       <div
         v-else
         class="d-flex flex-column align-items-center border rounded border-secondary cursor-pointer p-4 role__card"
-        :class="curRole === roleItem.role ? 'role__card--active' : ''"
+        :class="cutTitle === roleItem.title ? 'role__card--active' : ''"
       >
         <img :src="getImageUrl(roleItem.img)" alt="role-img" class="role__img mb-5" />
 
-        <p class="fs-5 fw-bold m-0">{{ roleItem.role }}</p>
+        <p class="fs-5 fw-bold m-0">{{ roleItem.title }}</p>
       </div>
     </li>
   </ul>
   <transition name="guide-collapse">
     <div v-if="isOpenGuide" class="border-secondary rounded p-6 d-grid gap-4">
-      <h5 class="fs-4 m-0 text-success text-center">{{ curRole }}</h5>
+      <h5 class="fs-4 m-0 text-success text-center">{{ cutTitle }}</h5>
       <div class="p-4">
         <table class="table">
           <tbody>
-            <tr class="row" v-for="tableItem in tableTitleData" :key="tableItem.type">
+            <tr class="row" v-for="tableItem in roleListConfig.tableTitle" :key="tableItem.type">
               <th class="col-2 fw-bold">{{ tableItem.text }}</th>
               <td class="col-10">{{ guideData[tableItem.type] }}</td>
             </tr>
@@ -80,12 +80,12 @@
         </table>
       </div>
       <div class="py-5 ms-auto">
-        <RouterLink class="btn btn-primary" :to="searchRole(curDifClass)">
+        <button class="btn btn-primary" @click="searchRoleToList(curRole)">
           <div class="d-flex align-items-center">
-            <span>{{ roleListTitle.btnViewMore.text }}</span>
-            <span class="material-icons ms-3">{{ roleListTitle.btnViewMore.icon }}</span>
+            <span>{{ roleListConfig.btnViewMore.text }}</span>
+            <span class="material-icons ms-3">{{ roleListConfig.btnViewMore.icon }}</span>
           </div>
-        </RouterLink>
+        </button>
       </div>
     </div>
   </transition>
@@ -93,16 +93,17 @@
 
 <script setup>
 import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 import { getImageUrl } from '@/utils/imgUrl.js'
+import { hikerRole } from '@/data/HikerRole.js'
+import { useMediaQuery } from '@vueuse/core'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 
-import { useMediaQuery } from '@vueuse/core'
 const isMediaMdDown = useMediaQuery('(max-width: 767px)')
 
-const roleListTitle = {
+const roleListConfig = {
   isClock: false,
   title: '郊友角色',
   icon: 'hiking',
@@ -111,105 +112,71 @@ const roleListTitle = {
   btnViewMore: {
     text: '瀏覽適合步道',
     icon: 'nature_people '
-  }
+  },
+  tableTitle: [
+    {
+      text: '適合對象',
+      type: 'target'
+    },
+    {
+      text: '路況',
+      type: 'road'
+    },
+    {
+      text: '預估時程',
+      type: 'time'
+    },
+    {
+      text: '攜帶裝備',
+      type: 'equipment'
+    }
+  ]
 }
 
-const roleData = [
-  {
-    role: '輕鬆踏青',
-    class: 'junior',
-    img: 'assets/illustration/person-light.png',
-    guide: {
-      target: '一般大眾友善入門',
-      road: '坡度較平緩，且設施完善，路面平整易行',
-      time: '約半天至1天內',
-      equipment: '輕裝（帶水或少許糧食）'
-    }
-  },
-  {
-    role: '鍛鍊健行',
-    class: 'middle',
-    img: 'assets/illustration/person-medium.png',
-    guide: {
-      target: '體力稍佳、初級登山者',
-      road: '部分路段路況較差，坡度較陡，但具基本設施',
-      time: '1天內',
-      equipment: '應備齊基本生存需求與應急醫療之物資（包括飲水、糧食、地圖、禦寒衣物、急救藥品等）'
-    }
-  },
-  {
-    role: '探險挑戰',
-    class: 'senior',
-    img: 'assets/illustration/person-heavy.png',
-
-    guide: {
-      target: '受訓登山者、具野外求生能力者',
-      road: '多為土徑，深入原始地區，有許多困難、危險或路況不佳之路段，坡度陡，氣候變化大',
-      time: '1天內',
-      equipment:
-        '登山裝備需俱全（包括糧食、飲水、煮食設備、地圖、禦寒衣物、照明設備、睡袋、帳棚等）如有管制需事先申請許可'
-    }
-  }
-]
-
-const tableTitleData = [
-  {
-    text: '適合對象',
-    type: 'target'
-  },
-  {
-    text: '路況',
-    type: 'road'
-  },
-  {
-    text: '預估時程',
-    type: 'time'
-  },
-  {
-    text: '攜帶裝備',
-    type: 'equipment'
-  }
-]
-
+const cutTitle = ref('')
 const curRole = ref('')
-const curDifClass = ref('')
 const guideData = ref({})
 const isOpenGuide = ref(false)
 
-function getRoleGuide(role, guideInfo, difClass) {
-  if (curRole.value && curRole.value === role) {
+function getRoleGuide(title, guideInfo, role) {
+  if (cutTitle.value && cutTitle.value === title) {
     guideData.value = {}
+    cutTitle.value = ''
     curRole.value = ''
-    curDifClass.value = ''
     isOpenGuide.value = false
   } else {
+    cutTitle.value = title
     curRole.value = role
-    curDifClass.value = difClass
     guideData.value = guideInfo
     isOpenGuide.value = true
   }
 }
 
 const trailsListStore = useTrailsListStore()
-const { isTypeToSearch } = storeToRefs(trailsListStore)
+const { isSearchByOutside, searchKeyword, searchType } = storeToRefs(trailsListStore)
 
-function searchRole(role) {
-  const queryType = 'trailDifClass'
-  let queryValue = []
-  if (role === 'junior') {
-    queryValue = [0, 1]
-  } else if (role === 'middle') {
-    queryValue = [2]
-  } else if (role === 'senior') {
-    queryValue = [3, 4, 5, 6]
+const router = useRouter()
+
+function searchRoleToList(role) {
+  searchType.value = 'dif'
+  let rawKeyword = []
+  switch (role) {
+    case 'junior':
+      rawKeyword = ['0', '1']
+      break
+    case 'middle':
+      rawKeyword = ['2']
+      break
+    case 'senior':
+      rawKeyword = ['3', '4', '5', '6']
+      break
+    default:
+      rawKeyword = []
+      break
   }
-  if (queryValue.length !== 0) {
-    isTypeToSearch.value = true
-    return {
-      name: 'TrailsList',
-      query: { queryValue, queryType }
-    }
-  }
+  searchKeyword.value = rawKeyword
+  searchType.value = 'dif'
+  isSearchByOutside.value = true
+  router.push({ name: 'TrailsList' })
 }
 </script>
-@/utils/imgUrl

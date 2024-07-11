@@ -32,7 +32,7 @@
         <div class="card-text">
           <ul class="list-unstyled">
             <li
-              v-for="infoItem in trailInfoTitle"
+              v-for="infoItem in trailsListItemTitle"
               :key="infoItem.type"
               class="d-flex align-items-center"
             >
@@ -49,22 +49,22 @@
           <div class="col-6">
             <RouterLink
               :to="{
-                name: trailInfoBtn.moreInfo.pathName,
+                name: trailsListItemBtn.moreInfo.pathName,
                 params: { trail: trailItem.TRAILID }
               }"
               class="btn w-100"
-              :class="`btn-outline-${trailInfoBtn.moreInfo.btnColor}`"
-              >{{ trailInfoBtn.moreInfo.name }}</RouterLink
+              :class="`btn-outline-${trailsListItemBtn.moreInfo.btnColor}`"
+              >{{ trailsListItemBtn.moreInfo.name }}</RouterLink
             >
           </div>
           <div class="col-6">
             <button
               type="button"
               class="btn w-100"
-              :class="`btn-outline-${trailInfoBtn.addList.btnColor}`"
+              :class="`btn-outline-${trailsListItemBtn.addList.btnColor}`"
               @click="handleToFavorite(trailItem.TRAILID)"
             >
-              {{ trailInfoBtn.addList.name }}
+              {{ trailsListItemBtn.addList.name }}
             </button>
           </div>
         </div>
@@ -76,18 +76,11 @@
 import { RouterLink } from 'vue-router'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore.js'
 import { getTrailImgUrl } from '@/utils/imgUrl.js'
+import { trailsListItemBtn, trailsListItemTitle } from '@/utils/trailItemUtils.js'
 
 defineProps({
   curPageTrails: {
     type: Array,
-    required: true
-  },
-  trailInfoTitle: {
-    type: Array,
-    required: true
-  },
-  trailInfoBtn: {
-    type: Object,
     required: true
   }
 })
