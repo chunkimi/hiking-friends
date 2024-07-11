@@ -99,7 +99,7 @@ import { newsType } from '@/utils/trailInfoUtils.js'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 
 const trailsListStore = useTrailsListStore()
-const { allTailsCondition } = storeToRefs(trailsListStore)
+const { allTrailsCondition } = storeToRefs(trailsListStore)
 
 const bulletinTitle = {
   isClock: false,
@@ -117,7 +117,7 @@ const trailsNews = computed(() => {
   let result = []
 
   newsType.forEach((item) => {
-    let raw = allTailsCondition.value.find((element) => element['TR_TYP'] == item.msg)
+    let raw = allTrailsCondition.value.find((element) => element['TR_TYP'] == item.msg)
     if (raw) {
       raw.text_style = `news__sign--${item.color}`
       result.push(raw)

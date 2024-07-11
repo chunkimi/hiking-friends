@@ -89,7 +89,7 @@ defineProps({
 })
 
 const primaryInfo = [
-  { type: 'TR_LENGTH', name: '步道長度' },
+  { type: 'TR_LENGTH_NUM', name: '步道長度(km)' },
   { type: 'TR_TOUR', name: '遊程時間' }
 ]
 

@@ -42,6 +42,7 @@
 
 <script setup>
 import { ref, computed, watch, onBeforeMount } from 'vue'
+import { onBeforeRouteLeave } from 'vue-router'
 // import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
@@ -146,5 +147,10 @@ onBeforeMount(() => {
     isFilterData.value = false
     pageInit()
   }
+})
+
+onBeforeRouteLeave(() => {
+  console.log('here')
+  listRest()
 })
 </script>

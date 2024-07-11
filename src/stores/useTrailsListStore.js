@@ -5,14 +5,14 @@ import { trailsInfoUrl, trailsConditionUrl } from '@/api/trailsApi'
 
 // dummyData
 import dummyAllTrailsData from '@/data/dummy/allTrailsInfo.json'
-import dummyAllTailsCondition from '@/data/dummy/allTrailsNews.json'
+import dummyAllTrailsCondition from '@/data/dummy/allTrailsNews.json'
 
 export const useTrailsListStore = defineStore('trailListStore', () => {
   const allTrailsData = ref(dummyAllTrailsData)
-  const allTailsCondition = ref(dummyAllTailsCondition)
+  const allTrailsCondition = ref(dummyAllTrailsCondition)
 
   // const allTrailsData = ref([])
-  // const allTailsCondition = ref([])
+  // const allTrailsCondition = ref([])
 
   async function sendTrailsInfoRequest() {
     try {
@@ -27,7 +27,7 @@ export const useTrailsListStore = defineStore('trailListStore', () => {
   async function sendTrailsConditionRequest() {
     try {
       const response = await axios.get(trailsConditionUrl)
-      allTailsCondition.value = response.data
+      allTrailsCondition.value = response.data
     } catch (error) {
       console.error('Error fetching trails:', error)
       return []
@@ -44,7 +44,7 @@ export const useTrailsListStore = defineStore('trailListStore', () => {
   return {
     allTrailsData,
     sendTrailsInfoRequest,
-    allTailsCondition,
+    allTrailsCondition,
     sendTrailsConditionRequest,
     filterTrailsData,
     isHaveTrail,

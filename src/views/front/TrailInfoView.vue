@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="col-6 mx-auto mx-lg-0 col-lg-3">
-        <TrailOpenStatus :all-trails-condition="allTailsCondition" :trail-id="curTrailId" />
+        <TrailOpenStatus :cur-trail-condition="curTrailCondition" />
       </div>
     </div>
     <div class="py-15">
@@ -54,8 +54,9 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRoute, onBeforeRouteLeave } from 'vue-router'
+import { ref, onBeforeMount } from 'vue'
+// import { useRoute, onBeforeRouteLeave } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 import { baseTrailInfo, extendedTrailInfo } from '@/utils/trailInfoUtils.js'
@@ -65,19 +66,22 @@ import BasicInfo from '@/components/front/info/BasicInfo.vue'
 import TrailOpenStatus from '@/components/front/info/TrailOpenStatus.vue'
 
 const trailsListStore = useTrailsListStore()
-const { allTrailsData, allTailsCondition } = storeToRefs(trailsListStore)
+const { allTrailsData, allTrailsCondition } = storeToRefs(trailsListStore)
 
 const route = useRoute()
 const curTrailId = route.params.trail
 const curTrailData = ref({})
+const curTrailCondition = ref({})
 
-onMounted(async () => {
+onBeforeMount(() => {
   curTrailData.value = allTrailsData.value.find((item) => item.TRAILID === curTrailId) || {}
+  curTrailCondition.value =
+    allTrailsCondition.value.find((trail) => trail.TRAILID === curTrailId) || {}
 })
 
-onBeforeRouteLeave((to, from, next) => {
-  next()
-})
+// onBeforeRouteLeave((to, from, next) => {
+//   next()
+// })
 
 const isOpenExtendedTrailInfo = ref(false)
 function toggleExtendedCollapse() {
