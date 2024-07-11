@@ -143,14 +143,16 @@ watch(
 onBeforeMount(() => {
   if (isSearchByOutside.value) {
     listSearch()
+    return
   } else {
-    isFilterData.value = false
     pageInit()
   }
 })
 
-onBeforeRouteLeave(() => {
-  console.log('here')
+onBeforeRouteLeave((to, from) => {
+  if (from.name === 'TrailsList' && to.name === 'TrailInfo' && isFilterData.value) {
+    return
+  }
   listRest()
 })
 </script>
