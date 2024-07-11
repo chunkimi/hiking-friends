@@ -43,7 +43,6 @@
 <script setup>
 import { ref, computed, watch, onBeforeMount } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
-// import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 import { searchTrailByType } from '@/utils/trailsInfoFilterUtils.js'
@@ -78,7 +77,8 @@ const {
   isSearchByOutside,
   searchKeyword,
   searchType,
-  toggleReload
+  toggleReload,
+  specifyCurPage
 } = storeToRefs(trailsListStore)
 
 const trailsListData = computed(() => {
@@ -86,9 +86,10 @@ const trailsListData = computed(() => {
 })
 
 const perPageTrails = 12
-const { curPage, numberOfPages, curListData, changePage, pageInit } = usePaginationUtils(
+const { curPage, numberOfPages, curListData, changePage, pageInit, pageRest } = usePaginationUtils(
   trailsListData,
-  perPageTrails
+  perPageTrails,
+  specifyCurPage
 )
 
 const searchbar = {
@@ -113,6 +114,7 @@ function listSearch() {
   if (filterTrailsData.value.length !== 0) {
     isFilterData.value = true
     isHaveTrail.value = true
+    specifyCurPage.value = 1
     pageInit()
   } else {
     isHaveTrail.value = false
@@ -127,15 +129,15 @@ function listRest() {
   searchType.value = ''
   isSearchByOutside.value = false
   isHaveTrail.value = true
-  pageInit()
+  specifyCurPage.value = 0
+  pageRest()
 }
 
-// const route = useRoute()
 watch(
   () => toggleReload.value,
   (newValue, oldValue) => {
     if (newValue !== oldValue) {
-      listRest()
+      pageRest()
     }
   }
 )
@@ -144,13 +146,18 @@ onBeforeMount(() => {
   if (isSearchByOutside.value) {
     listSearch()
     return
-  } else {
+  }
+  if (specifyCurPage.value > 0) {
     pageInit()
+    return
+  } else {
+    pageRest()
   }
 })
 
 onBeforeRouteLeave((to, from) => {
-  if (from.name === 'TrailsList' && to.name === 'TrailInfo' && isFilterData.value) {
+  if (from.name === 'TrailsList' && to.name === 'TrailInfo') {
+    specifyCurPage.value = curPage.value
     return
   }
   listRest()

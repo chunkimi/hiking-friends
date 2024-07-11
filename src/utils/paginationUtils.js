@@ -1,7 +1,7 @@
 import { ref, computed, watch } from 'vue'
 
-export function usePaginationUtils(dataList, perPageTrails) {
-  const curPage = ref(1)
+export function usePaginationUtils(dataList, perPageTrails, specifyCurPage) {
+  const curPage = ref(specifyCurPage.value || 1)
 
   const tableDataNum = computed(() => {
     return dataList.value.length || 0
@@ -25,9 +25,14 @@ export function usePaginationUtils(dataList, perPageTrails) {
   }
 
   function pageInit() {
+    curListData.value = getDataByPage(curPage.value)
+  }
+
+  function pageRest() {
     curPage.value = 1
     curListData.value = getDataByPage(curPage.value)
   }
+
   function scrollToTop() {
     window.scrollTo({
       top: 0,
@@ -36,6 +41,7 @@ export function usePaginationUtils(dataList, perPageTrails) {
   }
 
   watch(dataList, () => {
+    curPage.value = 1
     pageInit()
   })
 
@@ -47,6 +53,7 @@ export function usePaginationUtils(dataList, perPageTrails) {
     curListData,
     changePage,
     getDataByPage,
-    pageInit
+    pageInit,
+    pageRest
   }
 }

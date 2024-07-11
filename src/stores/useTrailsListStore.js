@@ -4,15 +4,15 @@ import axios from 'axios'
 import { trailsInfoUrl, trailsConditionUrl } from '@/api/trailsApi'
 
 // dummyData
-import dummyAllTrailsData from '@/data/dummy/allTrailsInfo.json'
-import dummyAllTrailsCondition from '@/data/dummy/allTrailsNews.json'
+// import dummyAllTrailsData from '@/data/dummy/allTrailsInfo.json'
+// import dummyAllTrailsCondition from '@/data/dummy/allTrailsNews.json'
 
 export const useTrailsListStore = defineStore('trailListStore', () => {
-  const allTrailsData = ref(dummyAllTrailsData)
-  const allTrailsCondition = ref(dummyAllTrailsCondition)
+  // const allTrailsData = ref(dummyAllTrailsData)
+  // const allTrailsCondition = ref(dummyAllTrailsCondition)
 
-  // const allTrailsData = ref([])
-  // const allTrailsCondition = ref([])
+  const allTrailsData = ref([])
+  const allTrailsCondition = ref([])
 
   async function sendTrailsInfoRequest() {
     try {
@@ -40,6 +40,7 @@ export const useTrailsListStore = defineStore('trailListStore', () => {
   const searchKeyword = ref('')
   const searchType = ref('')
   const toggleReload = ref(false)
+  const specifyCurPage = ref(0)
 
   return {
     allTrailsData,
@@ -52,6 +53,7 @@ export const useTrailsListStore = defineStore('trailListStore', () => {
     searchKeyword,
     searchType,
     isSearchByOutside,
-    toggleReload
+    toggleReload,
+    specifyCurPage
   }
 })
