@@ -28,16 +28,19 @@
 </style>
 
 <template>
-  <div class="banner__wrap" :style="{ backgroundImage: `url(${bannerSetting.bgImg})` }">
+  <div class="banner__wrap" :style="{ backgroundImage: `url(${getImageUrl(bannerConfig.bgImg)})` }">
     <div class="container">
       <div class="banner__container d-flex flex-column justify-content-center align-items-center">
         <img
-          :src="getImageUrl(bannerSetting.bannerIcon)"
+          :src="getImageUrl(bannerConfig.bannerIcon)"
           alt="illustration-mountain"
           class="banner__illustration mb-6"
         />
         <div class="ps-4 ps-lg-0 mb-6 d-flex flex-column align-items-center flex-lg-row text-light">
-          <h1 class="banner__brand" :style="{ backgroundImage: `url(${bannerSetting.logoImg})` }">
+          <h1
+            class="banner__brand"
+            :style="{ backgroundImage: `url(${getImageUrl(bannerConfig.logoImg)})` }"
+          >
             {{ bannerConfig.pageTitle }}
           </h1>
           <div class="d-flex flex-column align-items-center align-items-lg-start ms-0 ms-lg-8">
@@ -57,8 +60,6 @@ import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 import { getImageUrl } from '@/utils/imgUrl.js'
 import SearchBar from '@/components/front/base/SearchBar.vue'
-import hikerIcon from '@/assets/bg-img/hiker.jpeg'
-import logoImg from '@/assets/logo/logo--light.svg'
 
 const bannerConfig = {
   pageTitle: '郊友趣・Hiking',
@@ -66,15 +67,10 @@ const bannerConfig = {
     main: '與自然郊友',
     vice: '踏上你與山林一期一會的夢幻漫遊'
   },
-  logoImg,
-  bgImg: hikerIcon,
+  logoImg: 'assets/logo/logo--light.svg',
+  bgImg: 'assets/bg-img/hiker.jpeg',
   bannerIcon: 'assets/illustration/bn-title-mountain.svg',
   hasResetBtn: false
-}
-const bannerSetting = {
-  logoImg,
-  bgImg: hikerIcon,
-  bannerIcon: 'assets/illustration/bn-title-mountain.svg'
 }
 
 const router = useRouter()

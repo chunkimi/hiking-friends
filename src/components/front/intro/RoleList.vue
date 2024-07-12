@@ -100,7 +100,7 @@ import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 import { getImageUrl } from '@/utils/imgUrl.js'
-import { hikerRole } from '@/data/HikerRole.js'
+import { hikerRole } from '@/data/front/hikerRole.js'
 import { useMediaQuery } from '@vueuse/core'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 
@@ -183,3 +183,4 @@ function searchRoleToList(role) {
   router.push({ name: 'TrailsList' })
 }
 </script>
+@/data/front/hikerRole.js

@@ -4,12 +4,12 @@
 
 <template>
   <div class="container">
-    <div class="row py-16">
+    <div class="row">
       <div class="col-12 col-lg-6 mx-lg-auto">
-        <div class="d-flex flex-column justify-content-center align-items-center">
+        <div class="vh-75 d-flex flex-column justify-content-center align-items-center">
           <h1
             class="brand__img brand--lg"
-            :style="{ backgroundImage: `url(${loginInfo.logoImg})` }"
+            :style="{ backgroundImage: `url(${getImageUrl(loginInfo.logoImg)})` }"
           >
             {{ loginInfo.pageTitle }}
           </h1>
@@ -50,10 +50,10 @@ import { onBeforeMount } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useAccountStore } from '@/stores/useAccountStore.js'
-import logoImg from '@/assets/logo/logo.svg'
+import { getImageUrl } from '@/utils/imgUrl.js'
 
 const loginInfo = {
-  logoImg,
+  logoImg: 'assets/logo/logo.svg',
   pageTitle: '使用者登入｜郊友趣・Hiking Friends'
 }
 

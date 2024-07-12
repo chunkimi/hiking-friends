@@ -79,8 +79,8 @@
             class="brand__img brand__sm"
             :style="{
               backgroundImage: isMediaLgUp
-                ? `url(${headerInfo.logo})`
-                : `url(${headerInfo.logoLight})`
+                ? `url(${getImageUrl(headerInfo.logo)})`
+                : `url(${getImageUrl(headerInfo.logoLight)})`
             }"
           >
             {{ menuConfig.indexTitle }}
@@ -155,14 +155,12 @@ import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 import { useAccountStore } from '@/stores/useAccountStore.js'
 import { useMediaQuery } from '@vueuse/core'
+import { getImageUrl } from '@/utils/imgUrl.js'
 const isMediaLgUp = useMediaQuery('(min-width: 992px)')
 
-import logo from '@/assets/logo/logo--sm.svg'
-import logoLight from '@/assets/logo/logo--light--sm.svg'
-
 const headerInfo = {
-  logo,
-  logoLight
+  logo: 'assets/logo/logo--sm.svg',
+  logoLight: 'assets/logo/logo--light--sm.svg'
 }
 const menuConfig = {
   indexTitle: '郊友趣・Hiking Friends',

@@ -1,7 +1,4 @@
 <style lang="scss" scoped>
-.vh-75 {
-  height: 75vh;
-}
 .err-img {
   width: 75%;
   max-width: 400px;

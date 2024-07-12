@@ -60,7 +60,7 @@ import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 import { useMediaQuery } from '@vueuse/core'
-import { trailDifClassArr } from '@/data/trailDifClass.js'
+import { trailDifClassArr } from '@/data/front/trailDifClass.js'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 
 const isMediaMdDown = useMediaQuery('(max-width: 767px)')
@@ -115,3 +115,4 @@ function searchDifClassToList(difClassValue) {
   router.push({ name: 'TrailsList' })
 }
 </script>
+@/data/front/trailDifClass.js

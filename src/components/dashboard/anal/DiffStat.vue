@@ -21,7 +21,7 @@
 </template>
 <script setup>
 import { computed } from 'vue'
-import { trailDifClassArr } from '@/data/trailDifClass.js'
+import { trailDifClassArr } from '@/data/front/trailDifClass.js'
 import { criticalChartColor } from '@/utils/chartUtils.js'
 import { hexToRgb } from '@/utils/base.js'
 import RadarChart from '@/components/chart/RadarChart.vue'
@@ -79,3 +79,4 @@ const radarChartData = computed(() => {
 
 const chartId = 'diffStat'
 </script>
+@/data/front/trailDifClass.js
