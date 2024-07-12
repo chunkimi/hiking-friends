@@ -97,7 +97,7 @@
         >
           <i class="bi bi-list text-light fs-1"></i>
         </button>
-        <div class="collapse navbar-collapse" id="headerNavbar">
+        <div class="collapse navbar-collapse" id="headerNavbar" ref="navbarCollapse">
           <ul class="navbar-nav ms-auto">
             <li
               v-for="item in menuData"
@@ -108,12 +108,8 @@
                 :to="item.to"
                 class="nav-link fs-5"
                 aria-current="page"
-                v-if="item.to.name === 'TrailsList'"
-                @click.prevent="reloadList"
+                @click="handleNavLinkClick(item.to)"
               >
-                {{ item.title }}
-              </router-link>
-              <router-link :to="item.to" class="nav-link fs-5" aria-current="page" v-else>
                 {{ item.title }}
               </router-link>
             </li>
@@ -135,13 +131,18 @@
                 class="btn btn-sm"
                 :class="isMediaLgUp ? ['btn-outline-secondary'] : ['btn-outline-light']"
                 @click="handleLogout"
+                data-toggle
               >
                 {{ menuConfig.logoutTitle }}
               </button>
             </div>
-            <router-link :to="menuConfig.accountPath.to" class="btn btn-dark menu__btn" v-else>{{
-              menuConfig.accountPath.title
-            }}</router-link>
+            <router-link
+              :to="menuConfig.accountPath.to"
+              class="btn btn-dark menu__btn"
+              data-toggle
+              v-else
+              >{{ menuConfig.accountPath.title }}</router-link
+            >
           </div>
         </div>
       </nav>
@@ -150,12 +151,15 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 import { useAccountStore } from '@/stores/useAccountStore.js'
 import { useMediaQuery } from '@vueuse/core'
 import { getImageUrl } from '@/utils/imgUrl.js'
+import Collapse from 'bootstrap/js/dist/collapse'
+
 const isMediaLgUp = useMediaQuery('(min-width: 992px)')
 
 const headerInfo = {
@@ -196,4 +200,20 @@ async function handleLogout() {
     router.push({ name: 'FrontIndex' })
   }
 }
+
+function handleNavLinkClick(path) {
+  if (path.name === 'TrailsList') {
+    reloadList()
+  }
+  const menuToggle = document.getElementById('headerNavbar')
+  const bsCollapse = Collapse.getInstance(menuToggle) || new Collapse(menuToggle)
+  bsCollapse.hide()
+}
+
+onMounted(() => {
+  const collapseElementList = document.querySelectorAll('.collapse')
+  collapseElementList.forEach((collapseEl) => {
+    new Collapse(collapseEl, { toggle: false })
+  })
+})
 </script>
