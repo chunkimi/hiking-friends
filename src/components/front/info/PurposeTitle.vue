@@ -4,7 +4,6 @@
   position: relative;
   width: 100%;
   height: 75vw;
-  // margin-bottom: 20rem;
   @include media-breakpoint-up(md) {
     height: 50vw;
   }

@@ -36,7 +36,7 @@
 </style>
 <template>
   <div
-    class="tour-list__wrap--left my-15"
+    class="tour-list__wrap--left"
     :style="{ backgroundImage: isMediaLgUp ? `url(${gradedListInfo.bgImg.left})` : 'none' }"
   >
     <div
@@ -49,7 +49,7 @@
           :icon="gradedListInfo.title.icon"
           :color="gradedListInfo.title.textColor"
           :title-text="gradedListInfo.title.title"
-        ></IconTitle>
+        />
         <ul class="list-unstyled row mt-10">
           <li
             class="col-12 col-lg-4 mb-6 mb-lg-0"

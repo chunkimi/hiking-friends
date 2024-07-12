@@ -5,15 +5,15 @@
 }
 </style>
 <template>
-  <div class="container container d-grid gap-5">
-    <div class="py-15">
+  <div class="container">
+    <div class="block-spacing">
       <IconTitle
         :is-clock-line="sectionTitle.isClock"
         :icon="sectionTitle.icon"
         :color="sectionTitle.textColor"
         :title-text="sectionTitle.title"
-        class="mb-10"
-      ></IconTitle>
+        class="icon-title-spacing"
+      />
       <table
         class="table table-borderless align-middle"
         :class="isMediaLgDown ? '' : 'table-hover'"
@@ -54,7 +54,7 @@
       </table>
     </div>
   </div>
-  <RoadConditionModal :road-condition="roadCondition"></RoadConditionModal>
+  <RoadConditionModal :road-condition="roadCondition" />
 </template>
 <script setup>
 import { computed, ref } from 'vue'

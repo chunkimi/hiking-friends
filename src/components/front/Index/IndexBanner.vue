@@ -38,14 +38,14 @@
         />
         <div class="ps-4 ps-lg-0 mb-6 d-flex flex-column align-items-center flex-lg-row text-light">
           <h1 class="banner__brand" :style="{ backgroundImage: `url(${bannerSetting.logoImg})` }">
-            郊友趣・Hiking
+            {{ bannerConfig.pageTitle }}
           </h1>
           <div class="d-flex flex-column align-items-center align-items-lg-start ms-0 ms-lg-8">
-            <h2 class="fs-2 banner__text">{{ bannerSetting.main }}</h2>
-            <h3 class="fs-5 banner__text">{{ bannerSetting.vice }}</h3>
+            <h2 class="fs-2 banner__text">{{ bannerConfig.slogan.main }}</h2>
+            <h3 class="fs-5 banner__text">{{ bannerConfig.slogan.vice }}</h3>
           </div>
         </div>
-        <SearchBar :has-reset-btn="bannerSetting.hasResetBtn" @search-data="searchToList" />
+        <SearchBar :has-reset-btn="bannerConfig.hasResetBtn" @search-data="searchToList" />
       </div>
     </div>
   </div>
@@ -59,13 +59,22 @@ import { getImageUrl } from '@/utils/imgUrl.js'
 import SearchBar from '@/components/front/base/SearchBar.vue'
 import hikerIcon from '@/assets/bg-img/hiker.jpeg'
 import logoImg from '@/assets/logo/logo--light.svg'
-const bannerSetting = {
-  main: '與自然郊友',
-  vice: '踏上你與山林一期一會的夢幻漫遊',
+
+const bannerConfig = {
+  pageTitle: '郊友趣・Hiking',
+  slogan: {
+    main: '與自然郊友',
+    vice: '踏上你與山林一期一會的夢幻漫遊'
+  },
   logoImg,
   bgImg: hikerIcon,
   bannerIcon: 'assets/illustration/bn-title-mountain.svg',
   hasResetBtn: false
+}
+const bannerSetting = {
+  logoImg,
+  bgImg: hikerIcon,
+  bannerIcon: 'assets/illustration/bn-title-mountain.svg'
 }
 
 const router = useRouter()

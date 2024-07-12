@@ -63,7 +63,7 @@
                 :icon="evaluationBoardInfo.title.icon"
                 :title-text="evaluationBoardInfo.title.title"
                 :color="titleTextColor"
-              ></IconTitle>
+              />
               <h4 class="fs-5 fw-medium mb-3">{{ evaluationBoardInfo.subtitle }}</h4>
               <p class="fs-6 m-0">
                 {{ evaluationBoardInfo.text.main }}<br />{{ evaluationBoardInfo.text.vice }}

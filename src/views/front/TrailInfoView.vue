@@ -55,7 +55,6 @@
 </template>
 <script setup>
 import { ref, onBeforeMount } from 'vue'
-// import { useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
@@ -78,10 +77,6 @@ onBeforeMount(() => {
   curTrailCondition.value =
     allTrailsCondition.value.find((trail) => trail.TRAILID === curTrailId) || {}
 })
-
-// onBeforeRouteLeave((to, from, next) => {
-//   next()
-// })
 
 const isOpenExtendedTrailInfo = ref(false)
 function toggleExtendedCollapse() {

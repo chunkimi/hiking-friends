@@ -2,22 +2,24 @@
 @import '@/styles/main.scss';
 </style>
 <template>
-  <IconTitle
-    :is-clock-line="exploreListTitle.isClock"
-    :icon="exploreListTitle.icon"
-    :title-text="exploreListTitle.title"
-    :color="exploreListTitle.textColor"
-    class="mb-10"
-  ></IconTitle>
-  <ul class="row list-unstyled">
-    <li
-      class="col-12 col-lg-4"
-      v-for="exploreGuideItem in exploreGuideData"
-      :key="exploreGuideItem.title.icon"
-    >
-      <TypeCard :card-item="exploreGuideItem" :is-keyword-link="isKeywordLink" />
-    </li>
-  </ul>
+  <div>
+    <IconTitle
+      :is-clock-line="exploreListTitle.isClock"
+      :icon="exploreListTitle.icon"
+      :title-text="exploreListTitle.title"
+      :color="exploreListTitle.textColor"
+      class="icon-title-spacing"
+    ></IconTitle>
+    <ul class="row list-unstyled">
+      <li
+        class="col-12 col-lg-4"
+        v-for="exploreGuideItem in exploreGuideData"
+        :key="exploreGuideItem.title.icon"
+      >
+        <TypeCard :card-item="exploreGuideItem" :is-keyword-link="isKeywordLink" />
+      </li>
+    </ul>
+  </div>
 </template>
 <script setup>
 import IconTitle from '@/components/front/base/IconTitle.vue'

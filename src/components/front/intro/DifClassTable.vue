@@ -9,48 +9,50 @@
 }
 </style>
 <template>
-  <IconTitle
-    :is-clock-line="difDegreeConfig.isClock"
-    :icon="difDegreeConfig.icon"
-    :title-text="difDegreeConfig.title"
-    :color="difDegreeConfig.textColor"
-    class="mb-10"
-  ></IconTitle>
-  <div v-if="isMediaMdDown">
-    <p class="fw-bold text-center text-danger">{{ difDegreeConfig.isMediaMdDownMsg }}</p>
-  </div>
-  <table class="table table-hover" v-else>
-    <thead>
-      <tr class="align-middle">
-        <th
-          scope="col"
-          :class="
-            tableItem.type === 'degree' || tableItem.type === 'difficult' ? 'th--min-width' : ''
-          "
-          v-for="tableItem in difDegreeConfig.tableTitle"
-          :key="tableItem.type"
-        >
-          {{ tableItem.text }}
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="row in trailDifClassArr" :key="row.degree" class="align-middle">
-        <td v-for="tableItem in difDegreeConfig.tableTitle" :key="tableItem.type" class="py-6">
-          {{ row[tableItem.type] }}
-        </td>
-        <td>
-          <span
-            class="material-icons p-2 text-secondary cursor-pointer"
-            @click="searchDifClassToList(row.degree)"
+  <div>
+    <IconTitle
+      :is-clock-line="difDegreeConfig.isClock"
+      :icon="difDegreeConfig.icon"
+      :title-text="difDegreeConfig.title"
+      :color="difDegreeConfig.textColor"
+      class="icon-title-spacing"
+    ></IconTitle>
+    <div v-if="isMediaMdDown">
+      <p class="fw-bold text-center text-danger">{{ difDegreeConfig.isMediaMdDownMsg }}</p>
+    </div>
+    <table class="table table-hover" v-else>
+      <thead>
+        <tr class="align-middle">
+          <th
+            scope="col"
+            :class="
+              tableItem.type === 'degree' || tableItem.type === 'difficult' ? 'th--min-width' : ''
+            "
+            v-for="tableItem in difDegreeConfig.tableTitle"
+            :key="tableItem.type"
           >
-            exit_to_app
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <p class="text-secondary text-end">{{ difDegreeConfig.source }}</p>
+            {{ tableItem.text }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="row in trailDifClassArr" :key="row.degree" class="align-middle">
+          <td v-for="tableItem in difDegreeConfig.tableTitle" :key="tableItem.type" class="py-6">
+            {{ row[tableItem.type] }}
+          </td>
+          <td>
+            <span
+              class="material-icons p-2 text-secondary cursor-pointer"
+              @click="searchDifClassToList(row.degree)"
+            >
+              exit_to_app
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="text-secondary text-end">{{ difDegreeConfig.source }}</p>
+  </div>
 </template>
 
 <script setup>

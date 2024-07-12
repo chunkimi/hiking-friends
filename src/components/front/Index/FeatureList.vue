@@ -23,7 +23,7 @@
 </style>
 <template>
   <div>
-    <div class="container mb-5">
+    <div class="container mb-20">
       <div class="text-center">
         <img
           :src="getImageUrl(featureListInfo.titleIcon)"
@@ -36,7 +36,7 @@
       class="feature-list__wrap"
       :style="{ backgroundImage: isMediaLgUp ? `url(${featureListInfo.bgImg})` : 'none' }"
     >
-      <div class="container py-1">
+      <div class="container">
         <ul class="list-unstyled row feature-list__content">
           <li
             class="col-12 col-lg-3 mb-10 mb-lg-0"

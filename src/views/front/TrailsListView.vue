@@ -10,28 +10,30 @@
       </div>
     </div>
   </div>
-  <div class="container py-15">
-    <div class="d-grid gap-5" v-if="isHaveTrail">
-      <p class="text-secondary" v-if="isFilterData">
-        <span>{{ `${trailsListConfig.searchTitle}：` }}</span>
-        <span>{{ searchKeyword }}</span>
-      </p>
-      <div class="d-flex justify-content-end">
+  <div class="container py-20">
+    <div v-if="isHaveTrail">
+      <div class="d-flex justify-content-end mb-5">
         <BrowseMode v-model:selected-mode="curMode" />
       </div>
-      <div class="row" v-if="isCurCardMode">
-        <InfoCard :cur-page-trails="curListData" />
+      <div class="mb-20">
+        <p class="text-secondary mb-5" v-if="isFilterData">
+          <span>{{ `${trailsListConfig.searchTitle}：` }}</span>
+          <span>{{ searchKeyword }}</span>
+        </p>
+        <div class="row" v-if="isCurCardMode">
+          <InfoCard :cur-page-trails="curListData" />
+        </div>
+        <ol class="list-group list-group-flush" v-else>
+          <InfoColumnar :cur-page-trails="curListData"></InfoColumnar>
+        </ol>
       </div>
-      <ol class="list-group list-group-flush" v-else>
-        <InfoColumnar :cur-page-trails="curListData"></InfoColumnar>
-      </ol>
       <PaginationNav
         :current-page="curPage"
         :number-of-pages="numberOfPages"
         @changePage="changePage"
       />
     </div>
-    <div class="d-grid gap-5 text-secondary text-center" v-else>
+    <div class="block-spacing text-secondary text-center" v-else>
       <span class="material-icons fs-1 p-8"> {{ trailsListConfig.noResult.icon }} </span>
       <p class="p-8 fs-5 text-secondary text-center">
         {{ trailsListConfig.noResult.text }}

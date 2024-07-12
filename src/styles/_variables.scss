@@ -15,7 +15,6 @@ $danger: #e39d7b;
 $success: $dark-green;
 $secondary: $dark-gray;
 $info: #6fa3bf;
-// $info: #7fa7b4;
 
 $light: #ffffff;
 $dark: #5d5d5d;
@@ -67,12 +66,4 @@ $spacers: (
   20: $spacer * 5
 );
 
-// root
 $body-color: $dark;
-
-// font-size
-.fz {
-  &--xs {
-    font-size: 0.75rem;
-  }
-}

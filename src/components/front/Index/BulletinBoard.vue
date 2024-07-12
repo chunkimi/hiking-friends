@@ -53,15 +53,15 @@
 </style>
 <template>
   <div class="container">
-    <div class="row pt-14 pb-16 pt-lg-16">
+    <div class="row">
       <div class="col-12 col-lg-3">
         <IconTitle
           :is-clock-line="bulletinTitle.isClock"
           :icon="bulletinTitle.icon"
           :color="bulletinTitle.textColor"
           :title-text="bulletinTitle.title"
-          class="mb-10 mb-lg-0"
-        ></IconTitle>
+          class="icon-title-spacing mb-lg-0"
+        />
       </div>
       <div class="col-12 col-lg-9">
         <ul class="list-unstyled">
