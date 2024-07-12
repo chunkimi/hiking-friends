@@ -48,9 +48,6 @@
         <BasicInfo :title="extendedTrailInfo" :trail-info="curTrailData" />
       </div>
     </transition>
-    <div class="py-15">
-      <GoBackIcon />
-    </div>
   </div>
 </template>
 <script setup>
@@ -59,7 +56,7 @@ import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 import { baseTrailInfo, extendedTrailInfo } from '@/utils/trailInfoUtils.js'
-import GoBackIcon from '@/components/front/base/GoBackIcon.vue'
+import GoBackIcon from '@/components/common/GoBackIcon.vue'
 import PurposeTitle from '@/components/front/info/PurposeTitle.vue'
 import BasicInfo from '@/components/front/info/BasicInfo.vue'
 import TrailOpenStatus from '@/components/front/info/TrailOpenStatus.vue'
