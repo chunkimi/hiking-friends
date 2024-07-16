@@ -74,9 +74,9 @@
   <header class="header__bgc header__p">
     <div class="container">
       <nav class="navbar navbar-expand-lg d-flex justify-content-between align-items-center">
-        <router-link to="/"
+        <router-link to="/" class="p-0 m-0 d-flex justify-content-between"
           ><h2
-            class="brand__img brand__sm"
+            class="d-inline-block brand__img brand--sm p-0 m-0"
             :style="{
               backgroundImage: isMediaLgUp
                 ? `url(${getImageUrl(headerInfo.logo)})`

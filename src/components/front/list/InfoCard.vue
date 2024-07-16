@@ -10,7 +10,7 @@
   &__text {
     max-width: 50vw;
     @include media-breakpoint-up(md) {
-      max-width: 18vw;
+      max-width: 15vw;
     }
   }
 }
