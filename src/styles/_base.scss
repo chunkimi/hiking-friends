@@ -16,30 +16,3 @@ button {
 #app {
   height: 100%;
 }
-
-.block-spacing {
-  padding: 5rem 0rem;
-  display: flex;
-  flex-direction: column;
-  gap: 5rem;
-}
-
-// .modal {
-//   background: rgba(0, 0, 0, 0.5);
-// }
-// .modal-backdrop {
-//   // display: none;
-//   opacity: 0;
-// }
-
-// .dashboard__main {
-//   &.modal {
-//     z-index: 8888;
-//   }
-//   &.modal-dialog {
-//     z-index: 9999;
-//   }
-//   &.modal-backdrop {
-//     z-index: 10;
-//   }
-// }

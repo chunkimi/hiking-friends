@@ -9,19 +9,19 @@
   <li class="list-group-item py-2" v-for="trailItem in curPageTrails" :key="trailItem.TRAILID">
     <div class="d-flex justify-content-between">
       <h5 class="h5">{{ trailItem.TR_CNAME }}</h5>
-      <div class="d-flex">
+      <div class="d-flex align-items-start">
         <RouterLink
           :to="{
             name: trailsListItemBtn.moreInfo.pathName,
             params: { trail: trailItem.TRAILID }
           }"
-          class="btn w-100 me-3"
+          class="btn btn-sm me-3"
           :class="`btn-outline-${trailsListItemBtn.moreInfo.btnColor}`"
           ><i class="bi" :class="trailsListItemBtn.moreInfo.icon"></i
         ></RouterLink>
         <button
           type="button"
-          class="btn w-100"
+          class="btn btn-sm"
           :class="`btn-outline-${trailsListItemBtn.addList.btnColor}`"
           @click="handleToFavorite(trailItem.TRAILID)"
         >

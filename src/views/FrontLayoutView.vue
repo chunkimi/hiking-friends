@@ -6,24 +6,32 @@
   <div id="front">
     <FrontHeader />
     <main class="bg-light-gray">
-      <RouterView />
+      <div v-if="isOpenLoading">
+        <LoadingSpinner />
+      </div>
+      <div v-else><RouterView /></div>
     </main>
     <FrontFooter />
   </div>
 </template>
 
 <script setup>
-import { onBeforeMount } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import { RouterView } from 'vue-router'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 import FrontHeader from '@/components/front/guide/FrontHeader.vue'
 import FrontFooter from '@/components/front/guide/FrontFooter.vue'
+import LoadingSpinner from '@/components/common/LoadingSpinner.vue'
 
 const trailsListStore = useTrailsListStore()
 const { sendTrailsInfoRequest, sendTrailsConditionRequest } = trailsListStore
 
+const isOpenLoading = ref(true)
+
 onBeforeMount(async () => {
+  isOpenLoading.value = true
   await sendTrailsInfoRequest()
   await sendTrailsConditionRequest()
+  isOpenLoading.value = false
 })
 </script>

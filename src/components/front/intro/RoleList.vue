@@ -33,62 +33,65 @@
 }
 </style>
 <template>
-  <IconTitle
-    :is-clock-line="roleListConfig.isClock"
-    :icon="roleListConfig.icon"
-    :title-text="roleListConfig.title"
-    :color="roleListConfig.textColor"
-    class="mb-10"
-  ></IconTitle>
-  <p class="text-center text-gray-green">{{ roleListConfig.noteText }}</p>
-  <ul class="list-unstyled" :class="[isMediaMdDown ? 'd-flex justify-content-around' : 'row']">
-    <li
-      v-for="roleItem in hikerRole"
-      :key="roleItem.role"
-      :class="[isMediaMdDown ? '' : 'col-12 col-md-4 mb-5 mb-lg-0']"
-      @click="getRoleGuide(roleItem.title, roleItem.guide, roleItem.role)"
-    >
-      <button
-        v-if="isMediaMdDown"
-        class="btn btn-primary"
-        :class="cutTitle === roleItem.title ? 'btn-success' : 'btn-primary'"
-      >
-        {{ roleItem.title }}
-      </button>
-      <div
-        v-else
-        class="d-flex flex-column align-items-center border rounded border-secondary cursor-pointer p-4 role__card"
-        :class="cutTitle === roleItem.title ? 'role__card--active' : ''"
-      >
-        <img :src="getImageUrl(roleItem.img)" alt="role-img" class="role__img mb-5" />
-
-        <p class="fs-5 fw-bold m-0">{{ roleItem.title }}</p>
-      </div>
-    </li>
-  </ul>
-  <transition name="guide-collapse">
-    <div v-if="isOpenGuide" class="border-secondary rounded p-6 d-grid gap-4">
-      <h5 class="fs-4 m-0 text-success text-center">{{ cutTitle }}</h5>
-      <div class="p-4">
-        <table class="table">
-          <tbody>
-            <tr class="row" v-for="tableItem in roleListConfig.tableTitle" :key="tableItem.type">
-              <th class="col-2 fw-bold">{{ tableItem.text }}</th>
-              <td class="col-10">{{ guideData[tableItem.type] }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="py-5 ms-auto">
-        <button class="btn btn-primary" @click="searchRoleToList(curRole)">
-          <div class="d-flex align-items-center">
-            <span>{{ roleListConfig.btnViewMore.text }}</span>
-            <span class="material-icons ms-3">{{ roleListConfig.btnViewMore.icon }}</span>
-          </div>
-        </button>
-      </div>
+  <div>
+    <div class="icon-title-spacing">
+      <IconTitle
+        :is-clock-line="roleListConfig.isClock"
+        :icon="roleListConfig.icon"
+        :title-text="roleListConfig.title"
+        :color="roleListConfig.textColor"
+      />
+      <p class="fz--xs text-center text-gray-green">{{ roleListConfig.noteText }}</p>
     </div>
-  </transition>
+    <ul class="list-unstyled" :class="[isMediaMdDown ? 'd-flex justify-content-around' : 'row']">
+      <li
+        v-for="roleItem in hikerRole"
+        :key="roleItem.role"
+        :class="[isMediaMdDown ? '' : 'col-12 col-md-4 mb-5 mb-lg-0']"
+        @click="getRoleGuide(roleItem.title, roleItem.guide, roleItem.role)"
+      >
+        <button
+          v-if="isMediaMdDown"
+          class="btn btn-primary"
+          :class="cutTitle === roleItem.title ? 'btn-success' : 'btn-primary'"
+        >
+          {{ roleItem.title }}
+        </button>
+        <div
+          v-else
+          class="d-flex flex-column align-items-center border rounded border-secondary cursor-pointer p-4 role__card"
+          :class="cutTitle === roleItem.title ? 'role__card--active' : ''"
+        >
+          <img :src="getImageUrl(roleItem.img)" alt="role-img" class="role__img mb-5" />
+
+          <p class="fs-5 fw-bold m-0">{{ roleItem.title }}</p>
+        </div>
+      </li>
+    </ul>
+    <transition name="guide-collapse">
+      <div v-if="isOpenGuide" class="border-secondary rounded p-6 d-grid gap-4">
+        <h5 class="fs-4 m-0 text-success text-center">{{ cutTitle }}</h5>
+        <div class="p-4">
+          <table class="table">
+            <tbody>
+              <tr class="row" v-for="tableItem in roleListConfig.tableTitle" :key="tableItem.type">
+                <th class="col-2 fw-bold">{{ tableItem.text }}</th>
+                <td class="col-10">{{ guideData[tableItem.type] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="py-5 ms-auto">
+          <button class="btn btn-primary" @click="searchRoleToList(curRole)">
+            <div class="d-flex align-items-center">
+              <span>{{ roleListConfig.btnViewMore.text }}</span>
+              <span class="material-icons ms-3">{{ roleListConfig.btnViewMore.icon }}</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script setup>
@@ -97,7 +100,7 @@ import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 import { getImageUrl } from '@/utils/imgUrl.js'
-import { hikerRole } from '@/data/HikerRole.js'
+import { hikerRole } from '@/data/front/hikerRole.js'
 import { useMediaQuery } from '@vueuse/core'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 
@@ -180,3 +183,4 @@ function searchRoleToList(role) {
   router.push({ name: 'TrailsList' })
 }
 </script>
+@/data/front/hikerRole.js

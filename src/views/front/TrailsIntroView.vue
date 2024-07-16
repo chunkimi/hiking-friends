@@ -1,13 +1,9 @@
 <template>
-  <div class="container d-grid gap-5">
-    <h1 class="display-5 text-end text-primary py-15">主題分級</h1>
-    <div class="py-15">
+  <div class="container">
+    <div class="block-spacing">
+      <h1 class="h1 text-end mt-10 text-primary">{{ introConfig.pageTitle }}</h1>
       <RoleList />
-    </div>
-    <div class="py-15">
       <ExploreList />
-    </div>
-    <div class="py-15">
       <DifClassTable />
     </div>
   </div>
@@ -17,4 +13,8 @@
 import RoleList from '@/components/front/intro/RoleList.vue'
 import ExploreList from '@/components/front/intro/ExploreList.vue'
 import DifClassTable from '@/components/front/intro/DifClassTable.vue'
+
+const introConfig = {
+  pageTitle: '主題分級'
+}
 </script>

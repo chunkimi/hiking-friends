@@ -85,7 +85,7 @@ import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
 import { defaultTaskItem, getRegionByAdmin } from '@/utils/favTrailStateUtils.js'
 import { progressNode, getProgressDescription } from '@/utils/favTrailStateUtils.js'
 
-import GoBackIcon from '@/components/front/base/GoBackIcon.vue'
+import GoBackIcon from '@/components/common/GoBackIcon.vue'
 import DotCheckProgressBar from '@/components/common/DotCheckProgressBar.vue'
 import TaskNote from '@/components/dashboard/task/TaskNote.vue'
 
