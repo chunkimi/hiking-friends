@@ -1,11 +1,10 @@
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 import axios from 'axios'
 import { useAccountStore } from '@/stores/useAccountStore.js'
+import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 import { favTrailsListUrl, favTrailUrl, toggleFavUrl, getCookie } from '@/api/accountApi.js'
-
-// dummyData
-import dummyAllTrailsData from '@/data/dummy/allTrailsInfo.json'
+import { remoteRequestError } from '@/utils/base.js'
 
 export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
   const accountStore = useAccountStore()
@@ -19,6 +18,9 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
   function updateAuthToken() {
     authToken.value = getCookie()
   }
+
+  const trailsListStore = useTrailsListStore()
+  const { allTrailsInfoData } = storeToRefs(trailsListStore)
 
   function compareFavTrailsList(curTRAILID) {
     const result = favTrailsData.value.find((item) => item.content.TRAILID === curTRAILID)
@@ -51,12 +53,14 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
       alert('已加入待訪')
       sendFavListRequest()
     } catch (error) {
+      alert(remoteRequestError)
       console.error('Error fetching add fav trail:', error)
     }
   }
 
-  const allTrailsData = ref(dummyAllTrailsData)
+  const allTrailsData = ref(allTrailsInfoData)
   const favTrailsData = ref([])
+  const isFavRequestSuccess = ref(false)
 
   async function sendFavListRequest() {
     updateAuthToken()
@@ -64,8 +68,10 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
       const response = await axios.get(favTrailsListUrl, headersToken.value)
       const { todos } = response.data
       favTrailsData.value = translateData(todos)
+      isFavRequestSuccess.value = true
     } catch (error) {
-      console.error('Error fetching trails:', error)
+      alert(remoteRequestError)
+      console.error('Error getting trails list:', error)
     }
   }
   function translateData(originDataArr) {
@@ -139,7 +145,8 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
       await axios.patch(targetUrl, {}, headersToken.value)
       alert('已更新狀態')
     } catch (error) {
-      console.error('Error fetching add fav trail:', error)
+      alert(remoteRequestError)
+      console.error('Error toggling State:', error)
     }
   }
 
@@ -160,7 +167,8 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
       await axios.put(targetUrl, bodyValue, headersToken.value)
       alert('已更新筆記')
     } catch (error) {
-      console.error('Error fetching add fav trail:', error)
+      alert(remoteRequestError)
+      console.error('Error editing fav trail:', error)
     }
   }
 
@@ -177,7 +185,8 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
       await axios.delete(targetUrl, headersToken.value)
       alert(`成功刪除${trailName}`)
     } catch (error) {
-      console.error('Error fetching add fav trail:', error)
+      alert(remoteRequestError)
+      console.error('Error deleting fav trail:', error)
     }
   }
 
@@ -194,6 +203,7 @@ export const useFavoriteTrailsStore = defineStore('favoriteTrailsStore', () => {
     checkContentValue,
     handleDel,
     handleToggleState,
-    handleEditContent
+    handleEditContent,
+    isFavRequestSuccess
   }
 })

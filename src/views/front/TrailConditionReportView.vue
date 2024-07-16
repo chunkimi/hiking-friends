@@ -75,10 +75,10 @@ const sectionTitle = {
 }
 
 const trailsListStore = useTrailsListStore()
-const { allTrailsCondition } = storeToRefs(trailsListStore)
+const { allTrailsConditionData } = storeToRefs(trailsListStore)
 
 const roadsData = computed(() => {
-  const filterAllTailsNews = allTrailsCondition.value.filter((roadItem) => {
+  const filterAllTailsNews = allTrailsConditionData.value.filter((roadItem) => {
     let raw = newsType.find((typeItem) => typeItem.msg === roadItem['TR_TYP'])
     return raw !== undefined
   })
@@ -93,7 +93,7 @@ const roadsData = computed(() => {
 const roadCondition = ref({})
 
 function getSpecifiedTrail(specifiedId) {
-  const matchingTrail = allTrailsCondition.value.find((trail) => trail.TRAILID === specifiedId)
+  const matchingTrail = allTrailsConditionData.value.find((trail) => trail.TRAILID === specifiedId)
   const msgColor = matchingTrail.TR_TYP
     ? newsType.find((type) => type.msg === matchingTrail.TR_TYP)?.color
     : null

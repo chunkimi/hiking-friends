@@ -10,3 +10,5 @@ export const hexToRgb = (hex) => {
   const b = bigint & 255
   return `${r}, ${g}, ${b}`
 }
+
+export const remoteRequestError = '會員功能出現異常狀況，請不吝與我們聯繫處理，謝謝您'

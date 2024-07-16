@@ -72,7 +72,7 @@ const isCurCardMode = computed(() => {
 
 const trailsListStore = useTrailsListStore()
 const {
-  allTrailsData,
+  allTrailsInfoData,
   filterTrailsData,
   isHaveTrail,
   isFilterData,
@@ -84,7 +84,7 @@ const {
 } = storeToRefs(trailsListStore)
 
 const trailsListData = computed(() => {
-  return isFilterData.value ? filterTrailsData.value : allTrailsData.value
+  return isFilterData.value ? filterTrailsData.value : allTrailsInfoData.value
 })
 
 const perPageTrails = 12
@@ -109,7 +109,7 @@ const searchbar = {
 
 function listSearch() {
   filterTrailsData.value = searchTrailByType(
-    allTrailsData.value,
+    allTrailsInfoData.value,
     searchKeyword.value,
     searchType.value
   )

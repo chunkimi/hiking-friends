@@ -60,7 +60,7 @@ import BasicInfo from '@/components/front/info/BasicInfo.vue'
 import TrailOpenStatus from '@/components/front/info/TrailOpenStatus.vue'
 
 const trailsListStore = useTrailsListStore()
-const { allTrailsData, allTrailsCondition } = storeToRefs(trailsListStore)
+const { allTrailsInfoData, allTrailsConditionData } = storeToRefs(trailsListStore)
 
 const route = useRoute()
 const curTrailId = route.params.trail
@@ -68,9 +68,9 @@ const curTrailData = ref({})
 const curTrailCondition = ref({})
 
 onBeforeMount(() => {
-  curTrailData.value = allTrailsData.value.find((item) => item.TRAILID === curTrailId) || {}
+  curTrailData.value = allTrailsInfoData.value.find((item) => item.TRAILID === curTrailId) || {}
   curTrailCondition.value =
-    allTrailsCondition.value.find((trail) => trail.TRAILID === curTrailId) || {}
+    allTrailsConditionData.value.find((trail) => trail.TRAILID === curTrailId) || {}
 })
 
 const isOpenExtendedTrailInfo = ref(false)

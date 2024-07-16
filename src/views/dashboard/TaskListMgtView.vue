@@ -53,11 +53,11 @@
           <TaskCard :task-item="taskItem" />
         </div>
         <div class="d-flex justify-content-end bg-transparent">
-          <PaginationNav
+          <!-- <PaginationNav
             :current-page="curPage"
             :number-of-pages="numberOfPages"
             @change-page="changePage"
-          />
+          /> -->
         </div>
       </div>
       <div v-else class="py-20">
@@ -73,7 +73,7 @@ import { storeToRefs } from 'pinia'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
 import { usePaginationUtils } from '@/utils/paginationUtils.js'
 import TaskCard from '@/components/dashboard/task/TaskCard.vue'
-import PaginationNav from '@/components/common/PaginationNav.vue'
+// import PaginationNav from '@/components/common/PaginationNav.vue'
 import EmptyListMes from '@/components/dashboard/EmptyListMes.vue'
 
 const taskMgtConfig = {
@@ -133,22 +133,22 @@ const taskMgtListData = computed(() => {
 })
 
 const perPageTrails = 10
-const { curPage, numberOfPages, curListData, changePage, pageInit } = usePaginationUtils(
-  taskMgtListData,
-  perPageTrails
-)
+// const { curPage, numberOfPages, curListData, changePage, pageInit } = usePaginationUtils(
+//   taskMgtListData,
+//   perPageTrails
+// )
 
-const isHaveCurListData = computed(() => (curListData.value.length > 0 ? true : false))
+// const isHaveCurListData = computed(() => (curListData.value.length > 0 ? true : false))
 
-watch(
-  curTabModel,
-  () => {
-    pageInit()
-  },
-  { immediate: true }
-)
+// watch(
+//   curTabModel,
+//   () => {
+//     pageInit()
+//   },
+//   { immediate: true }
+// )
 
-onMounted(() => {
-  pageInit()
-})
+// onMounted(() => {
+//   pageInit()
+// })
 </script>

@@ -11,6 +11,8 @@ import {
   resetCookie
 } from '@/api/accountApi'
 
+import { remoteRequestError } from '@/utils/base.js'
+
 export const useAccountStore = defineStore('accountStore', () => {
   const loginEmail = ref('')
   const loginPassword = ref('')
@@ -64,7 +66,8 @@ export const useAccountStore = defineStore('accountStore', () => {
       isHandleLogin.value = false
       alert(message)
     } catch (error) {
-      console.error('Error fetching trails:', error)
+      alert(remoteRequestError)
+      console.error('Error login:', error)
     }
   }
 
@@ -82,7 +85,8 @@ export const useAccountStore = defineStore('accountStore', () => {
       await axios.get(loginCheckUrl, headersToken.value)
       isCheckLoginSuccess.value = true
     } catch (error) {
-      console.error('Error fetching trails:', error)
+      alert(remoteRequestError)
+      console.error('Error check login:', error)
     }
   }
 
@@ -95,7 +99,8 @@ export const useAccountStore = defineStore('accountStore', () => {
       resetLoginStatus()
       alert(message)
     } catch (error) {
-      console.error('Error fetching trails:', error)
+      alert(remoteRequestError)
+      console.error('Error logout:', error)
     }
   }
 

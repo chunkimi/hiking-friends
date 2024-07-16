@@ -94,34 +94,26 @@ const { checkLoginStatus, sendLoginRequest } = accountStore
 async function handleUserLogin(e) {
   e.preventDefault()
   isHandleLogin.value = true
-  if (isLoginFormValid.value) {
-    const loginData = {
-      user: {
-        email: loginEmail.value,
-        password: loginPassword.value
-      }
+  if (!isLoginFormValid.value) return
+
+  const loginData = {
+    user: {
+      email: loginEmail.value,
+      password: loginPassword.value
     }
-    try {
-      await sendLoginRequest(loginData)
-      if (isLoginSuccess.value) {
-        router.push({ name: 'PassportIndex' })
-      }
-    } catch (error) {
-      console.error('Erroe Login failed:', error)
-    }
+  }
+  await sendLoginRequest(loginData)
+  if (isLoginSuccess.value) {
+    router.push({ name: 'PassportIndex' })
   }
 }
 
 onBeforeMount(async () => {
-  try {
-    await checkLoginStatus()
-    if (isCheckLoginSuccess.value) {
-      setTimeout(() => {
-        router.push({ name: 'PassportIndex' })
-      }, 500)
-    }
-  } catch (error) {
-    console.error('Error during login check:', error)
+  await checkLoginStatus()
+  if (isCheckLoginSuccess.value) {
+    setTimeout(() => {
+      router.push({ name: 'PassportIndex' })
+    }, 500)
   }
 })
 </script>

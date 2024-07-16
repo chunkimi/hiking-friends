@@ -200,7 +200,7 @@ const { isCheckLoginSuccess, userNickname, isLogoutSuccess } = storeToRefs(accou
 const { checkLoginStatus, sendLogoutRequest } = accountStore
 
 const favoriteTrailsStore = useFavoriteTrailsStore()
-const { taskListData, favTrailsData } = storeToRefs(favoriteTrailsStore)
+const { taskListData, favTrailsData, isFavRequestSuccess } = storeToRefs(favoriteTrailsStore)
 const { sendFavListRequest } = favoriteTrailsStore
 
 async function handleLogout() {
@@ -214,24 +214,18 @@ async function handleLogout() {
 
 async function dashboardDataInit() {
   isOpenLoading.value = true
-  try {
-    await sendFavListRequest()
+  await sendFavListRequest()
+  if (isFavRequestSuccess.value) {
     isOpenLoading.value = false
-  } catch (error) {
-    console.error('Error dashboard request favTrailsList:', error)
   }
 }
 
 onBeforeMount(async () => {
-  try {
-    await checkLoginStatus()
-    if (!isCheckLoginSuccess.value) {
-      router.push({ name: 'Login' })
-    } else {
-      dashboardDataInit()
-    }
-  } catch (error) {
-    console.error('Error during login check:', error)
+  await checkLoginStatus()
+  if (!isCheckLoginSuccess.value) {
+    router.push({ name: 'Login' })
+  } else {
+    dashboardDataInit()
   }
 })
 

@@ -4,6 +4,8 @@ import axios from 'axios'
 import { validateRule, errMsg } from '@/utils/accountRule'
 import { registerUrl } from '@/api/accountApi'
 
+import { remoteRequestError } from '@/utils/base.js'
+
 export const useRegisterStore = defineStore('registerStore', () => {
   const registerEmail = ref('')
   const registerPassword = ref('')
@@ -83,7 +85,8 @@ export const useRegisterStore = defineStore('registerStore', () => {
       resetRegisterForm()
       alert(message)
     } catch (error) {
-      console.error('Error fetching trails:', error)
+      alert(remoteRequestError)
+      console.error('Error register:', error)
     }
   }
 

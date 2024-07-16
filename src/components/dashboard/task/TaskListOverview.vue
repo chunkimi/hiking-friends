@@ -54,11 +54,11 @@
         </div>
       </div>
       <div class="card-footer d-flex justify-content-end bg-transparent">
-        <PaginationNav
+        <!-- <PaginationNav
           :current-page="curPage"
           :number-of-pages="numberOfPages"
           @changePage="changePage"
-        />
+        /> -->
       </div>
     </div>
   </div>
@@ -69,7 +69,7 @@ import { computed, ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePaginationUtils } from '@/utils/paginationUtils.js'
 import { convertBooleanToIcon } from '@/utils/favTrailStateUtils.js'
-import PaginationNav from '@/components/common/PaginationNav.vue'
+// import PaginationNav from '@/components/common/PaginationNav.vue'
 
 const props = defineProps({
   taskListData: {
@@ -144,22 +144,22 @@ const tableData = computed(() => {
   return props.taskListData.filter((item) => item[filterKey] === filterValue)
 })
 
-const perPageTrails = 10
-const { curPage, numberOfPages, curListData, changePage, pageInit } = usePaginationUtils(
-  tableData,
-  perPageTrails
-)
+// const perPageTrails = 10
+// const { curPage, numberOfPages, curListData, changePage, pageInit } = usePaginationUtils(
+//   tableData,
+//   perPageTrails
+// )
 
 const router = useRouter()
 function readTrailTask(taskId) {
   router.push({ name: 'TrailTask', params: { task: taskId } })
 }
 
-watch([selectedFilter, tableData], () => {
-  pageInit()
-})
+// watch([selectedFilter, tableData], () => {
+//   pageInit()
+// })
 
-onMounted(() => {
-  pageInit()
-})
+// onMounted(() => {
+//   pageInit()
+// })
 </script>
