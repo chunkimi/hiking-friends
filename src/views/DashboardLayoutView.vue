@@ -99,7 +99,7 @@ $sidebar-width: 200px;
         </p>
         <div class="text-center px-1">
           <h2
-            class="brand__img brand--sm m-0"
+            class="d-inline-block brand__img brand--sm p-0 m-0"
             :style="{
               background:
                 `url(${getImageUrl(navConfig.pageTitle.website.logo)})` +

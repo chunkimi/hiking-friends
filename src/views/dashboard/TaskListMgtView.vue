@@ -79,7 +79,7 @@ import PaginationNav from '@/components/common/PaginationNav.vue'
 import EmptyListMes from '@/components/dashboard/EmptyListMes.vue'
 
 const taskMgtConfig = {
-  pageTitle: '任務管理',
+  pageTitle: '步道任務',
   tabMenu: [
     {
       title: '全部收藏',
