@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onBeforeMount } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
@@ -72,9 +72,8 @@ const isCurCardMode = computed(() => {
 
 const trailsListStore = useTrailsListStore()
 const {
-  allTrailsData,
+  allTrailsInfoData,
   filterTrailsData,
-  isHaveTrail,
   isFilterData,
   isSearchByOutside,
   searchKeyword,
@@ -84,8 +83,9 @@ const {
 } = storeToRefs(trailsListStore)
 
 const trailsListData = computed(() => {
-  return isFilterData.value ? filterTrailsData.value : allTrailsData.value
+  return isFilterData.value ? filterTrailsData.value : allTrailsInfoData.value
 })
+const isHaveTrail = computed(() => (trailsListData.value.length > 0 ? true : false))
 
 const perPageTrails = 12
 const { curPage, numberOfPages, curListData, changePage, pageInit, pageRest } = usePaginationUtils(
@@ -109,17 +109,15 @@ const searchbar = {
 
 function listSearch() {
   filterTrailsData.value = searchTrailByType(
-    allTrailsData.value,
+    allTrailsInfoData.value,
     searchKeyword.value,
     searchType.value
   )
   if (filterTrailsData.value.length !== 0) {
     isFilterData.value = true
-    isHaveTrail.value = true
     specifyCurPage.value = 1
     pageInit()
   } else {
-    isHaveTrail.value = false
     searchKeyword.value = ''
   }
 }
@@ -130,7 +128,6 @@ function listRest() {
   searchKeyword.value = ''
   searchType.value = ''
   isSearchByOutside.value = false
-  isHaveTrail.value = true
   specifyCurPage.value = 0
   pageRest()
 }
@@ -144,7 +141,7 @@ watch(
   }
 )
 
-onBeforeMount(() => {
+onMounted(() => {
   if (isSearchByOutside.value) {
     listSearch()
     return

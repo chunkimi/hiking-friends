@@ -68,9 +68,11 @@
 </template>
 
 <script setup>
-import { onMounted, computed, ref, watch } from 'vue'
+import { onMounted, computed, watch } from 'vue'
+import { onBeforeRouteLeave } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
+import { useTaskListMgtStore } from '@/stores/useTaskListMgtStore'
 import { usePaginationUtils } from '@/utils/paginationUtils.js'
 import TaskCard from '@/components/dashboard/task/TaskCard.vue'
 import PaginationNav from '@/components/common/PaginationNav.vue'
@@ -107,7 +109,9 @@ const taskMgtConfig = {
 const favoriteTrailsStore = useFavoriteTrailsStore()
 const { taskListData, isEmptyTaskData } = storeToRefs(favoriteTrailsStore)
 
-const curTabModel = ref('all')
+const taskListMgtStore = useTaskListMgtStore()
+const { specifyCurPage, curTabModel, toggleReloadMgt } = storeToRefs(taskListMgtStore)
+
 const taskMgtListData = computed(() => {
   switch (curTabModel.value) {
     case 'all':
@@ -132,23 +136,61 @@ const taskMgtListData = computed(() => {
   }
 })
 
+const isHaveCurListData = computed(() => (curListData.value.length > 0 ? true : false))
+
 const perPageTrails = 10
-const { curPage, numberOfPages, curListData, changePage, pageInit } = usePaginationUtils(
+const { curPage, numberOfPages, curListData, changePage, pageRest, pageInit } = usePaginationUtils(
   taskMgtListData,
-  perPageTrails
+  perPageTrails,
+  specifyCurPage
 )
 
-const isHaveCurListData = computed(() => (curListData.value.length > 0 ? true : false))
+function listRest() {
+  specifyCurPage.value = 0
+  curTabModel.value = 'all'
+  pageRest()
+}
 
 watch(
   curTabModel,
   () => {
-    pageInit()
+    pageRest()
   },
   { immediate: true }
 )
 
+watch(
+  () => toggleReloadMgt.value,
+  (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+      pageRest()
+    }
+  }
+)
+
 onMounted(() => {
-  pageInit()
+  if (specifyCurPage.value > 0) {
+    pageInit()
+  } else {
+    pageRest()
+  }
+})
+
+watch(
+  specifyCurPage,
+  (newValue) => {
+    if (newValue > 0) {
+      curPage.value = newValue
+    }
+  },
+  { immediate: true }
+)
+
+onBeforeRouteLeave((to, from) => {
+  if (from.name === 'TaskListMgt' && to.name === 'TrailTask') {
+    specifyCurPage.value = curPage.value
+    return
+  }
+  listRest()
 })
 </script>

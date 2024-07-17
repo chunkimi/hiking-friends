@@ -145,7 +145,7 @@ const tableData = computed(() => {
 })
 
 const perPageTrails = 10
-const { curPage, numberOfPages, curListData, changePage, pageInit } = usePaginationUtils(
+const { curPage, numberOfPages, curListData, changePage, pageRest } = usePaginationUtils(
   tableData,
   perPageTrails
 )
@@ -156,10 +156,10 @@ function readTrailTask(taskId) {
 }
 
 watch([selectedFilter, tableData], () => {
-  pageInit()
+  pageRest()
 })
 
 onMounted(() => {
-  pageInit()
+  pageRest()
 })
 </script>

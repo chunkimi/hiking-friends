@@ -49,7 +49,7 @@
   </div>
 </template>
 <script setup>
-import { ref, onBeforeMount } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
@@ -60,17 +60,17 @@ import BasicInfo from '@/components/front/info/BasicInfo.vue'
 import TrailOpenStatus from '@/components/front/info/TrailOpenStatus.vue'
 
 const trailsListStore = useTrailsListStore()
-const { allTrailsData, allTrailsCondition } = storeToRefs(trailsListStore)
+const { allTrailsInfoData, allTrailsConditionData } = storeToRefs(trailsListStore)
 
 const route = useRoute()
 const curTrailId = route.params.trail
 const curTrailData = ref({})
 const curTrailCondition = ref({})
 
-onBeforeMount(() => {
-  curTrailData.value = allTrailsData.value.find((item) => item.TRAILID === curTrailId) || {}
+onMounted(() => {
+  curTrailData.value = allTrailsInfoData.value.find((item) => item.TRAILID === curTrailId) || {}
   curTrailCondition.value =
-    allTrailsCondition.value.find((trail) => trail.TRAILID === curTrailId) || {}
+    allTrailsConditionData.value.find((trail) => trail.TRAILID === curTrailId) || {}
 })
 
 const isOpenExtendedTrailInfo = ref(false)

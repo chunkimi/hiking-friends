@@ -1,16 +1,24 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import axios from 'axios'
 import { trailsInfoUrl, trailsConditionUrl } from '@/api/trailsApi'
 
 export const useTrailsListStore = defineStore('trailListStore', () => {
-  const allTrailsData = ref([])
-  const allTrailsCondition = ref([])
+  const allTrailsInfoData = ref([])
+  const allTrailsConditionData = ref([])
+
+  const isInfoRequestSuccess = ref(false)
+  const isConditionRequestSuccess = ref(false)
+
+  const isDataInitSuccess = computed(
+    () => isInfoRequestSuccess.value && isConditionRequestSuccess.value
+  )
 
   async function sendTrailsInfoRequest() {
     try {
       const response = await axios.get(trailsInfoUrl)
-      allTrailsData.value = response.data
+      allTrailsInfoData.value = response.data
+      isInfoRequestSuccess.value = true
     } catch (error) {
       console.error('Error fetching trails:', error)
       return []
@@ -20,13 +28,14 @@ export const useTrailsListStore = defineStore('trailListStore', () => {
   async function sendTrailsConditionRequest() {
     try {
       const response = await axios.get(trailsConditionUrl)
-      allTrailsCondition.value = response.data
+      allTrailsConditionData.value = response.data
+      isConditionRequestSuccess.value = true
     } catch (error) {
-      console.error('Error fetching trails:', error)
+      console.error('Error fetching trails condition:', error)
       return []
     }
   }
-  const isHaveTrail = ref(true)
+
   const filterTrailsData = ref([])
   const isFilterData = ref(false)
   const isSearchByOutside = ref(null)
@@ -36,17 +45,17 @@ export const useTrailsListStore = defineStore('trailListStore', () => {
   const specifyCurPage = ref(0)
 
   return {
-    allTrailsData,
+    allTrailsInfoData,
     sendTrailsInfoRequest,
-    allTrailsCondition,
+    allTrailsConditionData,
     sendTrailsConditionRequest,
     filterTrailsData,
-    isHaveTrail,
     isFilterData,
     searchKeyword,
     searchType,
     isSearchByOutside,
     toggleReload,
-    specifyCurPage
+    specifyCurPage,
+    isDataInitSuccess
   }
 })

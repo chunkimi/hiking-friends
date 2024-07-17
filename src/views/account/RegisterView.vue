@@ -126,24 +126,19 @@ const { sendRegisterRequest } = registerStore
 async function handleRegister(e) {
   e.preventDefault()
   isHandleRegister.value = true
-  if (isRegisterFormValid.value) {
-    const registerData = {
-      user: {
-        email: registerEmail.value,
-        nickname: registerNickname.value,
-        password: registerPassword.value
-      }
+  if (!isRegisterFormValid.value) return
+  const registerData = {
+    user: {
+      email: registerEmail.value,
+      nickname: registerNickname.value,
+      password: registerPassword.value
     }
-    try {
-      await sendRegisterRequest(registerData)
-      if (isRegisterSuccess.value) {
-        setTimeout(() => {
-          router.push({ name: 'Login' })
-        }, 500)
-      }
-    } catch (error) {
-      console.error('Login failed:', error)
-    }
+  }
+  await sendRegisterRequest(registerData)
+  if (isRegisterSuccess.value) {
+    setTimeout(() => {
+      router.push({ name: 'Login' })
+    }, 500)
   }
 }
 </script>

@@ -123,7 +123,7 @@ $sidebar-width: 200px;
                 :to="navItem.to"
                 class="fs-6 py-4 px-7 px-md-10 px-lg-14 text-decoration-none dashboard__link__text"
                 aria-current="page"
-                @click="handleNavClick"
+                @click="handleNavClick(navItem.to)"
               >
                 <span class="material-icons me-1" v-if="isMediaMdDown">{{ navItem.icon }}</span>
                 <span v-else>{{ navItem.title }}</span>
@@ -167,11 +167,12 @@ $sidebar-width: 200px;
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue'
-import { RouterView, RouterLink, useRouter } from 'vue-router'
+import { onMounted, ref } from 'vue'
+import { RouterView, RouterLink, useRouter, useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useAccountStore } from '@/stores/useAccountStore.js'
 import { useFavoriteTrailsStore } from '@/stores/useFavoriteTrailsStore'
+import { useTaskListMgtStore } from '@/stores/useTaskListMgtStore'
 import { getImageUrl } from '@/utils/imgUrl'
 import { useMediaQuery } from '@vueuse/core'
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue'
@@ -200,7 +201,7 @@ const { isCheckLoginSuccess, userNickname, isLogoutSuccess } = storeToRefs(accou
 const { checkLoginStatus, sendLogoutRequest } = accountStore
 
 const favoriteTrailsStore = useFavoriteTrailsStore()
-const { taskListData, favTrailsData } = storeToRefs(favoriteTrailsStore)
+const { taskListData, favTrailsData, isFavRequestSuccess } = storeToRefs(favoriteTrailsStore)
 const { sendFavListRequest } = favoriteTrailsStore
 
 async function handleLogout() {
@@ -214,24 +215,18 @@ async function handleLogout() {
 
 async function dashboardDataInit() {
   isOpenLoading.value = true
-  try {
-    await sendFavListRequest()
+  await sendFavListRequest()
+  if (isFavRequestSuccess.value) {
     isOpenLoading.value = false
-  } catch (error) {
-    console.error('Error dashboard request favTrailsList:', error)
   }
 }
 
-onBeforeMount(async () => {
-  try {
-    await checkLoginStatus()
-    if (!isCheckLoginSuccess.value) {
-      router.push({ name: 'Login' })
-    } else {
-      dashboardDataInit()
-    }
-  } catch (error) {
-    console.error('Error during login check:', error)
+onMounted(async () => {
+  await checkLoginStatus()
+  if (!isCheckLoginSuccess.value) {
+    router.push({ name: 'Login' })
+  } else {
+    dashboardDataInit()
   }
 })
 
@@ -241,9 +236,23 @@ function toggleNav() {
   isCollapseNav.value = !isCollapseNav.value
 }
 
-function handleNavClick() {
+function handleNavClick(path) {
+  if (path.name === 'TaskListMgt') {
+    reloadMgtList()
+  }
   if (isMediaMdDown.value) {
     toggleNav()
+  }
+}
+
+const route = useRoute()
+const taskListMgtStore = useTaskListMgtStore()
+const { toggleReloadMgt } = storeToRefs(taskListMgtStore)
+
+function reloadMgtList() {
+  const currentRoute = route.fullPath
+  if (currentRoute.includes('task-list')) {
+    toggleReloadMgt.value = !toggleReloadMgt.value
   }
 }
 </script>

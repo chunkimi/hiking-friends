@@ -1,13 +1,13 @@
 import { ref, computed, watch } from 'vue'
 
 export function usePaginationUtils(dataList, perPageTrails, specifyCurPage) {
-  const curPage = ref(specifyCurPage.value || 1)
+  const curPage = ref(specifyCurPage && specifyCurPage.value > 0 ? specifyCurPage.value : 1)
 
-  const tableDataNum = computed(() => {
-    return dataList.value.length || 0
-  })
+  const tableDataNum = computed(() => (dataList.value.length ? dataList.value.length : 0))
 
-  const numberOfPages = computed(() => Math.ceil(tableDataNum.value / perPageTrails) || 0)
+  const numberOfPages = computed(() =>
+    tableDataNum.value ? Math.ceil(tableDataNum.value / perPageTrails) : 0
+  )
 
   const curListData = ref([])
 
@@ -41,8 +41,7 @@ export function usePaginationUtils(dataList, perPageTrails, specifyCurPage) {
   }
 
   watch(dataList, () => {
-    curPage.value = 1
-    pageInit()
+    pageRest()
   })
 
   return {
