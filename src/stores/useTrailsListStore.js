@@ -1,26 +1,61 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import axios from 'axios'
+import { trailsInfoUrl, trailsConditionUrl } from '@/api/trailsApi'
 
 export const useTrailsListStore = defineStore('trailListStore', () => {
-  const currentPage = ref(0)
-  const isSavePage = ref(null)
-  const searchType = ref('trailAll')
+  const allTrailsInfoData = ref([])
+  const allTrailsConditionData = ref([])
+
+  const isInfoRequestSuccess = ref(false)
+  const isConditionRequestSuccess = ref(false)
+
+  const isDataInitSuccess = computed(
+    () => isInfoRequestSuccess.value && isConditionRequestSuccess.value
+  )
+
+  async function sendTrailsInfoRequest() {
+    try {
+      const response = await axios.get(trailsInfoUrl)
+      allTrailsInfoData.value = response.data
+      isInfoRequestSuccess.value = true
+    } catch (error) {
+      console.error('Error fetching trails:', error)
+      return []
+    }
+  }
+
+  async function sendTrailsConditionRequest() {
+    try {
+      const response = await axios.get(trailsConditionUrl)
+      allTrailsConditionData.value = response.data
+      isConditionRequestSuccess.value = true
+    } catch (error) {
+      console.error('Error fetching trails condition:', error)
+      return []
+    }
+  }
+
+  const filterTrailsData = ref([])
+  const isFilterData = ref(false)
+  const isSearchByOutside = ref(null)
   const searchKeyword = ref('')
-  const isSaveKeyword = ref(null)
-  const isListAlready = ref(null)
-  const isFromInfoToList = ref(null)
-  const isIndexToSearch = ref(null)
-  const isTypeToSearch = ref(null)
+  const searchType = ref('')
+  const toggleReload = ref(false)
+  const specifyCurPage = ref(0)
 
   return {
-    currentPage,
-    searchType,
+    allTrailsInfoData,
+    sendTrailsInfoRequest,
+    allTrailsConditionData,
+    sendTrailsConditionRequest,
+    filterTrailsData,
+    isFilterData,
     searchKeyword,
-    isListAlready,
-    isFromInfoToList,
-    isIndexToSearch,
-    isSavePage,
-    isSaveKeyword,
-    isTypeToSearch
+    searchType,
+    isSearchByOutside,
+    toggleReload,
+    specifyCurPage,
+    isDataInitSuccess
   }
 })

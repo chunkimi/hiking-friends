@@ -12,12 +12,12 @@
 
 <template>
   <div class="container">
-    <div class="row py-16">
+    <div class="row py-12">
       <div class="col-12 col-lg-6 mx-lg-auto">
         <div class="d-flex flex-column justify-content-center align-items-center">
           <h1
             class="brand__img brand--lg"
-            :style="{ backgroundImage: `url(${registerInfo.logoImg})` }"
+            :style="{ backgroundImage: `url(${getImageUrl(registerInfo.logoImg)})` }"
           >
             {{ registerInfo.pageTitle }}
           </h1>
@@ -59,9 +59,13 @@ import { RouterLink, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useRegisterStore } from '@/stores/useRegisterStore.js'
 import { errMsg } from '@/utils/accountRule.js'
-import logoImg from '@/assets/logo/logo.svg'
+import { getImageUrl } from '@/utils/imgUrl.js'
 
-const registerInfo = { logoImg, pageTitle: '註冊帳號｜郊友趣・Hiking Friends', title: '註冊帳號' }
+const registerInfo = {
+  logoImg: 'assets/logo/logo.svg',
+  pageTitle: '註冊帳號｜郊友趣・Hiking Friends',
+  title: '註冊帳號'
+}
 
 const registerFormConfig = {
   registerBtn: '註冊帳號',
@@ -122,24 +126,19 @@ const { sendRegisterRequest } = registerStore
 async function handleRegister(e) {
   e.preventDefault()
   isHandleRegister.value = true
-  if (isRegisterFormValid.value) {
-    const registerData = {
-      user: {
-        email: registerEmail.value,
-        nickname: registerNickname.value,
-        password: registerPassword.value
-      }
+  if (!isRegisterFormValid.value) return
+  const registerData = {
+    user: {
+      email: registerEmail.value,
+      nickname: registerNickname.value,
+      password: registerPassword.value
     }
-    try {
-      await sendRegisterRequest(registerData)
-      if (isRegisterSuccess.value) {
-        setTimeout(() => {
-          router.push({ name: 'Login' })
-        }, 500)
-      }
-    } catch (error) {
-      console.error('Login failed:', error)
-    }
+  }
+  await sendRegisterRequest(registerData)
+  if (isRegisterSuccess.value) {
+    setTimeout(() => {
+      router.push({ name: 'Login' })
+    }, 500)
   }
 }
 </script>

@@ -36,12 +36,16 @@
 </style>
 <template>
   <div
-    class="tour-list__wrap--left my-15"
-    :style="{ backgroundImage: isMediaLgUp ? `url(${gradedListInfo.bgImg.left})` : 'none' }"
+    class="tour-list__wrap--left"
+    :style="{
+      backgroundImage: isMediaLgUp ? `url(${getImageUrl(gradedListInfo.bgImg.left)})` : 'none'
+    }"
   >
     <div
       class="tour-list__wrap--right"
-      :style="{ backgroundImage: isMediaLgUp ? `url(${gradedListInfo.bgImg.right})` : 'none' }"
+      :style="{
+        backgroundImage: isMediaLgUp ? `url(${getImageUrl(gradedListInfo.bgImg.right)})` : 'none'
+      }"
     >
       <div class="container">
         <IconTitle
@@ -49,7 +53,7 @@
           :icon="gradedListInfo.title.icon"
           :color="gradedListInfo.title.textColor"
           :title-text="gradedListInfo.title.title"
-        ></IconTitle>
+        />
         <ul class="list-unstyled row mt-10">
           <li
             class="col-12 col-lg-4 mb-6 mb-lg-0"
@@ -104,12 +108,11 @@
 </template>
 <script setup>
 import { RouterLink } from 'vue-router'
-import { getTrailImgUrl } from '@/utils/imgUrl.js'
-import IconTitle from '@/components/front/base/IconTitle.vue'
-import treeIcon from '@/assets/illustration/tree--light.svg'
-import personIcon from '@/assets/illustration/person-medium--light.svg'
-
+import { getTrailImgUrl, getImageUrl } from '@/utils/imgUrl.js'
+import { recommendTrails } from '@/utils/typeFeatureUtils.js'
 import { useMediaQuery } from '@vueuse/core'
+import IconTitle from '@/components/front/base/IconTitle.vue'
+
 const isMediaLgUp = useMediaQuery('(min-width: 992px)')
 
 const gradedListInfo = {
@@ -120,41 +123,8 @@ const gradedListInfo = {
     textColor: 'dark'
   },
   bgImg: {
-    left: personIcon,
-    right: treeIcon
+    left: 'assets/illustration/person-medium--light.svg',
+    right: 'assets/illustration/tree--light.svg'
   }
 }
-const recommendTrails = [
-  {
-    card_title: '新手入門',
-    title_color: 'success',
-    trail_data: {
-      TRAILID: '004',
-      TR_CNAME: '金瓜寮魚蕨步道',
-      TR_POSITION: '新北市坪林區',
-      TR_LENGTH: '1公里'
-    }
-  },
-  {
-    card_title: '來點挑戰',
-    title_color: 'danger',
-    trail_data: {
-      TRAILID: '007',
-      TR_CNAME: '礁溪跑馬古道',
-      TR_POSITION: '新北市坪林區、宜蘭縣礁溪鄉、宜蘭縣頭城鎮',
-      TR_LENGTH: '6.7公里'
-    }
-  },
-  {
-    card_title: '進階探險',
-    title_color: 'warning',
-    trail_data: {
-      TRAILID: '139',
-      TR_CNAME: '嘉明湖國家步道',
-      TR_POSITION: '台東縣海端鄉',
-      TR_LENGTH: '13公里'
-    }
-  }
-]
 </script>
-@/utils/imgUrl

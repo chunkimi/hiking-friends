@@ -5,15 +5,15 @@
 }
 </style>
 <template>
-  <div class="container container d-grid gap-5">
-    <div class="py-15">
+  <div class="container">
+    <div class="block-spacing">
       <IconTitle
         :is-clock-line="sectionTitle.isClock"
         :icon="sectionTitle.icon"
         :color="sectionTitle.textColor"
         :title-text="sectionTitle.title"
-        class="mb-10"
-      ></IconTitle>
+        class="icon-title-spacing"
+      />
       <table
         class="table table-borderless align-middle"
         :class="isMediaLgDown ? '' : 'table-hover'"
@@ -54,16 +54,17 @@
       </table>
     </div>
   </div>
-  <RoadConditionModal :road-condition="roadCondition"></RoadConditionModal>
+  <RoadConditionModal :road-condition="roadCondition" />
 </template>
 <script setup>
-import { onMounted, computed, ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useMediaQuery } from '@vueuse/core'
+import { storeToRefs } from 'pinia'
+import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
+import { newsType } from '@/utils/trailInfoUtils.js'
 import IconTitle from '@/components/front/base/IconTitle.vue'
 import RoadConditionModal from '@/components/front/base/RoadConditionModal.vue'
-import { fetchTrailsNewsData } from '@/api/trailsApi'
-import { newsType } from '@/data/newsType.js'
 
-import { useMediaQuery } from '@vueuse/core'
 const isMediaLgDown = useMediaQuery('(max-width: 992px)')
 
 const sectionTitle = {
@@ -72,9 +73,12 @@ const sectionTitle = {
   icon: 'campaign',
   textColor: 'dark'
 }
-const allTailsNews = ref([])
+
+const trailsListStore = useTrailsListStore()
+const { allTrailsConditionData } = storeToRefs(trailsListStore)
+
 const roadsData = computed(() => {
-  const filterAllTailsNews = allTailsNews.value.filter((roadItem) => {
+  const filterAllTailsNews = allTrailsConditionData.value.filter((roadItem) => {
     let raw = newsType.find((typeItem) => typeItem.msg === roadItem['TR_TYP'])
     return raw !== undefined
   })
@@ -88,12 +92,8 @@ const roadsData = computed(() => {
 
 const roadCondition = ref({})
 
-onMounted(async () => {
-  allTailsNews.value = await fetchTrailsNewsData()
-})
-
 function getSpecifiedTrail(specifiedId) {
-  const matchingTrail = allTailsNews.value.find((trail) => trail.TRAILID === specifiedId)
+  const matchingTrail = allTrailsConditionData.value.find((trail) => trail.TRAILID === specifiedId)
   const msgColor = matchingTrail.TR_TYP
     ? newsType.find((type) => type.msg === matchingTrail.TR_TYP)?.color
     : null

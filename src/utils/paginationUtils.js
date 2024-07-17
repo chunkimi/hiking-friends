@@ -1,14 +1,13 @@
 import { ref, computed, watch } from 'vue'
 
-export function usePaginationUtils(dataList) {
-  const perPageTrails = 10
-  const curPage = ref(1)
+export function usePaginationUtils(dataList, perPageTrails, specifyCurPage) {
+  const curPage = ref(specifyCurPage && specifyCurPage.value > 0 ? specifyCurPage.value : 1)
 
-  const tableDataNum = computed(() => {
-    return dataList.value.length || 0
-  })
+  const tableDataNum = computed(() => (dataList.value.length ? dataList.value.length : 0))
 
-  const numberOfPages = computed(() => Math.ceil(tableDataNum.value / perPageTrails) || 0)
+  const numberOfPages = computed(() =>
+    tableDataNum.value ? Math.ceil(tableDataNum.value / perPageTrails) : 0
+  )
 
   const curListData = ref([])
 
@@ -26,9 +25,14 @@ export function usePaginationUtils(dataList) {
   }
 
   function pageInit() {
+    curListData.value = getDataByPage(curPage.value)
+  }
+
+  function pageRest() {
     curPage.value = 1
     curListData.value = getDataByPage(curPage.value)
   }
+
   function scrollToTop() {
     window.scrollTo({
       top: 0,
@@ -37,7 +41,7 @@ export function usePaginationUtils(dataList) {
   }
 
   watch(dataList, () => {
-    pageInit()
+    pageRest()
   })
 
   return {
@@ -48,6 +52,7 @@ export function usePaginationUtils(dataList) {
     curListData,
     changePage,
     getDataByPage,
-    pageInit
+    pageInit,
+    pageRest
   }
 }

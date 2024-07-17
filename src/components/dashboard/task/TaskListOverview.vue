@@ -144,7 +144,11 @@ const tableData = computed(() => {
   return props.taskListData.filter((item) => item[filterKey] === filterValue)
 })
 
-const { curPage, numberOfPages, curListData, changePage, pageInit } = usePaginationUtils(tableData)
+const perPageTrails = 10
+const { curPage, numberOfPages, curListData, changePage, pageRest } = usePaginationUtils(
+  tableData,
+  perPageTrails
+)
 
 const router = useRouter()
 function readTrailTask(taskId) {
@@ -152,10 +156,10 @@ function readTrailTask(taskId) {
 }
 
 watch([selectedFilter, tableData], () => {
-  pageInit()
+  pageRest()
 })
 
 onMounted(() => {
-  pageInit()
+  pageRest()
 })
 </script>

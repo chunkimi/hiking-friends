@@ -1,0 +1,16 @@
+.block-spacing {
+  padding: 5rem 0rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+}
+
+.icon-title-spacing {
+  margin-bottom: 2.5rem;
+}
+
+.fz {
+  &--xs {
+    font-size: 0.75rem;
+  }
+}

@@ -74,13 +74,13 @@
   <header class="header__bgc header__p">
     <div class="container">
       <nav class="navbar navbar-expand-lg d-flex justify-content-between align-items-center">
-        <router-link to="/"
+        <router-link to="/" class="p-0 m-0 d-flex justify-content-between"
           ><h2
-            class="brand__img brand__sm"
+            class="d-inline-block brand__img brand--sm p-0 m-0"
             :style="{
               backgroundImage: isMediaLgUp
-                ? `url(${headerInfo.logo})`
-                : `url(${headerInfo.logoLight})`
+                ? `url(${getImageUrl(headerInfo.logo)})`
+                : `url(${getImageUrl(headerInfo.logoLight)})`
             }"
           >
             {{ menuConfig.indexTitle }}
@@ -97,7 +97,7 @@
         >
           <i class="bi bi-list text-light fs-1"></i>
         </button>
-        <div class="collapse navbar-collapse" id="headerNavbar">
+        <div class="collapse navbar-collapse" id="headerNavbar" ref="navbarCollapse">
           <ul class="navbar-nav ms-auto">
             <li
               v-for="item in menuData"
@@ -108,12 +108,8 @@
                 :to="item.to"
                 class="nav-link fs-5"
                 aria-current="page"
-                v-if="item.to.name === 'TrailsList'"
-                @click="reloadList"
+                @click="handleNavLinkClick(item.to)"
               >
-                {{ item.title }}
-              </router-link>
-              <router-link :to="item.to" class="nav-link fs-5" aria-current="page" v-else>
                 {{ item.title }}
               </router-link>
             </li>
@@ -135,13 +131,18 @@
                 class="btn btn-sm"
                 :class="isMediaLgUp ? ['btn-outline-secondary'] : ['btn-outline-light']"
                 @click="handleLogout"
+                data-toggle
               >
                 {{ menuConfig.logoutTitle }}
               </button>
             </div>
-            <router-link :to="menuConfig.accountPath.to" class="btn btn-dark menu__btn" v-else>{{
-              menuConfig.accountPath.title
-            }}</router-link>
+            <router-link
+              :to="menuConfig.accountPath.to"
+              class="btn btn-dark menu__btn"
+              data-toggle
+              v-else
+              >{{ menuConfig.accountPath.title }}</router-link
+            >
           </div>
         </div>
       </nav>
@@ -150,20 +151,20 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
 import { useAccountStore } from '@/stores/useAccountStore.js'
-
 import { useMediaQuery } from '@vueuse/core'
+import { getImageUrl } from '@/utils/imgUrl.js'
+import Collapse from 'bootstrap/js/dist/collapse'
+
 const isMediaLgUp = useMediaQuery('(min-width: 992px)')
 
-import logo from '@/assets/logo/logo--sm.svg'
-import logoLight from '@/assets/logo/logo--light--sm.svg'
-
 const headerInfo = {
-  logo,
-  logoLight
+  logo: 'assets/logo/logo--sm.svg',
+  logoLight: 'assets/logo/logo--light--sm.svg'
 }
 const menuConfig = {
   indexTitle: '郊友趣・Hiking Friends',
@@ -179,23 +180,18 @@ const menuData = [
 
 const route = useRoute()
 const router = useRouter()
+
 const trailsListStore = useTrailsListStore()
+const { toggleReload } = storeToRefs(trailsListStore)
+
 const accountStore = useAccountStore()
-const { isListAlready, isSavePage, isTypeToSearch } = storeToRefs(trailsListStore)
 const { isCheckLoginSuccess, userNickname, isLogoutSuccess } = storeToRefs(accountStore)
 const { sendLogoutRequest } = accountStore
 
 function reloadList() {
   const currentRoute = route.fullPath
-  if (currentRoute.includes('trails-list') && isListAlready) {
-    isListAlready.value = false
-    window.location.reload()
-  }
-  if (!currentRoute.includes('trails-list')) {
-    isSavePage.value = false
-  }
-  if (currentRoute.includes('trails-intro')) {
-    isTypeToSearch.value = false
+  if (currentRoute.includes('trails-list')) {
+    toggleReload.value = !toggleReload.value
   }
 }
 async function handleLogout() {
@@ -204,4 +200,20 @@ async function handleLogout() {
     router.push({ name: 'FrontIndex' })
   }
 }
+
+function handleNavLinkClick(path) {
+  if (path.name === 'TrailsList') {
+    reloadList()
+  }
+  const menuToggle = document.getElementById('headerNavbar')
+  const bsCollapse = Collapse.getInstance(menuToggle) || new Collapse(menuToggle)
+  bsCollapse.hide()
+}
+
+onMounted(() => {
+  const collapseElementList = document.querySelectorAll('.collapse')
+  collapseElementList.forEach((collapseEl) => {
+    new Collapse(collapseEl, { toggle: false })
+  })
+})
 </script>

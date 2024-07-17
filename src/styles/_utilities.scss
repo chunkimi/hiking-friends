@@ -83,3 +83,26 @@ $utilities: map-merge(
     )
   )
 );
+
+$viewport-height-values: (
+  100: 100vh,
+  80: 80vh,
+  75: 75vh,
+  50: 50vh
+);
+
+$utilities: map-merge(
+  $utilities,
+  (
+    'viewport-height': (
+      property: height,
+      class: vh,
+      responsive: true,
+      values:
+        map-merge(
+          map-get(map-get($utilities, 'viewport-height'), 'values'),
+          $viewport-height-values
+        )
+    )
+  )
+);

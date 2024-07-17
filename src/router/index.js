@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+
 import FrontLayoutView from '@/views/FrontLayoutView.vue'
 import FrontIndexView from '@/views/front/FrontIndexView.vue'
 import TrailsIntroView from '@/views/front/TrailsIntroView.vue'
@@ -9,13 +10,13 @@ import TrailConditionReportView from '@/views/front/TrailConditionReportView.vue
 import LoginView from '@/views/account/LoginView.vue'
 import RegisterView from '@/views/account/RegisterView.vue'
 
-import PageNotFoundView from '@/views/front/PageNotFoundView.vue'
-
 import DashboardLayoutView from '@/views/DashboardLayoutView.vue'
 import PassportIndexView from '@/views/dashboard/PassportIndexView.vue'
 import PerAnalysisView from '@/views/dashboard/PerAnalysisView.vue'
 import TaskListMgtView from '@/views/dashboard/TaskListMgtView.vue'
 import TrailTaskView from '@/views/dashboard/TrailTaskView.vue'
+
+import PageNotFoundView from '@/views/PageNotFoundView.vue'
 
 const routes = [
   {

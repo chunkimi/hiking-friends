@@ -53,15 +53,15 @@
 </style>
 <template>
   <div class="container">
-    <div class="row pt-14 pb-16 pt-lg-16">
+    <div class="row">
       <div class="col-12 col-lg-3">
         <IconTitle
           :is-clock-line="bulletinTitle.isClock"
           :icon="bulletinTitle.icon"
           :color="bulletinTitle.textColor"
           :title-text="bulletinTitle.title"
-          class="mb-10 mb-lg-0"
-        ></IconTitle>
+          class="icon-title-spacing mb-lg-0"
+        />
       </div>
       <div class="col-12 col-lg-9">
         <ul class="list-unstyled">
@@ -91,13 +91,15 @@
   </div>
 </template>
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
+import { newsType } from '@/utils/trailInfoUtils.js'
 import IconTitle from '@/components/front/base/IconTitle.vue'
-import { fetchTrailsNewsData } from '@/api/trailsApi'
-import { newsType } from '@/data/newsType.js'
 
-const allTailsNews = ref([])
+const trailsListStore = useTrailsListStore()
+const { allTrailsConditionData } = storeToRefs(trailsListStore)
 
 const bulletinTitle = {
   isClock: false,
@@ -111,15 +113,11 @@ const linkToReadMore = {
   to: { name: 'TrailConditionReport' }
 }
 
-onMounted(async () => {
-  allTailsNews.value = await fetchTrailsNewsData()
-})
-
 const trailsNews = computed(() => {
   let result = []
 
   newsType.forEach((item) => {
-    let raw = allTailsNews.value.find((element) => element['TR_TYP'] == item.msg)
+    let raw = allTrailsConditionData.value.find((element) => element['TR_TYP'] == item.msg)
     if (raw) {
       raw.text_style = `news__sign--${item.color}`
       result.push(raw)
@@ -129,4 +127,3 @@ const trailsNews = computed(() => {
   return result
 })
 </script>
-@/api/trailsApi
