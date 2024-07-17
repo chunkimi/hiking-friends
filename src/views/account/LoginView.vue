@@ -46,7 +46,7 @@
   </div>
 </template>
 <script setup>
-import { onBeforeMount } from 'vue'
+import { onMounted } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useAccountStore } from '@/stores/useAccountStore.js'
@@ -108,7 +108,7 @@ async function handleUserLogin(e) {
   }
 }
 
-onBeforeMount(async () => {
+onMounted(async () => {
   await checkLoginStatus()
   if (isCheckLoginSuccess.value) {
     setTimeout(() => {

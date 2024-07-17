@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { RouterView } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
@@ -30,7 +30,7 @@ const { sendTrailsInfoRequest, sendTrailsConditionRequest } = trailsListStore
 
 const isOpenLoading = ref(true)
 
-onBeforeMount(async () => {
+onMounted(async () => {
   isOpenLoading.value = true
   await sendTrailsInfoRequest()
   await sendTrailsConditionRequest()

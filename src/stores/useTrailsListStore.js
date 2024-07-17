@@ -36,7 +36,6 @@ export const useTrailsListStore = defineStore('trailListStore', () => {
     }
   }
 
-  const isHaveTrail = ref(true)
   const filterTrailsData = ref([])
   const isFilterData = ref(false)
   const isSearchByOutside = ref(null)
@@ -51,7 +50,6 @@ export const useTrailsListStore = defineStore('trailListStore', () => {
     allTrailsConditionData,
     sendTrailsConditionRequest,
     filterTrailsData,
-    isHaveTrail,
     isFilterData,
     searchKeyword,
     searchType,

@@ -49,7 +49,7 @@
   </div>
 </template>
 <script setup>
-import { ref, onBeforeMount } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useTrailsListStore } from '@/stores/useTrailsListStore.js'
@@ -67,7 +67,7 @@ const curTrailId = route.params.trail
 const curTrailData = ref({})
 const curTrailCondition = ref({})
 
-onBeforeMount(() => {
+onMounted(() => {
   curTrailData.value = allTrailsInfoData.value.find((item) => item.TRAILID === curTrailId) || {}
   curTrailCondition.value =
     allTrailsConditionData.value.find((trail) => trail.TRAILID === curTrailId) || {}
