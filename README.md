@@ -3,7 +3,8 @@
 
 ## 線上瀏覽
 https://chunkimi.github.io/hiking-friends/
-![hiking-friends](/images/hikingfriends.jpeg)
+
+![hiking-friends](https://github.com/chunkimi/hiking-friends/blob/6b90141ee23c202eebf91e3388645ce5e99a53a7/public/images/hikingfriends.jpeg)
 
 
 ## 作品說明與特色
