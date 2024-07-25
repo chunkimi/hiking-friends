@@ -6,6 +6,7 @@ import TrailsIntroView from '@/views/front/TrailsIntroView.vue'
 import TrailsListView from '@/views/front/TrailsListView.vue'
 import TrailInfoView from '@/views/front/TrailInfoView.vue'
 import TrailConditionReportView from '@/views/front/TrailConditionReportView.vue'
+import GuideView from '@/views/front/GuideView.vue'
 
 import LoginView from '@/views/account/LoginView.vue'
 import RegisterView from '@/views/account/RegisterView.vue'
@@ -47,6 +48,11 @@ const routes = [
         path: 'trail-condition-report',
         name: 'TrailConditionReport',
         component: TrailConditionReportView
+      },
+      {
+        path: 'guide',
+        name: 'Guide',
+        component: GuideView
       }
     ]
   },
