@@ -183,4 +183,3 @@ function searchRoleToList(role) {
   router.push({ name: 'TrailsList' })
 }
 </script>
-@/data/front/hikerRole.js

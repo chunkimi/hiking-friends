@@ -173,7 +173,8 @@ const menuConfig = {
 }
 const menuData = [
   { title: '首頁', to: { name: 'FrontIndex' } },
-  { title: '主題分級', to: { name: 'TrailsIntro' } },
+  { title: '使用指南', to: { name: 'Guide' } },
+  { title: '主題檢索', to: { name: 'TrailsIntro' } },
   { title: '探索步道', to: { name: 'TrailsList' } },
   { title: '郊友護照', to: { name: 'PassportIndex' } }
 ]
